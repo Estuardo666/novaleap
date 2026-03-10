@@ -1,4 +1,4 @@
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 /**
  * Custom Hook: useAsync
@@ -36,7 +36,7 @@ export function useAsync<T>(
     }
   }, [asyncFunction]);
 
-  useState(() => {
+  useEffect(() => {
     if (immediate) {
       execute();
     }
@@ -58,7 +58,7 @@ export function useFetch<T>(url: string, options?: RequestInit) {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<Error | null>(null);
 
-  useState(() => {
+  useEffect(() => {
     const fetchData = async () => {
       try {
         const response = await fetch(url, options);

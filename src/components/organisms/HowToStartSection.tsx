@@ -3,7 +3,7 @@
 import React from "react";
 import Link from "next/link";
 import { motion, useReducedMotion } from "framer-motion";
-import { Calendar, MapPin, Sparkles } from "lucide-react";
+import { Calendar, MapPin, Sparkles, type LucideIcon } from "lucide-react";
 import { Button } from "@/components/atoms";
 import {
   getNovaleapRevealVariants,
@@ -14,7 +14,24 @@ import {
 } from "@/lib/novaleapMotion";
 import { cn } from "@/lib/utils";
 
-const steps = [
+interface StepDefinition {
+  number: string;
+  icon: LucideIcon;
+  title: string;
+  description: string;
+  isClickable: boolean;
+  href?: string;
+  accentColor: "aqua" | "purple";
+  glowClass: string;
+  hoverBackground: string;
+  hoverBorder: string;
+  hoverShadow: string;
+  hoverIconColor: string;
+  titleAccent: string;
+  hoverRotate: number;
+}
+
+const steps: readonly StepDefinition[] = [
   {
     number: "01",
     icon: Calendar,
@@ -23,7 +40,7 @@ const steps = [
       "Book an initial evaluation online or give us a call. We are here to listen to your concerns and answer any questions.",
     isClickable: true,
     href: "/contact",
-    accentColor: "aqua" as const,
+    accentColor: "aqua",
     glowClass: "bg-[radial-gradient(circle_at_top_left,rgba(0,183,181,0.26),transparent_64%)]",
     hoverBackground: "rgba(242, 252, 251, 0.98)",
     hoverBorder: "rgba(0, 183, 181, 0.22)",
@@ -39,7 +56,7 @@ const steps = [
     description:
       "We conduct a gentle, play-based assessment to design a personalized roadmap tailored perfectly to your family's goals.",
     isClickable: false,
-    accentColor: "purple" as const,
+    accentColor: "purple",
     glowClass: "bg-[radial-gradient(circle_at_top_left,rgba(151,122,188,0.28),transparent_64%)]",
     hoverBackground: "rgba(248, 244, 253, 0.98)",
     hoverBorder: "rgba(151, 122, 188, 0.24)",
@@ -55,7 +72,7 @@ const steps = [
     description:
       "Watch your child build confidence, overcome challenges, and learn essential skills through joyful and engaging therapy sessions.",
     isClickable: false,
-    accentColor: "aqua" as const,
+    accentColor: "aqua",
     glowClass: "bg-[radial-gradient(circle_at_top_left,rgba(255,194,102,0.3),transparent_64%)]",
     hoverBackground: "rgba(255, 249, 239, 0.98)",
     hoverBorder: "rgba(255, 194, 102, 0.26)",
@@ -64,7 +81,7 @@ const steps = [
     titleAccent: "rgba(184, 118, 24, 1)",
     hoverRotate: -0.8,
   },
-] as const;
+];
 
 interface StepCardProps {
   number: string;

@@ -9,6 +9,7 @@ import {
   CheckCircle2,
   Clock3,
   Instagram,
+  type LucideIcon,
   LoaderCircle,
   Mail,
   MapPin,
@@ -104,7 +105,7 @@ interface ContactFieldShellProps {
 
 interface ContactInfoHoverCardProps {
   title: string;
-  icon: React.ComponentType<{ className?: string; strokeWidth?: number }>;
+  icon: LucideIcon;
   tone: "aqua" | "purple";
   rotate: number;
   prefersReducedMotion: boolean;
