@@ -124,7 +124,7 @@ const PartnersInProgressSection = () => {
               variants={getNovaleapRevealVariants(prefersReducedMotion, 18, 0.12)}
               className="mt-6 text-lg leading-relaxed text-novaleap-navy/75"
             >
-              We believe the most significant growth happens in <strong className="font-semibold text-novaleap-navy">everyday life</strong>. We provide parents with the tools, coaching, and resources to integrate therapy goals into play at home, the park, and school.
+              Parents and caregivers are <strong className="font-semibold text-novaleap-navy">essential members of the team</strong>. We partner closely with families, offering clear guidance, practical tools, and a compassionate environment so children feel safe, supported, and ready to take on new challenges beyond the clinic.
             </motion.p>
 
             <motion.ul

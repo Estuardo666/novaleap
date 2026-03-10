@@ -14,7 +14,7 @@ const approachSlides = [
     eyebrow: "Play-Based Therapy",
     title: "Play that builds real strength and confidence",
     description:
-      "Every session is designed to feel joyful while targeting the movement patterns your child needs most.",
+      "We use play-based, evidence-informed therapy to build movement skills in ways that feel motivating, functional, and natural for your child.",
     imagePosition: "50% 38%",
     accent: "aqua",
   },
@@ -22,7 +22,7 @@ const approachSlides = [
     eyebrow: "Personalized Programs",
     title: "A care plan shaped around your child",
     description:
-      "We tailor each goal, activity, and milestone to your child’s pace so progress feels clear, steady, and encouraging.",
+      "Each goal, activity, and milestone is tailored to your child’s strengths, interests, and developmental pace so progress feels steady and meaningful.",
     imagePosition: "54% 42%",
     accent: "purple",
   },
@@ -30,7 +30,7 @@ const approachSlides = [
     eyebrow: "Family Partnership",
     title: "Guidance that supports your family beyond each visit",
     description:
-      "You leave with clarity, practical next steps, and a team that helps you feel confident about what comes next.",
+      "Parents and caregivers are essential members of the team, with clear guidance that helps progress carry into home, school, and community routines.",
     imagePosition: "46% 34%",
     accent: "aqua",
   },
@@ -196,7 +196,7 @@ const WhyUsSection: React.FC = () => {
             }}
             className="max-w-2xl text-lg leading-relaxed text-novaleap-navy/80 sm:text-xl lg:justify-self-end"
           >
-            Families choose NovaLeap because we blend <strong className="font-semibold text-novaleap-navy">evidence-based pediatric therapy</strong> with playful experiences that keep children engaged. Every plan is <strong className="font-semibold text-novaleap-navy">personalized</strong>, every milestone is celebrated, and every family feels supported with clear guidance from the first visit forward.
+            Families choose NovaLeap because we are a <strong className="font-semibold text-novaleap-navy">child-centered practice</strong> dedicated to helping children move, grow, and thrive. We tailor care to each child&apos;s strengths, interests, and developmental pace, pairing <strong className="font-semibold text-novaleap-navy">evidence-informed therapy</strong> with playful experiences that support meaningful participation at home, school, and in the community.
           </motion.div>
         </motion.div>
 

@@ -1,6 +1,7 @@
 "use client";
 
-import Image from "next/image";
+import type { LucideIcon } from "lucide-react";
+import { BadgeCheck, BrainCircuit, HeartHandshake, Puzzle } from "lucide-react";
 import Link from "next/link";
 import { motion, useReducedMotion } from "framer-motion";
 import { getButtonClasses } from "@/components/atoms";
@@ -11,17 +12,46 @@ import {
   NOVALEAP_VIEWPORT,
 } from "@/lib/novaleapMotion";
 
-const circleImages = [
+type TrustItem = {
+  icon: LucideIcon;
+  label: string;
+  bg: string;
+  border: string;
+  iconClass: string;
+  rotation: string;
+};
+
+const trustItems: TrustItem[] = [
   {
-    position: "44% 32%",
+    icon: BadgeCheck,
+    label: "Licensed Therapists",
+    bg: "bg-novaleap-navy/8",
+    border: "border-novaleap-navy/14",
+    iconClass: "text-novaleap-navy",
     rotation: "-rotate-6",
   },
   {
-    position: "54% 42%",
-    rotation: "rotate-0",
+    icon: BrainCircuit,
+    label: "Evidence-Based Practice",
+    bg: "bg-novaleap-purple/10",
+    border: "border-novaleap-purple/18",
+    iconClass: "text-novaleap-purple",
+    rotation: "-rotate-2",
   },
   {
-    position: "64% 34%",
+    icon: Puzzle,
+    label: "Sensory-Safe Environment",
+    bg: "bg-novaleap-aqua/10",
+    border: "border-novaleap-aqua/18",
+    iconClass: "text-novaleap-aqua",
+    rotation: "rotate-2",
+  },
+  {
+    icon: HeartHandshake,
+    label: "Family-Centered Care",
+    bg: "bg-[#ffc266]/14",
+    border: "border-[#c07d3a]/18",
+    iconClass: "text-[#c07d3a]",
     rotation: "rotate-6",
   },
 ];
@@ -69,42 +99,38 @@ const MissionIntroSection: React.FC = () => {
               },
             },
           }}
-          className="mb-10 flex items-center justify-center gap-4 sm:gap-5"
+          className="mb-10 flex flex-wrap items-center justify-center gap-3 sm:gap-4"
           aria-hidden="true"
         >
-          {circleImages.map((image, index) => (
-            <motion.div
-              key={index}
-              variants={{
-                hidden: {
-                  opacity: 0,
-                  scale: prefersReducedMotion ? 1 : 0.68,
-                  y: prefersReducedMotion ? 0 : 18,
-                },
-                show: {
-                  opacity: 1,
-                  scale: 1,
-                  y: 0,
-                  transition: {
-                    type: "spring",
-                    stiffness: 180,
-                    damping: 20,
-                    mass: 0.9,
+          {trustItems.map((item) => {
+            const Icon = item.icon;
+            return (
+              <motion.div
+                key={item.label}
+                variants={{
+                  hidden: {
+                    opacity: 0,
+                    scale: prefersReducedMotion ? 1 : 0.68,
+                    y: prefersReducedMotion ? 0 : 18,
                   },
-                },
-              }}
-              className={`relative h-[66px] w-[66px] overflow-hidden rounded-full shadow-[0_14px_28px_-18px_rgba(17,34,78,0.45)] ${image.rotation}`}
-            >
-              <Image
-                src="/Novaleap BG.jpg"
-                alt=""
-                fill
-                sizes="66px"
-                className="object-cover"
-                style={{ objectPosition: image.position }}
-              />
-            </motion.div>
-          ))}
+                  show: {
+                    opacity: 1,
+                    scale: 1,
+                    y: 0,
+                    transition: {
+                      type: "spring",
+                      stiffness: 180,
+                      damping: 20,
+                      mass: 0.9,
+                    },
+                  },
+                }}
+                className={`flex h-[66px] w-[66px] items-center justify-center rounded-full border shadow-[0_14px_28px_-18px_rgba(17,34,78,0.32)] ${item.bg} ${item.border} ${item.rotation}`}
+              >
+                <Icon className={`h-7 w-7 ${item.iconClass}`} strokeWidth={1.6} />
+              </motion.div>
+            );
+          })}
         </motion.div>
 
         <motion.div
@@ -132,7 +158,7 @@ const MissionIntroSection: React.FC = () => {
           className="mt-10"
         >
           <Link
-            href="/our-approach"
+            href="/who-we-are"
             className={getButtonClasses({ variant: "secondary", size: "md" })}
           >
             <span className="relative z-10 inline-flex items-center justify-center">

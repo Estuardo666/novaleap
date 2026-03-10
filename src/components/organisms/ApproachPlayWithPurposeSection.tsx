@@ -93,7 +93,7 @@ const ApproachPlayWithPurposeSection = () => {
               variants={getNovaleapRevealVariants(prefersReducedMotion, 20, 0.12)}
               className="mt-6 text-lg leading-relaxed text-novaleap-navy/78"
             >
-              For a child, play is their work. Our <strong className="font-semibold text-novaleap-navy">Play-Based Therapy</strong> transforms repetitive clinical exercises into engaging adventures. This ensures <strong className="font-semibold text-novaleap-navy">higher motivation</strong>, better retention of motor skills, and a positive emotional connection to physical growth.
+              Play gives us a natural way to meet children where they are. By building therapy around their <strong className="font-semibold text-novaleap-navy">interests, strengths, and developmental pace</strong>, we turn evidence-informed strategies into engaging experiences that support functional goals, confidence, and lasting participation in everyday routines.
             </motion.p>
 
             <motion.ul

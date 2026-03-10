@@ -65,7 +65,7 @@ const WhoWeAreSection: React.FC = () => {
         headingLines={whoWeAreHeadingLines}
         description={
           <>
-            NovaLeap is a pediatric physical therapy center where <strong className="font-semibold text-novaleap-navy">evidence-based care</strong> meets joyful play. We partner with families to build confidence, strengthen movement foundations, and turn everyday progress into <strong className="font-semibold text-novaleap-navy">meaningful milestones</strong>.
+            At NovaLeap, we are a <strong className="font-semibold text-novaleap-navy">child-centered practice</strong> dedicated to helping children move, grow, and thrive. Through play-based, evidence-informed therapy, we support meaningful progress that helps children participate more confidently in everyday life.
           </>
         }
         imageSrc="/Novaleap BG.jpg"
@@ -131,11 +131,11 @@ const WhoWeAreSection: React.FC = () => {
             </motion.h2>
 
             <p className="mt-6 text-lg leading-relaxed text-novaleap-navy/80">
-              We design <strong className="font-semibold text-novaleap-navy">personalized therapy programs</strong> that support strength, coordination, and daily independence. From first steps to stronger movement patterns, every session is intentional, playful, and aligned with your child specific needs.
+              We believe every child is unique, and we tailor our care to honor their <strong className="font-semibold text-novaleap-navy">strengths, interests, and developmental pace</strong>. Through play-based, evidence-informed therapy, we focus on meaningful, functional goals that support participation at home, school, and in the community.
             </p>
 
             <p className="mt-4 text-lg leading-relaxed text-novaleap-navy/80">
-              Families choose NovaLeap because they feel <strong className="font-semibold text-novaleap-navy">heard, informed, and supported</strong> through each stage of the journey. You bring the goals. We bring the plan, the progress tracking, and the encouragement to keep moving forward.
+              We partner closely with families, recognizing parents and caregivers as <strong className="font-semibold text-novaleap-navy">essential members of the team</strong>, and foster a compassionate, inclusive environment where children feel safe, confident, and empowered to take on new challenges. Our commitment to integrity, continuous growth, and excellence guides the thoughtful, high-quality care we provide.
             </p>
 
             <motion.div

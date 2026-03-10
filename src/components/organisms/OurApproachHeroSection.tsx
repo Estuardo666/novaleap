@@ -23,7 +23,7 @@ const OurApproachHeroSection = () => {
       headingLines={heroHeadingLines}
       description={
         <>
-          At Novaleap, we don&apos;t just treat symptoms; we <strong className="font-semibold text-novaleap-navy">empower children</strong>. Our approach combines <strong className="font-semibold text-novaleap-navy">evidence-based practice</strong> with the natural language of childhood: exploration and play.
+          Our approach is <strong className="font-semibold text-novaleap-navy">child-centered, play-based, and evidence-informed</strong>. We honor each child&apos;s strengths, interests, and developmental pace while working toward functional goals that support confident participation at home, school, and in the community.
         </>
       }
       imageSrc="/Novaleap BG.jpg"
