@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import Header from "@/components/molecules/Header";
-import { CookieConsentToast, Footer, SmoothScroll } from "@/components/organisms";
+import { ChunkErrorRecovery, CookieConsentToast, Footer, SmoothScroll } from "@/components/organisms";
 import "./globals.css";
 
 const googleSans = localFont({
@@ -44,6 +44,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${googleSans.className} ${googleSans.variable} flex min-h-screen flex-col antialiased`}>
+        <ChunkErrorRecovery />
         <SmoothScroll />
         <Header />
         <main className="flex-1">{children}</main>

@@ -33,6 +33,7 @@ export { default as ContactConnectSection } from "./ContactConnectSection";
 export { default as ContactMapSection } from "./ContactMapSection";
 export { default as StoriesOfGrowthSection } from "./StoriesOfGrowthSection";
 export { default as HowToStartSection } from "./HowToStartSection";
+export { default as ChunkErrorRecovery } from "./ChunkErrorRecovery";
 export { default as SmoothScroll } from "./SmoothScroll";
 export { default as Footer } from "./Footer";
 export { default as ServiceDetailPage } from "./ServiceDetailPage";
