@@ -1,8 +1,8 @@
 "use client";
 
 import { useEffect, useRef } from "react";
-import { usePathname } from "next/navigation";
 import { useReducedMotion } from "framer-motion";
+import { useClientPathname } from "@/hooks";
 import Lenis from "lenis";
 
 /**
@@ -15,7 +15,7 @@ import Lenis from "lenis";
  * <SmoothScroll />
  */
 const SmoothScroll: React.FC = () => {
-  const pathname = usePathname();
+  const pathname = useClientPathname();
   const prefersReducedMotion = useReducedMotion();
   const lenisRef = useRef<Lenis | null>(null);
 
@@ -24,11 +24,19 @@ const SmoothScroll: React.FC = () => {
       return undefined;
     }
 
+    const hasCoarsePointer = window.matchMedia("(pointer: coarse)").matches;
+    const hasNoHover = window.matchMedia("(hover: none)").matches;
+
+    // Keep native momentum scrolling on touch devices to avoid jank.
+    if (hasCoarsePointer || hasNoHover) {
+      return undefined;
+    }
+
     const lenis = new Lenis({
-      lerp: 0.09,
-      wheelMultiplier: 0.95,
+      lerp: 0.082,
+      wheelMultiplier: 0.9,
       touchMultiplier: 1,
-      syncTouch: true,
+      syncTouch: false,
       gestureOrientation: "vertical",
     });
 

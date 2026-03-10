@@ -454,6 +454,35 @@ const ContactConnectSection: React.FC<ContactConnectSectionProps> = ({ submitAct
               variants={getNovaleapRevealVariants(prefersReducedMotion, 18, 0.12)}
               className="mt-4 flex flex-col gap-2"
             >
+              <motion.div
+                variants={getNovaleapRevealVariants(prefersReducedMotion, 18, 0.08)}
+                className="rounded-[1.2rem] border border-novaleap-navy/10 bg-white/72 p-4"
+              >
+                <label htmlFor="consentToPolicies" className="flex cursor-pointer items-start gap-3 text-left">
+                  <input
+                    id="consentToPolicies"
+                    name="consentToPolicies"
+                    type="checkbox"
+                    required
+                    className="mt-1 h-4 w-4 rounded border-novaleap-navy/30 text-novaleap-aqua focus:ring-2 focus:ring-novaleap-aqua/35"
+                    aria-describedby="consentToPolicies-note consentToPolicies-error"
+                  />
+                  <span className="text-sm leading-relaxed text-novaleap-navy/76 sm:text-[15px]">
+                    I agree that my information may be used to respond to my inquiry and I accept NovaLeap&apos;s <Link href="/privacy" className="font-semibold text-novaleap-purple underline decoration-novaleap-purple/35 underline-offset-4">Privacy Policy</Link> and <Link href="/terms-of-service" className="font-semibold text-novaleap-aqua underline decoration-novaleap-aqua/35 underline-offset-4">Terms of Service</Link>.
+                  </span>
+                </label>
+
+                <p id="consentToPolicies-note" className="mt-3 text-left text-xs leading-relaxed text-novaleap-navy/58 sm:text-[13px]">
+                  Please do not submit sensitive medical records through this general contact form. Our team will guide you to a secure next step if needed.
+                </p>
+
+                {submissionResult.fieldErrors?.consentToPolicies ? (
+                  <p id="consentToPolicies-error" className="mt-2 text-left text-sm font-medium text-rose-500">
+                    {submissionResult.fieldErrors.consentToPolicies}
+                  </p>
+                ) : null}
+              </motion.div>
+
               <Button type="submit" size="md" variant="secondary" disabled={isPending} className="w-full justify-center text-sm sm:text-base">
                 <AnimatePresence mode="wait" initial={false}>
                   {isPending ? (

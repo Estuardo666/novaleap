@@ -126,36 +126,24 @@ const StepCard: React.FC<StepCardProps> = ({
   };
 
   const cardContent = (
-    <motion.div
+    <motion.article
       variants={getNovaleapRevealVariants(prefersReducedMotion, 24)}
-      initial="rest"
-      animate="rest"
-      whileHover={prefersReducedMotion ? undefined : "hover"}
-      whileTap={prefersReducedMotion ? undefined : { scale: 0.992 }}
-      transition={{ type: "spring", stiffness: 240, damping: 22, mass: 0.92 }}
-      className={cn(
-        "group relative h-full overflow-hidden rounded-[1.8rem] border px-6 py-8 shadow-[0_18px_48px_-32px_rgba(17,34,78,0.35)] ring-1 ring-novaleap-navy/5 sm:px-7 sm:py-10",
-        isClickable && "cursor-pointer"
-      )}
-      style={{
-        backgroundColor: "rgba(255, 255, 255, 0.9)",
-        borderColor: "rgba(255, 255, 255, 0.8)",
-      }}
+      className="relative h-full"
     >
       <motion.div
-        aria-hidden="true"
+        initial="rest"
+        animate="rest"
+        whileHover={prefersReducedMotion ? undefined : "hover"}
+        whileTap={prefersReducedMotion ? undefined : { scale: 0.992 }}
+        transition={{ type: "spring", stiffness: 240, damping: 22, mass: 0.92 }}
         variants={{
-          rest: { opacity: 0, scale: 0.82, x: -30, y: -18 },
-          hover: { opacity: 1, scale: 1.1, x: 0, y: 0 },
-        }}
-        transition={{ type: "spring", stiffness: 220, damping: 24 }}
-        className={`absolute inset-0 ${glowClass}`}
-      />
-
-      <motion.div
-        aria-hidden="true"
-        variants={{
-          rest: {},
+          rest: {
+            y: 0,
+            rotate: 0,
+            backgroundColor: "rgba(255, 255, 255, 0.9)",
+            borderColor: "rgba(255, 255, 255, 0.8)",
+            boxShadow: "0 28px 70px -50px rgba(17, 34, 78, 0.35)",
+          },
           hover: {
             y: -10,
             rotate: hoverRotate,
@@ -164,71 +152,112 @@ const StepCard: React.FC<StepCardProps> = ({
             boxShadow: hoverShadow,
           },
         }}
-        className="absolute inset-0 rounded-[1.8rem]"
-      />
-
-      <div
-        aria-hidden="true"
-        className="pointer-events-none absolute right-4 top-4 select-none text-[6.5rem] font-bold leading-none text-novaleap-navy/[0.04] sm:text-[7.5rem]"
+        className={cn(
+          "group relative h-full overflow-hidden rounded-[1.8rem] border px-6 py-8 ring-1 ring-novaleap-navy/5 sm:px-7 sm:py-10",
+          isClickable && "cursor-pointer"
+        )}
       >
-        {number}
-      </div>
-
-      <div className="relative z-10">
         <motion.div
+          aria-hidden="true"
           variants={{
-            rest: { scale: 1, rotate: 0, color: "rgba(17, 34, 78, 1)" },
-            hover: { scale: 1.08, rotate: 6, color: hoverIconColor },
+            rest: { opacity: 0, scale: 0.82, x: -30, y: -18 },
+            hover: { opacity: 1, scale: 1.1, x: 0, y: 0 },
           }}
-          transition={{ type: "spring", stiffness: 280, damping: 18 }}
-          className={cn(
-            "inline-flex items-center justify-center rounded-2xl border p-3.5",
-            accentClasses[accentColor]
-          )}
+          transition={{ type: "spring", stiffness: 220, damping: 24 }}
+          className={`absolute inset-0 ${glowClass}`}
+        />
+
+        <motion.div
+          aria-hidden="true"
+          variants={{
+            rest: { opacity: 0.2, scale: 0.94, x: 18, y: -16 },
+            hover: { opacity: 0.65, scale: 1.04, x: 0, y: 0 },
+          }}
+          transition={{ type: "spring", stiffness: 210, damping: 24 }}
+          className="absolute -right-14 top-0 h-32 w-32 rounded-full bg-white/40 blur-3xl"
+        />
+
+        <motion.div
+          aria-hidden="true"
+          variants={{
+            rest: { x: 0, opacity: 0.04 },
+            hover: { x: -8, opacity: 0.08 },
+          }}
+          transition={{ type: "spring", stiffness: 220, damping: 24 }}
+          className="pointer-events-none absolute right-4 top-4 select-none text-[6.5rem] font-bold leading-none text-novaleap-navy sm:text-[7.5rem]"
         >
-          <Icon className="h-6 w-6" strokeWidth={2.2} />
+          {number}
         </motion.div>
 
-        <motion.h3
-          variants={{
-            rest: { x: 0, color: "rgba(17, 34, 78, 1)" },
-            hover: { x: 3, color: titleAccent },
-          }}
-          transition={{ type: "spring", stiffness: 260, damping: 20 }}
-          className="mt-6 text-2xl font-bold tracking-tight sm:text-[1.68rem]"
-        >
-          {title}
-        </motion.h3>
-
-        <p className="mt-4 text-base leading-relaxed text-novaleap-navy/75 sm:text-[1.02rem]">
-          {description}
-        </p>
-
-        {isClickable && (
+        <div className="relative z-10">
           <motion.div
-            initial={{ opacity: 0, x: -8 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.3, type: "spring", stiffness: 160, damping: 22 }}
-            className="mt-6 inline-flex items-center gap-2 text-sm font-semibold text-novaleap-aqua"
+            variants={{
+              rest: { scale: 1, rotate: 0, color: "rgba(17, 34, 78, 1)" },
+              hover: { scale: 1.08, rotate: 6, color: hoverIconColor },
+            }}
+            transition={{ type: "spring", stiffness: 280, damping: 18 }}
+            className={cn(
+              "inline-flex items-center justify-center rounded-2xl border p-3.5 shadow-[0_14px_30px_-22px_rgba(17,34,78,0.32)]",
+              accentClasses[accentColor]
+            )}
           >
-            Get Started
-            <svg
-              className="h-4 w-4 transition-transform group-hover:translate-x-1"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2.5}
-                d="M13 7l5 5m0 0l-5 5m5-5H6"
-              />
-            </svg>
+            <Icon className="h-6 w-6" strokeWidth={2.2} />
           </motion.div>
-        )}
-      </div>
+
+          <motion.h3
+            variants={{
+              rest: { x: 0, color: "rgba(17, 34, 78, 1)" },
+              hover: { x: 3, color: titleAccent },
+            }}
+            transition={{ type: "spring", stiffness: 260, damping: 20 }}
+            className="mt-6 text-2xl font-bold tracking-tight sm:text-[1.68rem]"
+          >
+            {title}
+          </motion.h3>
+
+          <motion.p
+            variants={{
+              rest: { x: 0 },
+              hover: { x: 2 },
+            }}
+            transition={{ type: "spring", stiffness: 200, damping: 24 }}
+            className="mt-4 text-base leading-relaxed text-novaleap-navy/75 sm:text-[1.02rem]"
+          >
+            {description}
+          </motion.p>
+
+          {isClickable && (
+            <motion.div
+              variants={{
+                rest: { x: 0, color: "rgba(0, 183, 181, 1)" },
+                hover: { x: 4, color: "rgba(0, 122, 123, 1)" },
+              }}
+              transition={{ type: "spring", stiffness: 250, damping: 20 }}
+              className="mt-6 inline-flex items-center gap-2 text-sm font-semibold text-novaleap-aqua"
+            >
+              Get Started
+              <motion.svg
+                variants={{
+                  rest: { x: 0 },
+                  hover: { x: 4 },
+                }}
+                transition={{ type: "spring", stiffness: 250, damping: 20 }}
+                className="h-4 w-4"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2.5}
+                  d="M13 7l5 5m0 0l-5 5m5-5H6"
+                />
+              </motion.svg>
+            </motion.div>
+          )}
+        </div>
+      </motion.div>
 
       {index < 2 && (
         <div
@@ -246,11 +275,15 @@ const StepCard: React.FC<StepCardProps> = ({
           </svg>
         </div>
       )}
-    </motion.div>
+    </motion.article>
   );
 
   if (isClickable && href) {
-    return <Link href={href}>{cardContent}</Link>;
+    return (
+      <Link href={href} className="block h-full">
+        {cardContent}
+      </Link>
+    );
   }
 
   return cardContent;

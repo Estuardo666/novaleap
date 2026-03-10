@@ -35,3 +35,4 @@ export { default as StoriesOfGrowthSection } from "./StoriesOfGrowthSection";
 export { default as HowToStartSection } from "./HowToStartSection";
 export { default as SmoothScroll } from "./SmoothScroll";
 export { default as Footer } from "./Footer";
+export { default as ServiceDetailPage } from "./ServiceDetailPage";

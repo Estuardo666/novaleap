@@ -3,7 +3,8 @@ export type ContactFieldName =
   | "emailAddress"
   | "phoneNumber"
   | "childAge"
-  | "familyNeeds";
+  | "familyNeeds"
+  | "consentToPolicies";
 
 export interface ContactFormResult {
   status: "idle" | "success" | "error";

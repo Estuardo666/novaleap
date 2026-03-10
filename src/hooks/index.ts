@@ -1,4 +1,76 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useState, useSyncExternalStore } from "react";
+
+const CLIENT_PATHNAME_EVENT = "novaleap:pathnamechange";
+
+let isHistoryPatched = false;
+
+function notifyClientPathnameChange() {
+  window.dispatchEvent(new Event(CLIENT_PATHNAME_EVENT));
+}
+
+function ensureClientHistoryPatch() {
+  if (typeof window === "undefined" || isHistoryPatched) {
+    return;
+  }
+
+  isHistoryPatched = true;
+
+  const originalPushState = window.history.pushState;
+  const originalReplaceState = window.history.replaceState;
+
+  window.history.pushState = function pushState(...args) {
+    const result = originalPushState.apply(this, args);
+    notifyClientPathnameChange();
+    return result;
+  };
+
+  window.history.replaceState = function replaceState(...args) {
+    const result = originalReplaceState.apply(this, args);
+    notifyClientPathnameChange();
+    return result;
+  };
+}
+
+function subscribeToClientPathname(onStoreChange: () => void) {
+  if (typeof window === "undefined") {
+    return () => undefined;
+  }
+
+  ensureClientHistoryPatch();
+
+  window.addEventListener(CLIENT_PATHNAME_EVENT, onStoreChange);
+  window.addEventListener("popstate", onStoreChange);
+
+  return () => {
+    window.removeEventListener(CLIENT_PATHNAME_EVENT, onStoreChange);
+    window.removeEventListener("popstate", onStoreChange);
+  };
+}
+
+function getClientPathnameSnapshot() {
+  if (typeof window === "undefined") {
+    return "";
+  }
+
+  return window.location.pathname;
+}
+
+/**
+ * Custom Hook: useClientPathname
+ *
+ * Reads the current pathname from the browser without relying on App Router context.
+ * Useful for client components mounted at the root where `usePathname()` can be unstable in dev.
+ *
+ * @example
+ * const pathname = useClientPathname();
+ */
+export function useClientPathname() {
+  return useSyncExternalStore(
+    subscribeToClientPathname,
+    getClientPathnameSnapshot,
+    () => ""
+  );
+}
 
 /**
  * Custom Hook: useAsync

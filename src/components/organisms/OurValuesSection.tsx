@@ -162,25 +162,14 @@ const OurValuesSection: React.FC = () => {
           </motion.h2>
         </motion.div>
 
-        <motion.ul
-          initial="hidden"
-          whileInView="show"
-          viewport={NOVALEAP_VIEWPORT}
-          variants={{
-            hidden: {},
-            show: {
-              transition: {
-                staggerChildren: prefersReducedMotion ? 0 : 0.1,
-                delayChildren: prefersReducedMotion ? 0 : 0.1,
-              },
-            },
-          }}
-          className="mt-12 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-5"
-        >
+        <motion.ul className="mt-12 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-5">
           {valueCards.map((value, index) => {
             return (
               <motion.li
                 key={value.title}
+                initial="hidden"
+                whileInView="show"
+                viewport={{ once: true, amount: 0.16 }}
                 variants={{
                   hidden: { opacity: 0, y: prefersReducedMotion ? 0 : 24 },
                   show: {
@@ -188,7 +177,12 @@ const OurValuesSection: React.FC = () => {
                     y: 0,
                     transition: prefersReducedMotion
                       ? { duration: 0 }
-                      : { type: "spring" as const, stiffness: 120, damping: 20 },
+                      : {
+                          type: "spring" as const,
+                          stiffness: 120,
+                          damping: 20,
+                          delay: index * 0.06,
+                        },
                   },
                 }}
                 className="h-full"

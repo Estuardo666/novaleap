@@ -3,10 +3,10 @@
 import React from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { usePathname } from "next/navigation";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { ArrowRight, ChevronDown } from "lucide-react";
 import { Button, getButtonClasses } from "@/components/atoms";
+import { useClientPathname } from "@/hooks";
 import { servicesCatalog } from "@/lib/servicesCatalog";
 import { cn } from "@/lib/utils";
 
@@ -32,13 +32,14 @@ const navItems = [
  * <Header className="mb-8" />
  */
 const Header: React.FC<HeaderProps> = ({ className }) => {
-  const pathname = usePathname();
+  const pathname = useClientPathname();
   const prefersReducedMotion = useReducedMotion();
   const [isScrolled, setIsScrolled] = React.useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = React.useState(false);
   const [isDesktopServicesOpen, setIsDesktopServicesOpen] = React.useState(false);
   const [isMobileServicesOpen, setIsMobileServicesOpen] = React.useState(false);
-  const desktopServicesRef = React.useRef<HTMLLIElement>(null);
+  const desktopServicesRef = React.useRef<HTMLDivElement>(null);
+  const desktopServicesCloseTimeoutRef = React.useRef<number | null>(null);
 
   const isCurrentRoute = React.useCallback(
     (href: string) => {
@@ -51,6 +52,35 @@ const Header: React.FC<HeaderProps> = ({ className }) => {
     [pathname]
   );
 
+  const clearDesktopServicesCloseTimeout = React.useCallback(() => {
+    if (desktopServicesCloseTimeoutRef.current !== null) {
+      window.clearTimeout(desktopServicesCloseTimeoutRef.current);
+      desktopServicesCloseTimeoutRef.current = null;
+    }
+  }, []);
+
+  const openDesktopServicesMenu = React.useCallback(() => {
+    clearDesktopServicesCloseTimeout();
+    setIsDesktopServicesOpen(true);
+  }, [clearDesktopServicesCloseTimeout]);
+
+  const closeDesktopServicesMenu = React.useCallback(
+    (delay = 120) => {
+      clearDesktopServicesCloseTimeout();
+
+      if (prefersReducedMotion || delay <= 0) {
+        setIsDesktopServicesOpen(false);
+        return;
+      }
+
+      desktopServicesCloseTimeoutRef.current = window.setTimeout(() => {
+        setIsDesktopServicesOpen(false);
+        desktopServicesCloseTimeoutRef.current = null;
+      }, delay);
+    },
+    [clearDesktopServicesCloseTimeout, prefersReducedMotion]
+  );
+
   React.useEffect(() => {
     const onScroll = () => setIsScrolled(window.scrollY > 40);
     onScroll();
@@ -59,20 +89,29 @@ const Header: React.FC<HeaderProps> = ({ className }) => {
   }, []);
 
   React.useEffect(() => {
+    clearDesktopServicesCloseTimeout();
     setIsMobileMenuOpen(false);
     setIsMobileServicesOpen(false);
     setIsDesktopServicesOpen(false);
-  }, [pathname]);
+  }, [clearDesktopServicesCloseTimeout, pathname]);
+
+  React.useEffect(() => {
+    return () => {
+      clearDesktopServicesCloseTimeout();
+    };
+  }, [clearDesktopServicesCloseTimeout]);
 
   React.useEffect(() => {
     const handlePointerDown = (event: MouseEvent) => {
       if (!desktopServicesRef.current?.contains(event.target as Node)) {
+        clearDesktopServicesCloseTimeout();
         setIsDesktopServicesOpen(false);
       }
     };
 
     const handleKeyDown = (event: KeyboardEvent) => {
       if (event.key === "Escape") {
+        clearDesktopServicesCloseTimeout();
         setIsDesktopServicesOpen(false);
         setIsMobileServicesOpen(false);
         setIsMobileMenuOpen(false);
@@ -86,7 +125,7 @@ const Header: React.FC<HeaderProps> = ({ className }) => {
       document.removeEventListener("mousedown", handlePointerDown);
       document.removeEventListener("keydown", handleKeyDown);
     };
-  }, []);
+  }, [clearDesktopServicesCloseTimeout]);
 
   const desktopMegaMenuVariants = {
     hidden: {
@@ -263,8 +302,8 @@ const Header: React.FC<HeaderProps> = ({ className }) => {
         transition={{ type: "spring", stiffness: 120, damping: 18 }}
         className={cn(
           "pointer-events-auto relative w-full max-w-[92rem] flex items-center justify-between px-5 py-2.5 sm:px-10 rounded-[2rem] sm:rounded-[2.5rem] transition-all duration-500",
-          // High-contrast glass state for readability over hero image
-          !isScrolled && "bg-white/82 backdrop-blur-xl border border-white/70 shadow-[0_14px_42px_-28px_rgba(17,34,78,0.45)]",
+          // Transparent state over hero image; the menu capsule carries the glass treatment.
+          !isScrolled && "bg-transparent border-transparent shadow-none",
           // Sticky opaque state with purple branding
           isScrolled && "bg-novaleap-purple border border-novaleap-aqua/70 shadow-[0_18px_44px_-24px_rgba(17,34,78,0.6)]",
           className
@@ -279,16 +318,17 @@ const Header: React.FC<HeaderProps> = ({ className }) => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.3 }}
-            className="relative h-12 w-auto"
+            className="relative h-12 w-auto overflow-visible"
           >
             {/* Logo para fondo claro - visible cuando no está scrolled */}
             <Image
               src="/Logotipo para fondo claro.png"
               alt="Novaleap"
-              width={210}
-              height={48}
+              width={280}
+              height={64}
               className={cn(
-                "h-12 w-auto transition-opacity duration-300",
+                "h-12 w-auto origin-left transition-all duration-300",
+                isScrolled ? "scale-100" : "scale-[1.18] sm:scale-[1.24]",
                 isScrolled ? "opacity-0" : "opacity-100"
               )}
               priority
@@ -297,10 +337,11 @@ const Header: React.FC<HeaderProps> = ({ className }) => {
             <Image
               src="/Logotipo para fondo oscuro.png"
               alt="Novaleap"
-              width={210}
-              height={48}
+              width={280}
+              height={64}
               className={cn(
-                "absolute inset-0 h-12 w-auto transition-opacity duration-300",
+                "absolute inset-0 h-12 w-auto origin-left transition-all duration-300",
+                isScrolled ? "scale-100" : "scale-[1.18] sm:scale-[1.24]",
                 isScrolled ? "opacity-100" : "opacity-0"
               )}
               priority
@@ -309,25 +350,40 @@ const Header: React.FC<HeaderProps> = ({ className }) => {
         </Link>
 
         <nav aria-label="Primary" className="hidden items-center gap-7 lg:flex">
-          <motion.ul
-            initial="hidden"
-            animate="visible"
-            variants={{
-              hidden: {},
-              visible: {
-                transition: {
-                  staggerChildren: 0.1,
-                  delayChildren: 0.15,
-                },
-              },
+          <div
+            ref={desktopServicesRef}
+            className="relative"
+            onMouseLeave={() => closeDesktopServicesMenu()}
+            onFocusCapture={(event) => {
+              if ((event.target as HTMLElement).closest('[aria-controls="desktop-services-mega-menu"]')) {
+                openDesktopServicesMenu();
+              }
             }}
-            className={cn(
-              "flex items-center gap-2 rounded-full px-2 py-1.5",
-              isScrolled
-                ? "bg-white/8"
-                : "bg-white/70"
-            )}
+            onBlur={(event) => {
+              if (!desktopServicesRef.current?.contains(event.relatedTarget as Node | null)) {
+                closeDesktopServicesMenu(0);
+              }
+            }}
           >
+            <motion.ul
+              initial="hidden"
+              animate="visible"
+              variants={{
+                hidden: {},
+                visible: {
+                  transition: {
+                    staggerChildren: 0.1,
+                    delayChildren: 0.15,
+                  },
+                },
+              }}
+              className={cn(
+                "flex items-center gap-2 rounded-full px-2 py-1.5",
+                isScrolled
+                  ? "bg-white/8"
+                  : "bg-white/58 backdrop-blur-md shadow-[0_12px_30px_-24px_rgba(17,34,78,0.45)]"
+              )}
+            >
             {navItems.map((item) => {
               const isActive = isCurrentRoute(item.href);
 
@@ -337,27 +393,22 @@ const Header: React.FC<HeaderProps> = ({ className }) => {
                 return (
                   <motion.li
                     key={item.label}
-                    ref={desktopServicesRef}
                     variants={{
                       hidden: { opacity: 0, y: -10 },
                       visible: { opacity: 1, y: 0 },
                     }}
                     transition={{ type: "spring", stiffness: 210, damping: 22 }}
-                    className="static"
-                    onMouseEnter={() => setIsDesktopServicesOpen(true)}
-                    onMouseLeave={() => setIsDesktopServicesOpen(false)}
-                    onFocusCapture={() => setIsDesktopServicesOpen(true)}
-                    onBlur={(event) => {
-                      if (!desktopServicesRef.current?.contains(event.relatedTarget as Node | null)) {
-                        setIsDesktopServicesOpen(false);
-                      }
-                    }}
+                    className="relative"
+                    onMouseEnter={openDesktopServicesMenu}
                   >
                     <motion.button
                       type="button"
                       whileHover={{ scale: 1.05 }}
                       whileTap={{ scale: 0.98 }}
-                      onClick={() => setIsDesktopServicesOpen((previous) => !previous)}
+                      onClick={() => {
+                        clearDesktopServicesCloseTimeout();
+                        setIsDesktopServicesOpen((previous) => !previous);
+                      }}
                       aria-expanded={isDesktopServicesOpen}
                       aria-controls="desktop-services-mega-menu"
                       className={cn(
@@ -379,133 +430,6 @@ const Header: React.FC<HeaderProps> = ({ className }) => {
                         <ChevronDown className="h-4 w-4" strokeWidth={2.3} />
                       </motion.span>
                     </motion.button>
-
-                    <AnimatePresence>
-                      {isDesktopServicesOpen ? (
-                        <motion.div
-                          id="desktop-services-mega-menu"
-                          initial="hidden"
-                          animate="show"
-                          exit="exit"
-                          variants={desktopMegaMenuVariants}
-                          className="absolute right-0 top-[calc(100%+0.8rem)] z-50 w-[min(66rem,calc(100vw-4rem))]"
-                        >
-                          <motion.div
-                            variants={desktopMegaMenuVariants}
-                            className="overflow-hidden rounded-[2rem] border border-novaleap-navy/8 bg-[linear-gradient(145deg,rgba(255,255,255,0.97),rgba(246,248,255,0.95))] shadow-[0_30px_80px_-38px_rgba(17,34,78,0.55)] backdrop-blur-2xl"
-                          >
-                            <div className="grid gap-0 lg:grid-cols-[19rem_minmax(0,1fr)]">
-                              <motion.div
-                                variants={megaMenuItemVariants}
-                                className="flex flex-col justify-between gap-6 border-b border-novaleap-navy/6 bg-[radial-gradient(circle_at_top_left,rgba(0,183,181,0.14),transparent_52%),linear-gradient(180deg,rgba(17,34,78,0.03),rgba(151,122,188,0.06))] p-7 text-novaleap-navy lg:border-b-0 lg:border-r lg:border-r-novaleap-navy/6"
-                              >
-                                <div className="space-y-4">
-                                  <span className="inline-flex rounded-full border border-novaleap-aqua/30 bg-novaleap-aqua/10 px-3 py-1 text-[0.72rem] font-semibold uppercase tracking-[0.18em] text-novaleap-aqua">
-                                    Services
-                                  </span>
-                                  <div className="space-y-3">
-                                    <h3 className="text-2xl font-bold leading-[1.05] tracking-tight text-novaleap-navy">
-                                      Support that grows with your child.
-                                    </h3>
-                                    <p className="text-sm leading-relaxed text-novaleap-navy/72">
-                                      Explore the five core services families use to build strength, confidence, and meaningful progress.
-                                    </p>
-                                  </div>
-                                </div>
-
-                                <motion.div variants={megaMenuItemVariants}>
-                                  <Link
-                                    href="/services"
-                                    className={viewAllServicesButtonClasses}
-                                    onClick={() => setIsDesktopServicesOpen(false)}
-                                  >
-                                    <span className="relative z-10 inline-flex items-center justify-center gap-2">
-                                      <span>View all services</span>
-                                      <ArrowRight className="h-4 w-4" strokeWidth={2.1} />
-                                    </span>
-                                  </Link>
-                                </motion.div>
-                              </motion.div>
-
-                              <motion.div
-                                variants={desktopMegaMenuVariants}
-                                className="grid gap-3 p-4 sm:p-5 lg:grid-cols-2"
-                              >
-                                {servicesCatalog.map((service) => {
-                                  const Icon = service.icon;
-
-                                  return (
-                                    <motion.div key={service.id} variants={megaMenuItemVariants}>
-                                      <motion.div
-                                        initial="rest"
-                                        animate="rest"
-                                        whileHover={prefersReducedMotion ? undefined : "hover"}
-                                        whileTap={prefersReducedMotion ? undefined : { scale: 0.994 }}
-                                        variants={serviceCardHoverVariants}
-                                      >
-                                        <Link
-                                          href={service.href}
-                                          className="group relative flex h-full gap-4 overflow-hidden rounded-[1.45rem] bg-[linear-gradient(135deg,rgba(255,255,255,0.92),rgba(248,251,255,0.84))] p-4 text-novaleap-navy transition-colors duration-300 hover:bg-[linear-gradient(135deg,rgba(255,255,255,1),rgba(245,251,251,0.96))] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-novaleap-aqua focus-visible:ring-offset-2 focus-visible:ring-offset-white"
-                                          onClick={() => setIsDesktopServicesOpen(false)}
-                                        >
-                                          <motion.div
-                                            aria-hidden="true"
-                                            variants={serviceCardGlowVariants}
-                                            className={cn(
-                                              "pointer-events-none absolute inset-0",
-                                              service.accentColor === "aqua" && "bg-[radial-gradient(circle_at_top_left,rgba(0,183,181,0.22),transparent_62%)]",
-                                              service.accentColor === "purple" && "bg-[radial-gradient(circle_at_top_left,rgba(151,122,188,0.22),transparent_62%)]",
-                                              service.accentColor === "navy" && "bg-[radial-gradient(circle_at_top_left,rgba(17,34,78,0.16),transparent_62%)]"
-                                            )}
-                                          />
-
-                                          <motion.div
-                                            variants={serviceCardIconVariants}
-                                            className={cn(
-                                              "relative z-10 inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl border",
-                                              getServiceBadgeClasses(service.accentColor)
-                                            )}
-                                          >
-                                            <Icon className="h-5 w-5" strokeWidth={2.1} />
-                                          </motion.div>
-
-                                          <div className="relative z-10 min-w-0 space-y-2">
-                                            <div className="flex items-start justify-between gap-3">
-                                              <div>
-                                                <p className={cn(
-                                                  "text-[0.64rem] font-semibold uppercase tracking-[0.2em]",
-                                                  "text-novaleap-aqua/85"
-                                                )}>
-                                                  {service.pretitle}
-                                                </p>
-                                                <motion.h4
-                                                  variants={serviceCardTitleVariants}
-                                                  className="mt-1.5 text-base font-bold leading-[1.15] tracking-tight text-novaleap-navy sm:text-[1.05rem]"
-                                                >
-                                                  {service.title}
-                                                </motion.h4>
-                                              </div>
-
-                                              <motion.div variants={serviceCardArrowVariants} className="mt-0.5 shrink-0">
-                                                <ArrowRight className="h-4 w-4 text-novaleap-navy/45" strokeWidth={2.2} />
-                                              </motion.div>
-                                            </div>
-
-                                            <p className="text-sm leading-relaxed text-novaleap-navy/68">
-                                              {service.menuDescription}
-                                            </p>
-                                          </div>
-                                        </Link>
-                                      </motion.div>
-                                    </motion.div>
-                                  );
-                                })}
-                              </motion.div>
-                            </div>
-                          </motion.div>
-                        </motion.div>
-                      ) : null}
-                    </AnimatePresence>
                   </motion.li>
                 );
               }
@@ -544,7 +468,139 @@ const Header: React.FC<HeaderProps> = ({ className }) => {
                 </motion.li>
               );
             })}
-          </motion.ul>
+            </motion.ul>
+
+            <AnimatePresence>
+              {isDesktopServicesOpen ? (
+                <motion.div
+                  id="desktop-services-mega-menu"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  transition={prefersReducedMotion ? { duration: 0 } : { duration: 0.18, ease: "easeOut" as const }}
+                  onMouseEnter={openDesktopServicesMenu}
+                  className="absolute left-1/2 top-[calc(100%+0.8rem)] z-50 w-[min(66rem,calc(100vw-4rem))] -translate-x-1/2 overflow-hidden rounded-[2rem] border border-white/55 bg-[linear-gradient(145deg,rgba(255,255,255,0.73),rgba(246,248,255,0.63))] shadow-[0_30px_80px_-38px_rgba(17,34,78,0.55)] backdrop-blur-[26px]"
+                >
+                  <motion.div
+                    initial="hidden"
+                    animate="show"
+                    exit="exit"
+                    variants={desktopMegaMenuVariants}
+                    className="relative"
+                  >
+                    <div className="relative grid gap-0 lg:grid-cols-[19rem_minmax(0,1fr)]">
+                      <motion.div
+                        variants={megaMenuItemVariants}
+                        className="flex flex-col justify-between gap-6 border-b border-novaleap-navy/6 bg-[radial-gradient(circle_at_top_left,rgba(0,183,181,0.12),transparent_52%),linear-gradient(180deg,rgba(255,255,255,0.28),rgba(151,122,188,0.08))] p-7 text-novaleap-navy lg:border-b-0 lg:border-r lg:border-r-novaleap-navy/6"
+                      >
+                        <div className="space-y-4">
+                          <span className="inline-flex rounded-full border border-novaleap-aqua/30 bg-novaleap-aqua/10 px-3 py-1 text-[0.72rem] font-semibold uppercase tracking-[0.18em] text-novaleap-aqua">
+                            Services
+                          </span>
+                          <div className="space-y-3">
+                            <h3 className="text-2xl font-bold leading-[1.05] tracking-tight text-novaleap-navy">
+                              Support that grows with your child.
+                            </h3>
+                            <p className="text-sm leading-relaxed text-novaleap-navy/72">
+                              Explore the five core services families use to build strength, confidence, and meaningful progress.
+                            </p>
+                          </div>
+                        </div>
+
+                        <motion.div variants={megaMenuItemVariants}>
+                          <Link
+                            href="/services"
+                            className={viewAllServicesButtonClasses}
+                            onClick={() => setIsDesktopServicesOpen(false)}
+                          >
+                            <span className="relative z-10 inline-flex items-center justify-center gap-2">
+                              <span>View all services</span>
+                              <ArrowRight className="h-4 w-4" strokeWidth={2.1} />
+                            </span>
+                          </Link>
+                        </motion.div>
+                      </motion.div>
+
+                      <motion.div
+                        variants={desktopMegaMenuVariants}
+                        className="grid gap-3 p-4 sm:p-5 lg:grid-cols-2"
+                      >
+                        {servicesCatalog.map((service) => {
+                          const Icon = service.icon;
+
+                          return (
+                            <motion.div key={service.id} variants={megaMenuItemVariants}>
+                              <motion.div
+                                initial="rest"
+                                animate="rest"
+                                whileHover={prefersReducedMotion ? undefined : "hover"}
+                                whileTap={prefersReducedMotion ? undefined : { scale: 0.994 }}
+                                variants={serviceCardHoverVariants}
+                              >
+                                <Link
+                                  href={service.href}
+                                  className="group relative flex h-full gap-4 overflow-hidden rounded-[1.45rem] bg-[linear-gradient(135deg,rgba(255,255,255,0.86),rgba(248,251,255,0.76))] p-4 text-novaleap-navy transition-colors duration-300 hover:bg-[linear-gradient(135deg,rgba(255,255,255,0.96),rgba(245,251,251,0.84))] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-novaleap-aqua focus-visible:ring-offset-2 focus-visible:ring-offset-white"
+                                  onClick={() => setIsDesktopServicesOpen(false)}
+                                >
+                                  <motion.div
+                                    aria-hidden="true"
+                                    variants={serviceCardGlowVariants}
+                                    className={cn(
+                                      "pointer-events-none absolute inset-0",
+                                      service.accentColor === "aqua" && "bg-[radial-gradient(circle_at_top_left,rgba(0,183,181,0.22),transparent_62%)]",
+                                      service.accentColor === "purple" && "bg-[radial-gradient(circle_at_top_left,rgba(151,122,188,0.22),transparent_62%)]",
+                                      service.accentColor === "navy" && "bg-[radial-gradient(circle_at_top_left,rgba(17,34,78,0.16),transparent_62%)]"
+                                    )}
+                                  />
+
+                                  <motion.div
+                                    variants={serviceCardIconVariants}
+                                    className={cn(
+                                      "relative z-10 inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl border",
+                                      getServiceBadgeClasses(service.accentColor)
+                                    )}
+                                  >
+                                    <Icon className="h-5 w-5" strokeWidth={2.1} />
+                                  </motion.div>
+
+                                  <div className="relative z-10 min-w-0 space-y-2">
+                                    <div className="flex items-start justify-between gap-3">
+                                      <div>
+                                        <p className={cn(
+                                          "text-[0.64rem] font-semibold uppercase tracking-[0.2em]",
+                                          "text-novaleap-aqua/85"
+                                        )}>
+                                          {service.pretitle}
+                                        </p>
+                                        <motion.h4
+                                          variants={serviceCardTitleVariants}
+                                          className="mt-1.5 text-base font-bold leading-[1.15] tracking-tight text-novaleap-navy sm:text-[1.05rem]"
+                                        >
+                                          {service.title}
+                                        </motion.h4>
+                                      </div>
+
+                                      <motion.div variants={serviceCardArrowVariants} className="mt-0.5 shrink-0">
+                                        <ArrowRight className="h-4 w-4 text-novaleap-navy/45" strokeWidth={2.2} />
+                                      </motion.div>
+                                    </div>
+
+                                    <p className="text-sm leading-relaxed text-novaleap-navy/68">
+                                      {service.menuDescription}
+                                    </p>
+                                  </div>
+                                </Link>
+                              </motion.div>
+                            </motion.div>
+                          );
+                        })}
+                      </motion.div>
+                    </div>
+                  </motion.div>
+                </motion.div>
+              ) : null}
+            </AnimatePresence>
+          </div>
         </nav>
 
         <div className="hidden sm:block">
@@ -680,7 +736,7 @@ const Header: React.FC<HeaderProps> = ({ className }) => {
                               >
                                 <motion.div
                                   variants={mobileServicesVariants}
-                                  className="space-y-2 rounded-[1.75rem] border border-novaleap-navy/8 bg-white/92 px-3 py-3"
+                                  className="space-y-2 rounded-[1.75rem] border border-white/55 bg-white/72 px-3 py-3 backdrop-blur-2xl"
                                 >
                                   <motion.div variants={megaMenuItemVariants}>
                                     <Link

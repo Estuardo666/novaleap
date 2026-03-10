@@ -7,6 +7,30 @@
     scroll-behavior: auto;
   }
 
+  ::selection {
+    background: rgba(151, 122, 188, 0.88);
+    color: #ffffff;
+  }
+
+  ::-moz-selection {
+    background: rgba(151, 122, 188, 0.88);
+    color: #ffffff;
+  }
+
+  p::selection,
+  li::selection,
+  blockquote::selection {
+    background: rgba(0, 183, 181, 0.9);
+    color: #11224e;
+  }
+
+  p::-moz-selection,
+  li::-moz-selection,
+  blockquote::-moz-selection {
+    background: rgba(0, 183, 181, 0.9);
+    color: #11224e;
+  }
+
   body {
     /* subtle page background gradient using existing mint palette */
     @apply bg-gradient-to-br from-white via-mint-50 to-novaleap-aqua/10;
