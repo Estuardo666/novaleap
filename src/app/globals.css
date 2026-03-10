@@ -2,6 +2,49 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer base {
+  html {
+    scroll-behavior: auto;
+  }
+
+  body {
+    /* subtle page background gradient using existing mint palette */
+    @apply bg-gradient-to-br from-white via-mint-50 to-novaleap-aqua/10;
+    font-family: var(--font-google-sans), sans-serif;
+    color: #11224e;
+  }
+
+  /* Global paragraph standard requested by content direction */
+  p {
+    text-align: justify;
+  }
+
+  strong {
+    font-weight: 600;
+  }
+}
+
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+
+html.lenis body {
+  overscroll-behavior-y: none;
+}
+
+html.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+
+html.lenis.lenis-stopped {
+  overflow: clip;
+}
+
+html.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+
 :root {
   --background: #ffffff;
   --foreground: #171717;
@@ -14,14 +57,13 @@
   }
 }
 
-body {
-  color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
-}
-
 @layer utilities {
   .text-balance {
     text-wrap: balance;
   }
+  
+  .sticky-header {
+    @apply sticky top-0 z-50 backdrop-blur-md bg-white/80;
+  }
 }
+

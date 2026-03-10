@@ -1,0 +1,110 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+// Service Model - Core business entity
+model Service {
+  id        String     @id @default(cuid())
+  name      String     @unique(map: "Service_name_key")
+  slug      String     @unique(map: "Service_slug_key")
+  description String?   @db.Text
+  price     Float
+  duration  Int        // Duration in minutes
+  category  String     // e.g., "consultation", "therapy", "training"
+  icon      String?    // Icon identifier or path
+  image     String?    // Service image URL
+  isActive  Boolean    @default(true)
+  
+  // Relations
+  appointments Appointment[]
+
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+
+  @@index([slug])
+  @@index([category])
+  @@index([isActive])
+}
+
+// Appointment Model - Bookings and scheduling
+model Appointment {
+  id        String     @id @default(cuid())
+  
+  // Service relation
+  serviceId String
+  service   Service    @relation(fields: [serviceId], references: [id], onDelete: Cascade)
+  
+  // Client information
+  clientName  String
+  clientEmail String
+  clientPhone String?
+  
+  // Appointment details
+  status    AppointmentStatus @default(PENDING)
+  scheduledAt DateTime
+  notes     String?    @db.Text
+  
+  // Cancellation tracking
+  canceledAt DateTime?
+  cancelReason String?
+
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+
+  @@index([serviceId])
+  @@index([clientEmail])
+  @@index([status])
+  @@index([scheduledAt])
+}
+
+// Appointment Status Enum
+enum AppointmentStatus {
+  PENDING
+  CONFIRMED
+  IN_PROGRESS
+  COMPLETED
+  CANCELED
+  NO_SHOW
+}
+
+// User Model - For authentication (optional, can be extended)
+model User {
+  id        String     @id @default(cuid())
+  email     String     @unique
+  name      String?
+  password  String?    // Hash password if using basic auth
+  role      UserRole   @default(CLIENT)
+  
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+
+  @@index([email])
+  @@index([role])
+}
+
+// User Role Enum
+enum UserRole {
+  CLIENT
+  STAFF
+  ADMIN
+}
+
+// Settings Model - Application configuration
+model Setting {
+  id        String     @id @default(cuid())
+  key       String     @unique
+  value     String     @db.LongText
+  
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+
+  @@index([key])
+}

@@ -1,0 +1,16 @@
+{
+  "servers": {
+    "Figma MCP": {
+      "url": "http://127.0.0.1:3845/mcp",
+      "type": "http"
+    }
+  },
+  "inputs": [
+    {
+      "id": "asset_output_dir",
+      "type": "promptString",
+      "description": "Directorio donde guardar assets exportados de Figma",
+      "default": "./public"
+    }
+  ]
+}
