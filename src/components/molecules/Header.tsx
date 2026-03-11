@@ -20,6 +20,7 @@ const navItems = [
   { label: "Services", href: "/services" },
   { label: "Our Approach", href: "/our-approach" },
   { label: "Parents", href: "/parents" },
+  { label: "Presentación", href: "/presentacion" },
   { label: "Contact", href: "/contact" },
 ];
 
