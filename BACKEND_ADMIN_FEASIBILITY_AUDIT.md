@@ -2,6 +2,10 @@
 
 Date: 2026-03-10
 
+Related document:
+
+- `BACKEND_ADMIN_IMPLEMENTATION_PLAN.md`
+
 ## Objective
 
 Evaluate the feasibility of building the backend inside the same repository, coexisting with the current frontend, using a protected `/admin` area so the client can edit most texts, images, and videos.

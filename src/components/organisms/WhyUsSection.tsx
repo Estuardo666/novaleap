@@ -232,7 +232,6 @@ const WhyUsSection: React.FC = () => {
                     src="/Novaleap BG.jpg"
                     alt="Child in pediatric physical therapy session"
                     fill
-                    priority={activeIndex === 0}
                     sizes="(max-width: 1024px) 100vw, 1280px"
                     className="object-cover"
                     style={{ objectPosition: activeSlide.imagePosition }}

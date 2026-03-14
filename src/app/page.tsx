@@ -1,14 +1,21 @@
-import {
-  AnimatedPageBackground,
-  Hero,
-  HowToStartSection,
-  MissionIntroSection,
-  ServicesSection,
-  StoriesOfGrowthSection,
-  WhyUsSection,
-} from "@/components/organisms";
+import dynamic from "next/dynamic";
+import { AnimatedPageBackground, Hero } from "@/components/organisms";
 
-export const dynamic = "force-dynamic";
+const MissionIntroSection = dynamic(
+  () => import("@/components/organisms/MissionIntroSection")
+);
+const ServicesSection = dynamic(
+  () => import("@/components/organisms/ServicesSection")
+);
+const StoriesOfGrowthSection = dynamic(
+  () => import("@/components/organisms/StoriesOfGrowthSection")
+);
+const WhyUsSection = dynamic(
+  () => import("@/components/organisms/WhyUsSection")
+);
+const HowToStartSection = dynamic(
+  () => import("@/components/organisms/HowToStartSection")
+);
 
 export default function Home() {
   return (
