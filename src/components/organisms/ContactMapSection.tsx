@@ -12,8 +12,8 @@ import {
 } from "@/lib/novaleapMotion";
 import { getButtonClasses } from "@/components/atoms";
 
-const GOOGLE_MAPS_URL = "https://maps.google.com/?q=26+Church+Street,+New+Paltz,+NY+12571";
-const MAP_EMBED_URL = "https://www.google.com/maps?q=26+Church+Street,+New+Paltz,+NY+12571&z=15&output=embed";
+const GOOGLE_MAPS_URL = "https://maps.google.com/?q=26+Church+Street,+New+Paltz,+NY+12561";
+const MAP_EMBED_URL = "https://www.google.com/maps?q=26+Church+Street,+New+Paltz,+NY+12561&z=15&output=embed";
 
 /**
  * ContactMapSection - Organism Component
@@ -82,7 +82,7 @@ const ContactMapSection = () => {
             className="pointer-events-none absolute left-6 top-6 z-10 hidden rounded-full border border-white/80 bg-white/92 px-4 py-2 shadow-[0_18px_32px_-24px_rgba(17,34,78,0.45)] sm:flex sm:items-center sm:gap-2"
           >
             <MapPin className="h-4 w-4 text-novaleap-aqua" />
-            <span className="text-sm font-medium text-novaleap-navy">26 Church Street, New Paltz, NY 12571</span>
+            <span className="text-sm font-medium text-novaleap-navy">26 Church Street, New Paltz, NY 12561</span>
           </motion.div>
 
           <div className="overflow-hidden rounded-[1.6rem] border border-novaleap-navy/8 bg-white">

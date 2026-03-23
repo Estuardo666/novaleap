@@ -5,7 +5,6 @@ import {
   ApproachPlayWithPurposeSection,
   OurApproachHeroSection,
   PartnersInProgressSection,
-  TherapyJourneySection,
 } from "@/components/organisms";
 
 export const metadata: Metadata = {
@@ -17,11 +16,10 @@ export const metadata: Metadata = {
 export default function OurApproachPage() {
   return (
     <AnimatedPageBackground>
-        <OurApproachHeroSection />
-        <ApproachPlayWithPurposeSection />
-        <ApproachPillarsSection />
-        <TherapyJourneySection />
-        <PartnersInProgressSection />
+      <OurApproachHeroSection />
+      <ApproachPlayWithPurposeSection />
+      <ApproachPillarsSection />
+      <PartnersInProgressSection />
     </AnimatedPageBackground>
   );
 }

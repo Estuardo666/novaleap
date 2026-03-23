@@ -101,7 +101,7 @@ const Footer: React.FC = () => {
             </Link>
 
             <p className="mt-5 text-left text-base leading-relaxed text-white/84 sm:text-[1.05rem]">
-              Empowering children to move with confidence, explore their world, and reach their fullest potential through play-based therapy.
+              To empower every child to move with confidence, discover their strengths, and reach their fullest potential through compassionate, playful, and evidence-based physical therapy in partnership with families and communities.
             </p>
 
             <div className="mt-6 flex items-center gap-3">
@@ -190,12 +190,12 @@ const Footer: React.FC = () => {
                   <MapPin className="h-4 w-4" strokeWidth={2.1} />
                 </span>
                 <Link
-                  href="https://maps.google.com/?q=26+Church+Street,+New+Paltz,+NY+12571"
+                  href="https://maps.google.com/?q=26+Church+Street,+New+Paltz,+NY+12561"
                   target="_blank"
                   rel="noreferrer"
                   className="text-left text-base leading-relaxed transition-colors duration-300 hover:text-novaleap-aqua focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/80 focus-visible:ring-offset-2 focus-visible:ring-offset-novaleap-purple"
                 >
-                  26 Church Street, New Paltz, NY 12571
+                  26 Church Street, New Paltz, NY 12561
                 </Link>
               </div>
 
@@ -205,16 +205,10 @@ const Footer: React.FC = () => {
                 </span>
                 <div className="flex flex-col gap-1.5 text-left text-base leading-relaxed">
                   <Link
-                    href="tel:9143099525"
+                    href="tel:8458019053"
                     className="transition-colors duration-300 hover:text-novaleap-purple focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/80 focus-visible:ring-offset-2 focus-visible:ring-offset-novaleap-purple"
                   >
-                    (914) 309-9525
-                  </Link>
-                  <Link
-                    href="tel:9144736161"
-                    className="transition-colors duration-300 hover:text-novaleap-purple focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/80 focus-visible:ring-offset-2 focus-visible:ring-offset-novaleap-purple"
-                  >
-                    (914) 473-6161
+                    (845) 801 9053
                   </Link>
                 </div>
               </div>

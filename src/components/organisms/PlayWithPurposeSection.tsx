@@ -21,7 +21,7 @@ const missionVisionCards = [
   {
     icon: Target,
     title: "Mission",
-    description: "To empower every child to move with confidence, explore their world, and reach their fullest potential through compassionate, playful, innovative, and evidence-based pediatric therapy.",
+    description: "To empower every child to move with confidence, discover their strengths, and reach their fullest potential through compassionate, playful, and evidence-based physical therapy in partnership with families and communities.",
     glowClass: "bg-[radial-gradient(circle_at_top_left,rgba(0,183,181,0.26),transparent_64%)]",
     iconClass: "bg-[linear-gradient(135deg,rgba(0,183,181,0.16),rgba(151,122,188,0.18))]",
     hoverBackground: "rgba(242, 252, 251, 0.98)",
@@ -34,7 +34,7 @@ const missionVisionCards = [
   {
     icon: Eye,
     title: "Vision",
-    description: "To improve children's quality of life through safe, innovative, and emotionally meaningful therapeutic experiences.",
+    description: "NovaLeap envisions a world where every child is seen, supported, and empowered to thrive—where compassionate, playful, and innovative physical therapy, nurtures confidence, and transforms movement into joyful, emotionally meaningful experiences.",
     glowClass: "bg-[radial-gradient(circle_at_top_left,rgba(151,122,188,0.28),transparent_64%)]",
     iconClass: "bg-[linear-gradient(135deg,rgba(151,122,188,0.2),rgba(0,183,181,0.14))]",
     hoverBackground: "rgba(248, 244, 253, 0.98)",

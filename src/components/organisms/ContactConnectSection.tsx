@@ -29,7 +29,7 @@ import {
 import { cn } from "@/lib/utils";
 import type { ContactFieldName, ContactFormResult, ContactSubmitAction } from "@/types/contact";
 
-const GOOGLE_MAPS_URL = "https://maps.google.com/?q=26+Church+Street,+New+Paltz,+NY+12571";
+const GOOGLE_MAPS_URL = "https://maps.google.com/?q=26+Church+Street,+New+Paltz,+NY+12561";
 
 const socialLinks = [
   {
@@ -403,7 +403,7 @@ const ContactConnectSection: React.FC<ContactConnectSectionProps> = ({ submitAct
                     name="phoneNumber"
                     type="tel"
                     autoComplete="tel"
-                    placeholder="(914) 309-9525"
+                    placeholder="(845) 801 9053"
                     error={submissionResult.fieldErrors?.phoneNumber}
                     onFocus={handleFocus("phoneNumber")}
                     onBlur={handleBlur}
@@ -589,24 +589,21 @@ const ContactConnectSection: React.FC<ContactConnectSectionProps> = ({ submitAct
                   rel="noreferrer"
                   className="inline-flex items-start gap-1 transition-colors hover:text-novaleap-aqua"
                 >
-                  <span>26 Church Street, New Paltz, NY 12571</span>
+                  <span>26 Church Street, New Paltz, NY 12561</span>
                   <ArrowUpRight className="mt-0.5 h-4 w-4 shrink-0" />
                 </Link>
               </ContactInfoHoverCard>
 
               <ContactInfoHoverCard
-                title="Phone Numbers"
+                title="Phone"
                 icon={Phone}
                 tone="purple"
                 rotate={1.1}
                 prefersReducedMotion={Boolean(prefersReducedMotion)}
               >
                 <div className="flex flex-col gap-1 font-medium text-novaleap-navy/80">
-                  <Link href="tel:9143099525" className="transition-colors hover:text-novaleap-aqua">
-                    (914) 309-9525
-                  </Link>
-                  <Link href="tel:9144736161" className="transition-colors hover:text-novaleap-aqua">
-                    (914) 473-6161
+                  <Link href="tel:8458019053" className="transition-colors hover:text-novaleap-aqua">
+                    (845) 801 9053
                   </Link>
                 </div>
               </ContactInfoHoverCard>

@@ -19,7 +19,7 @@ const highlights = [
   },
   {
     title: "Contact",
-    body: "hello@novaleap.com | (914) 309-9525",
+    body: "hello@novaleap.com | (845) 801 9053",
   },
 ];
 
@@ -45,9 +45,9 @@ const sections = [
     ],
     contactLines: [
       "NovaLeap Pediatric Physical Therapy",
-      "26 Church Street, New Paltz, NY 12571",
+      "26 Church Street, New Paltz, NY 12561",
       "hello@novaleap.com",
-      "(914) 309-9525",
+      "(845) 801 9053",
     ],
   },
   {
@@ -150,8 +150,8 @@ export default function DoNotSellPage() {
                   hello@novaleap.com
                 </Link>
                 , call{" "}
-                <Link href="tel:9143099525" className="font-semibold text-novaleap-aqua underline decoration-novaleap-aqua/45 underline-offset-4">
-                  (914) 309-9525
+                <Link href="tel:8458019053" className="font-semibold text-novaleap-aqua underline decoration-novaleap-aqua/45 underline-offset-4">
+                  (845) 801 9053
                 </Link>
                 , or visit{" "}
                 <Link href="/contact" className="font-semibold text-novaleap-navy underline decoration-novaleap-navy/25 underline-offset-4">

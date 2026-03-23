@@ -80,15 +80,27 @@ const ServicesSection: React.FC<ServicesSectionProps> = ({ sizeVariant = "defaul
   }, [isExpanded]);
 
   const gap = viewportWidth >= 640 ? (isExpanded ? 30 : 24) : isExpanded ? 20 : 16;
-  const maxIndex = Math.max(0, services.length - cardsPerView);
+  const visibleCards = Math.max(1, Math.min(cardsPerView, services.length));
+  const maxIndex = Math.max(0, services.length - visibleCards);
   const safeIndex = Math.min(activeIndex, maxIndex);
   const cardWidth =
     viewportWidth > 0
-      ? (viewportWidth - gap * Math.max(0, cardsPerView - 1)) / cardsPerView
+      ? (viewportWidth - gap * Math.max(0, visibleCards - 1)) / visibleCards
       : 0;
-  const trackOffset = safeIndex * (cardWidth + gap);
-  const maxOffset = maxIndex * (cardWidth + gap);
   const totalPages = maxIndex + 1;
+  const shouldCenterTrack = totalPages === 1 && services.length > 1;
+  const maxCenteredCardWidth = isExpanded ? 560 : 520;
+  const effectiveCardWidth = shouldCenterTrack
+    ? Math.min(cardWidth, maxCenteredCardWidth)
+    : cardWidth;
+  const trackOffset = safeIndex * (effectiveCardWidth + gap);
+  const maxOffset = maxIndex * (effectiveCardWidth + gap);
+  const trackContentWidth =
+    services.length * effectiveCardWidth + gap * Math.max(0, services.length - 1);
+  const centeredOffset =
+    shouldCenterTrack && viewportWidth > trackContentWidth
+      ? (viewportWidth - trackContentWidth) / 2
+      : 0;
 
   React.useEffect(() => {
     if (activeIndex > maxIndex) {
@@ -201,13 +213,13 @@ const ServicesSection: React.FC<ServicesSectionProps> = ({ sizeVariant = "defaul
               variants={getNovaleapTitleLineVariants(prefersReducedMotion)}
               className="block text-balance"
             >
-              Five Ways We
+              Two Services
             </motion.span>
             <motion.span
               variants={getNovaleapTitleLineVariants(prefersReducedMotion)}
               className="block text-balance"
             >
-              Support Your Child
+              To Support Your Child
             </motion.span>
           </motion.h2>
 
@@ -221,7 +233,7 @@ const ServicesSection: React.FC<ServicesSectionProps> = ({ sizeVariant = "defaul
               isExpanded ? "max-w-3xl text-lg sm:text-[1.32rem]" : "max-w-2xl text-lg sm:text-xl"
             )}
           >
-            Each service is carefully designed to <strong className="font-semibold text-novaleap-navy">meet your child where they are</strong>, celebrate their progress, and <strong className="font-semibold text-novaleap-navy">unlock their full potential</strong>.
+            Each service is designed to <strong className="font-semibold text-novaleap-navy">meet your child where they are</strong>, provide clear direction, and <strong className="font-semibold text-novaleap-navy">build meaningful progress with your family</strong>.
           </motion.p>
           </div>
         )}
@@ -234,42 +246,46 @@ const ServicesSection: React.FC<ServicesSectionProps> = ({ sizeVariant = "defaul
             aria-roledescription="carousel"
             aria-label="NovaLeap services"
           >
-            <motion.button
-              type="button"
-              whileHover={prefersReducedMotion ? undefined : { x: -2 }}
-              whileTap={prefersReducedMotion ? undefined : { scale: 0.96 }}
-              onClick={handlePrevious}
-              className={cn(
-                "absolute top-1/2 z-30 inline-flex -translate-y-1/2 items-center justify-center rounded-full bg-white text-novaleap-navy shadow-md transition-shadow hover:shadow-lg",
-                isExpanded ? "left-2 h-12 w-12 sm:left-3 sm:h-14 sm:w-14" : "left-1 h-11 w-11 sm:left-2"
-              )}
-              aria-label="Show previous services"
-            >
-              <ChevronLeft className={isExpanded ? "h-5 w-5" : "h-4 w-4"} />
-            </motion.button>
+            {totalPages > 1 ? (
+              <>
+                <motion.button
+                  type="button"
+                  whileHover={prefersReducedMotion ? undefined : { x: -2 }}
+                  whileTap={prefersReducedMotion ? undefined : { scale: 0.96 }}
+                  onClick={handlePrevious}
+                  className={cn(
+                    "absolute top-1/2 z-30 inline-flex -translate-y-1/2 items-center justify-center rounded-full bg-white text-novaleap-navy shadow-md transition-shadow hover:shadow-lg",
+                    isExpanded ? "left-2 h-12 w-12 sm:left-3 sm:h-14 sm:w-14" : "left-1 h-11 w-11 sm:left-2"
+                  )}
+                  aria-label="Show previous services"
+                >
+                  <ChevronLeft className={isExpanded ? "h-5 w-5" : "h-4 w-4"} />
+                </motion.button>
 
-            <motion.button
-              type="button"
-              whileHover={prefersReducedMotion ? undefined : { x: 2 }}
-              whileTap={prefersReducedMotion ? undefined : { scale: 0.96 }}
-              onClick={handleNext}
-              className={cn(
-                "absolute top-1/2 z-30 inline-flex -translate-y-1/2 items-center justify-center rounded-full bg-white text-novaleap-navy shadow-md transition-shadow hover:shadow-lg",
-                isExpanded ? "right-2 h-12 w-12 sm:right-3 sm:h-14 sm:w-14" : "right-1 h-11 w-11 sm:right-2"
-              )}
-              aria-label="Show next services"
-            >
-              <ChevronRight className={isExpanded ? "h-5 w-5" : "h-4 w-4"} />
-            </motion.button>
+                <motion.button
+                  type="button"
+                  whileHover={prefersReducedMotion ? undefined : { x: 2 }}
+                  whileTap={prefersReducedMotion ? undefined : { scale: 0.96 }}
+                  onClick={handleNext}
+                  className={cn(
+                    "absolute top-1/2 z-30 inline-flex -translate-y-1/2 items-center justify-center rounded-full bg-white text-novaleap-navy shadow-md transition-shadow hover:shadow-lg",
+                    isExpanded ? "right-2 h-12 w-12 sm:right-3 sm:h-14 sm:w-14" : "right-1 h-11 w-11 sm:right-2"
+                  )}
+                  aria-label="Show next services"
+                >
+                  <ChevronRight className={isExpanded ? "h-5 w-5" : "h-4 w-4"} />
+                </motion.button>
+              </>
+            ) : null}
 
             <motion.div
               className="flex items-stretch"
               style={{ gap: `${gap}px` }}
-              drag={prefersReducedMotion ? false : "x"}
+              drag={prefersReducedMotion || totalPages <= 1 ? false : "x"}
               dragConstraints={{ left: -Math.max(0, maxOffset), right: 0 }}
               dragElastic={0.08}
               onDragEnd={handleDragEnd}
-              animate={{ x: -trackOffset }}
+              animate={{ x: centeredOffset - trackOffset }}
               transition={{ type: "spring", stiffness: 140, damping: 24, mass: 0.85 }}
             >
               {services.map((service) => (
@@ -277,7 +293,7 @@ const ServicesSection: React.FC<ServicesSectionProps> = ({ sizeVariant = "defaul
                   key={service.title}
                   id={service.id}
                   className="min-w-0 shrink-0 scroll-mt-32 sm:scroll-mt-36"
-                  style={cardWidth > 0 ? { width: `${cardWidth}px` } : { width: "100%" }}
+                  style={effectiveCardWidth > 0 ? { width: `${effectiveCardWidth}px` } : { width: "100%" }}
                 >
                   <ServiceCarouselCard {...service} sizeVariant={sizeVariant} />
                 </div>
@@ -285,32 +301,34 @@ const ServicesSection: React.FC<ServicesSectionProps> = ({ sizeVariant = "defaul
             </motion.div>
           </div>
 
-          <div className={cn("flex justify-center", isExpanded ? "mt-10" : "mt-8")}>
-            <div className="flex items-center gap-2">
-              {Array.from({ length: totalPages }).map((_, index) => (
-                <button
-                  key={`services-dot-${index}`}
-                  type="button"
-                  onClick={() => goToIndex(index)}
-                  className={cn("group inline-flex items-center", isExpanded ? "h-5" : "h-4")}
-                  aria-label={`Go to services slide ${index + 1}`}
-                  aria-pressed={safeIndex === index}
-                >
-                  <span
-                    className={`block rounded-full transition-all duration-300 ${
-                      safeIndex === index
-                        ? isExpanded
-                          ? "h-3 w-12 bg-novaleap-navy"
-                          : "h-2.5 w-10 bg-novaleap-navy"
-                        : isExpanded
-                          ? "h-3 w-3 bg-novaleap-navy/20 group-hover:bg-novaleap-navy/40"
-                          : "h-2.5 w-2.5 bg-novaleap-navy/20 group-hover:bg-novaleap-navy/40"
-                    }`}
-                  />
-                </button>
-              ))}
+          {totalPages > 1 ? (
+            <div className={cn("flex justify-center", isExpanded ? "mt-10" : "mt-8")}>
+              <div className="flex items-center gap-2">
+                {Array.from({ length: totalPages }).map((_, index) => (
+                  <button
+                    key={`services-dot-${index}`}
+                    type="button"
+                    onClick={() => goToIndex(index)}
+                    className={cn("group inline-flex items-center", isExpanded ? "h-5" : "h-4")}
+                    aria-label={`Go to services slide ${index + 1}`}
+                    aria-pressed={safeIndex === index}
+                  >
+                    <span
+                      className={`block rounded-full transition-all duration-300 ${
+                        safeIndex === index
+                          ? isExpanded
+                            ? "h-3 w-12 bg-novaleap-navy"
+                            : "h-2.5 w-10 bg-novaleap-navy"
+                          : isExpanded
+                            ? "h-3 w-3 bg-novaleap-navy/20 group-hover:bg-novaleap-navy/40"
+                            : "h-2.5 w-2.5 bg-novaleap-navy/20 group-hover:bg-novaleap-navy/40"
+                      }`}
+                    />
+                  </button>
+                ))}
+              </div>
             </div>
-          </div>
+          ) : null}
         </div>
       </div>
     </section>

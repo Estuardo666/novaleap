@@ -127,9 +127,9 @@ const termsSections = [
     ],
     contactLines: [
       "NovaLeap Pediatric Physical Therapy",
-      "26 Church Street, New Paltz, NY 12571",
+      "26 Church Street, New Paltz, NY 12561",
       "hello@novaleap.com",
-      "(914) 309-9525",
+      "(845) 801 9053",
     ],
   },
 ];
@@ -197,7 +197,7 @@ export default function TermsOfServicePage() {
             <div className="rounded-[1.5rem] border border-novaleap-aqua/14 bg-novaleap-aqua/6 p-6">
               <h2 className="text-2xl font-bold tracking-tight text-novaleap-navy">More Information</h2>
               <p className="mt-3 text-left text-base leading-relaxed text-novaleap-navy/78 sm:text-lg">
-                For questions about these terms, email <Link href="mailto:hello@novaleap.com" className="font-semibold text-novaleap-purple underline decoration-novaleap-purple/40 underline-offset-4">hello@novaleap.com</Link>, call <Link href="tel:9143099525" className="font-semibold text-novaleap-aqua underline decoration-novaleap-aqua/45 underline-offset-4">(914) 309-9525</Link>, review our <Link href="/privacy" className="font-semibold text-novaleap-navy underline decoration-novaleap-navy/25 underline-offset-4">Privacy Policy</Link>, or visit <Link href="/contact" className="font-semibold text-novaleap-navy underline decoration-novaleap-navy/25 underline-offset-4">our contact page</Link>.
+                For questions about these terms, email <Link href="mailto:hello@novaleap.com" className="font-semibold text-novaleap-purple underline decoration-novaleap-purple/40 underline-offset-4">hello@novaleap.com</Link>, call <Link href="tel:8458019053" className="font-semibold text-novaleap-aqua underline decoration-novaleap-aqua/45 underline-offset-4">(845) 801 9053</Link>, review our <Link href="/privacy" className="font-semibold text-novaleap-navy underline decoration-novaleap-navy/25 underline-offset-4">Privacy Policy</Link>, or visit <Link href="/contact" className="font-semibold text-novaleap-navy underline decoration-novaleap-navy/25 underline-offset-4">our contact page</Link>.
               </p>
             </div>
           </div>

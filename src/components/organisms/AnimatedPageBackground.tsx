@@ -16,7 +16,7 @@ interface AnimatedPageBackgroundProps {
  */
 const AnimatedPageBackground: React.FC<AnimatedPageBackgroundProps> = ({ children }) => {
   return (
-    <div className="relative overflow-hidden bg-[linear-gradient(180deg,#f9f7ff_0%,#ffffff_24%,#f5fbfb_58%,#fff8f4_100%)]">
+    <div className="relative overflow-x-hidden overflow-y-visible bg-[linear-gradient(180deg,#f9f7ff_0%,#ffffff_24%,#f5fbfb_58%,#fff8f4_100%)]">
       <div
         aria-hidden="true"
         className="pointer-events-none absolute inset-0 opacity-80 motion-reduce:animate-none animate-[novaleap-bg-shift_20s_ease-in-out_infinite]"

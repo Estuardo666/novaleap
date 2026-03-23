@@ -28,13 +28,12 @@ const ServiceCarouselCard = React.forwardRef<HTMLDivElement, ServiceCarouselCard
     const prefersReducedMotion = useReducedMotion();
     const isExpanded = sizeVariant === "expanded";
     const normalizedTitleLines = React.useMemo(() => {
-      const lines = (titleLines && titleLines.length > 0 ? titleLines : [title]).slice(0, 2);
+      const lines = (titleLines && titleLines.length > 0 ? titleLines : [title])
+        .map((line) => line.trim())
+        .filter(Boolean)
+        .slice(0, 2);
 
-      while (lines.length < 2) {
-        lines.push("");
-      }
-
-      return lines;
+      return lines.length > 0 ? lines : [title];
     }, [title, titleLines]);
 
     const surfaceClasses = {
@@ -194,8 +193,8 @@ const ServiceCarouselCard = React.forwardRef<HTMLDivElement, ServiceCarouselCard
               className={cn(
                 "font-bold leading-[0.92] tracking-tight text-white",
                 isExpanded
-                  ? "mt-7 min-h-[5rem] text-[2.18rem] sm:min-h-[5.3rem] sm:text-[2.32rem]"
-                  : "mt-6 min-h-[4.5rem] text-[1.94rem] sm:min-h-[4.8rem] sm:text-[1.98rem]"
+                  ? "mt-7 min-h-[3.9rem] text-[2.44rem] sm:min-h-[4.3rem] sm:text-[2.68rem]"
+                  : "mt-6 min-h-[3.5rem] text-[2.2rem] sm:min-h-[3.8rem] sm:text-[2.36rem]"
               )}
             >
               {normalizedTitleLines.map((line, index) => (
@@ -208,8 +207,9 @@ const ServiceCarouselCard = React.forwardRef<HTMLDivElement, ServiceCarouselCard
             <p
               className={cn(
                 isExpanded
-                  ? "mt-1 max-w-[31ch] text-[0.98rem] font-medium leading-[1.35] sm:text-[1.02rem]"
-                  : "mt-0.5 max-w-[30ch] text-[0.9rem] font-medium leading-[1.28] sm:text-[0.93rem]",
+                  ? "mt-0.5 max-w-[31ch] text-[0.98rem] font-medium leading-[1.35] sm:text-[1.02rem]"
+                  : "mt-0 max-w-[30ch] text-[0.9rem] font-medium leading-[1.28] sm:text-[0.93rem]"
+                ,
                 descriptionClasses[accentColor]
               )}
             >

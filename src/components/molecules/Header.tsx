@@ -489,7 +489,7 @@ const Header: React.FC<HeaderProps> = ({ className }) => {
                     variants={desktopMegaMenuVariants}
                     className="relative"
                   >
-                    <div className="relative grid gap-0 lg:grid-cols-[19rem_minmax(0,1fr)]">
+                    <div className="relative grid gap-0 lg:grid-cols-[19rem_minmax(0,1fr)] lg:items-stretch">
                       <motion.div
                         variants={megaMenuItemVariants}
                         className="flex flex-col justify-between gap-6 border-b border-novaleap-navy/6 bg-[radial-gradient(circle_at_top_left,rgba(0,183,181,0.12),transparent_52%),linear-gradient(180deg,rgba(255,255,255,0.28),rgba(151,122,188,0.08))] p-7 text-novaleap-navy lg:border-b-0 lg:border-r lg:border-r-novaleap-navy/6"
@@ -503,7 +503,7 @@ const Header: React.FC<HeaderProps> = ({ className }) => {
                               Support that grows with your child.
                             </h3>
                             <p className="text-sm leading-relaxed text-novaleap-navy/72">
-                              Explore the five core services families use to build strength, confidence, and meaningful progress.
+                              Explore the two core services families use right now to build clarity, confidence, and meaningful progress.
                             </p>
                           </div>
                         </div>
@@ -524,19 +524,20 @@ const Header: React.FC<HeaderProps> = ({ className }) => {
 
                       <motion.div
                         variants={desktopMegaMenuVariants}
-                        className="grid gap-3 p-4 sm:p-5 lg:grid-cols-2"
+                        className="grid h-full gap-3 p-4 sm:p-5 lg:grid-cols-2"
                       >
                         {servicesCatalog.map((service) => {
                           const Icon = service.icon;
 
                           return (
-                            <motion.div key={service.id} variants={megaMenuItemVariants}>
+                            <motion.div key={service.id} variants={megaMenuItemVariants} className="h-full">
                               <motion.div
                                 initial="rest"
                                 animate="rest"
                                 whileHover={prefersReducedMotion ? undefined : "hover"}
                                 whileTap={prefersReducedMotion ? undefined : { scale: 0.994 }}
                                 variants={serviceCardHoverVariants}
+                                className="h-full"
                               >
                                 <Link
                                   href={service.href}
