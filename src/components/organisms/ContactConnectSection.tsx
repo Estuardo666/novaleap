@@ -353,8 +353,46 @@ const ContactConnectSection: React.FC<ContactConnectSectionProps> = ({ submitAct
             whileInView="show"
             viewport={NOVALEAP_VIEWPORT}
             variants={getNovaleapStaggerContainerVariants(prefersReducedMotion, 0.14, 0.08)}
-            className="mt-8 rounded-[2rem] border border-[#977abc47] bg-white/80 p-4 shadow-[0_32px_70px_-42px_rgba(17,34,78,0.34)] ring-1 ring-[#977abc47] backdrop-blur-xl sm:p-5"
+            aria-busy={isPending}
+            className={cn(
+              "mt-8 rounded-[2rem] border border-[#977abc47] bg-white/80 p-4 shadow-[0_32px_70px_-42px_rgba(17,34,78,0.34)] ring-1 ring-[#977abc47] backdrop-blur-xl sm:p-5",
+              isPending && "pointer-events-none"
+            )}
           >
+            <AnimatePresence initial={false}>
+              {isPending ? (
+                <motion.div
+                  key="sending-banner"
+                  initial={{ opacity: 0, y: -10, scale: 0.98 }}
+                  animate={{ opacity: 1, y: 0, scale: 1 }}
+                  exit={{ opacity: 0, y: -8, scale: 0.98 }}
+                  transition={{ type: "spring", stiffness: 220, damping: 22 }}
+                  className="mb-4 overflow-hidden rounded-[1.35rem] border border-novaleap-aqua/20 bg-[linear-gradient(135deg,rgba(0,183,181,0.12),rgba(151,122,188,0.08))]"
+                >
+                  <div className="flex items-start gap-3 px-4 py-3.5">
+                    <div className="mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-white/70 text-novaleap-aqua shadow-[0_14px_32px_-24px_rgba(0,183,181,0.55)]">
+                      <LoaderCircle className="h-4 w-4 animate-spin" />
+                    </div>
+                    <div>
+                      <p className="text-sm font-semibold tracking-tight text-novaleap-navy sm:text-[15px]">
+                        Sending your message securely...
+                      </p>
+                      <p className="mt-1 text-xs leading-relaxed text-novaleap-navy/72 sm:text-[13px]">
+                        Email delivery can take a few seconds while we confirm both the team message and your copy.
+                      </p>
+                    </div>
+                  </div>
+                  <motion.div
+                    aria-hidden="true"
+                    initial={{ x: "-100%" }}
+                    animate={{ x: "100%" }}
+                    transition={{ repeat: Infinity, duration: 1.15, ease: "linear" }}
+                    className="h-1.5 w-1/2 bg-[linear-gradient(90deg,rgba(0,183,181,0),rgba(0,183,181,0.9),rgba(151,122,188,0.9),rgba(151,122,188,0))]"
+                  />
+                </motion.div>
+              ) : null}
+            </AnimatePresence>
+
             <div className="grid gap-4 sm:grid-cols-2">
               <motion.div variants={getNovaleapRevealVariants(prefersReducedMotion, 18)} className="sm:col-span-2">
                 <label htmlFor="parentGuardianName" className="mb-1.5 block text-sm font-semibold text-novaleap-navy">
@@ -487,7 +525,7 @@ const ContactConnectSection: React.FC<ContactConnectSectionProps> = ({ submitAct
                 ) : null}
               </motion.div>
 
-              <Button type="submit" size="md" variant="secondary" disabled={isPending} className="w-full justify-center text-sm sm:text-base">
+              <Button type="submit" size="md" variant="secondary" disabled={isPending} className="w-full justify-center text-sm sm:text-base disabled:cursor-wait disabled:opacity-95">
                 <AnimatePresence mode="wait" initial={false}>
                   {isPending ? (
                     <motion.span
@@ -498,7 +536,7 @@ const ContactConnectSection: React.FC<ContactConnectSectionProps> = ({ submitAct
                       className="inline-flex items-center gap-2"
                     >
                       <LoaderCircle className="h-4 w-4 animate-spin" />
-                      Sending...
+                      Sending Message...
                     </motion.span>
                   ) : submissionResult.status === "success" ? (
                     <motion.span
@@ -528,18 +566,24 @@ const ContactConnectSection: React.FC<ContactConnectSectionProps> = ({ submitAct
 
               <div aria-live="polite" className="min-h-[22px] text-sm text-novaleap-navy/70">
                 <AnimatePresence mode="wait" initial={false}>
-                  {submissionResult.message ? (
+                  {submissionResult.message || isPending ? (
                     <motion.p
-                      key={submissionResult.status + submissionResult.message}
+                      key={isPending ? "pending-message" : submissionResult.status + submissionResult.message}
                       initial={{ opacity: 0, y: 8 }}
                       animate={{ opacity: 1, y: 0 }}
                       exit={{ opacity: 0, y: -8 }}
                       className={cn(
                         "font-medium",
-                        submissionResult.status === "error" ? "text-rose-500" : "text-emerald-600"
+                        isPending
+                          ? "text-novaleap-navy/72"
+                          : submissionResult.status === "error"
+                            ? "text-rose-500"
+                            : "text-emerald-600"
                       )}
                     >
-                      {submissionResult.message}
+                      {isPending
+                        ? "Please keep this page open while we finish delivery."
+                        : submissionResult.message}
                     </motion.p>
                   ) : null}
                 </AnimatePresence>

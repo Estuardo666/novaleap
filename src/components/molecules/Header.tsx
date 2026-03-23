@@ -20,7 +20,6 @@ const navItems = [
   { label: "Services", href: "/services" },
   { label: "Our Approach", href: "/our-approach" },
   { label: "Parents", href: "/parents" },
-  { label: "Presentación", href: "/presentacion" },
   { label: "Contact", href: "/contact" },
 ];
 
@@ -35,6 +34,7 @@ const navItems = [
 const Header: React.FC<HeaderProps> = ({ className }) => {
   const pathname = useClientPathname();
   const prefersReducedMotion = useReducedMotion();
+  const whatsappUrl = "https://wa.me/18458019053";
   const [isScrolled, setIsScrolled] = React.useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = React.useState(false);
   const [isDesktopServicesOpen, setIsDesktopServicesOpen] = React.useState(false);
@@ -59,6 +59,10 @@ const Header: React.FC<HeaderProps> = ({ className }) => {
       desktopServicesCloseTimeoutRef.current = null;
     }
   }, []);
+
+  const openWhatsAppContact = React.useCallback(() => {
+    window.open(whatsappUrl, "_blank", "noopener,noreferrer");
+  }, [whatsappUrl]);
 
   const openDesktopServicesMenu = React.useCallback(() => {
     clearDesktopServicesCloseTimeout();
@@ -609,6 +613,8 @@ const Header: React.FC<HeaderProps> = ({ className }) => {
           <Button
             variant={isScrolled ? "primary" : "secondary"}
             size="md"
+            type="button"
+            onClick={openWhatsAppContact}
             className={cn(
               "px-5 text-sm font-semibold",
               isScrolled ? "focus-visible:ring-novaleap-aqua" : "focus-visible:ring-novaleap-purple"
@@ -840,7 +846,17 @@ const Header: React.FC<HeaderProps> = ({ className }) => {
                 transition={{ delay: 0.12, type: "spring", stiffness: 180, damping: 20 }}
                 className="mt-4"
               >
-                <Button variant="primary" size="md" className="w-full text-sm font-semibold">
+                <Button
+                  variant="primary"
+                  size="md"
+                  type="button"
+                  onClick={() => {
+                    setIsMobileMenuOpen(false);
+                    setIsMobileServicesOpen(false);
+                    openWhatsAppContact();
+                  }}
+                  className="w-full text-sm font-semibold"
+                >
                   Contact / Schedule
                 </Button>
               </motion.div>
