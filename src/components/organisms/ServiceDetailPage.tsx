@@ -79,14 +79,28 @@ const signCardHoverPresets = [
   },
 ] as const;
 
+const challengeSubtitleBySign: Record<string, string> = {
+  "Torticollis": "Neck alignment",
+  "Plagiocephaly (flat head syndrome)": "Head shape support",
+  "Developmental delays": "Milestone progress",
+  "Ehlers-Danlos Syndrome": "Joint stability",
+  "Hypotonia (low muscle tone)": "Strength building",
+  "Toe walking": "Gait pattern",
+  "Intoeing and out toeing": "Foot alignment",
+  "Balance, coordination, and motor planning challenges": "Motor control",
+  "Neurological or genetic conditions": "Neuro support",
+  "Challenges affecting musculoskeletal system": "MSK function",
+  "Prematurity": "Early support",
+  "Juvenile rheumatoid arthritis": "Joint comfort",
+  "Orthopedic injuries": "Recovery support",
+  "Scoliosis": "Postural support",
+  "Deconditioning": "Endurance rebuild",
+};
+
 const ServiceDetailPage: React.FC<ServiceDetailPageProps> = ({ slug }) => {
   const prefersReducedMotion = useReducedMotion();
   const [openFaqIndex, setOpenFaqIndex] = React.useState(0);
   const [isVideoOpen, setIsVideoOpen] = React.useState(false);
-  const challengesSectionRef = React.useRef<HTMLElement | null>(null);
-  const challengesColumnRef = React.useRef<HTMLDivElement | null>(null);
-  const challengesContentRef = React.useRef<HTMLDivElement | null>(null);
-  const challengesAnimationFrameRef = React.useRef<number | null>(null);
   const service = React.useMemo(() => getServiceBySlug(slug), [slug]);
 
   if (!service) {
@@ -115,77 +129,6 @@ const ServiceDetailPage: React.FC<ServiceDetailPageProps> = ({ slug }) => {
       window.removeEventListener("keydown", onKeyDown);
     };
   }, [isVideoOpen]);
-
-  React.useEffect(() => {
-    if (service?.id !== "treatment") {
-      return;
-    }
-
-    const topOffset = 112;
-
-    const resetPinnedStyles = () => {
-      const columnNode = challengesColumnRef.current;
-      const contentNode = challengesContentRef.current;
-
-      if (!columnNode || !contentNode) {
-        return;
-      }
-
-      contentNode.style.transform = "";
-      contentNode.style.willChange = "";
-    };
-
-    const updatePinnedChallenges = () => {
-      const sectionNode = challengesSectionRef.current;
-      const columnNode = challengesColumnRef.current;
-      const contentNode = challengesContentRef.current;
-
-      if (!sectionNode || !columnNode || !contentNode) {
-        return;
-      }
-
-      const contentHeight = contentNode.offsetHeight;
-      contentNode.style.willChange = "transform";
-
-      if (window.innerWidth < 1024) {
-        resetPinnedStyles();
-        return;
-      }
-
-      const sectionRect = sectionNode.getBoundingClientRect();
-      const sectionTop = window.scrollY + sectionRect.top;
-      const sectionHeight = sectionNode.offsetHeight;
-      const maxTranslate = Math.max(0, sectionHeight - contentHeight);
-      const fixedStart = sectionTop - topOffset;
-      const nextTranslate = Math.min(Math.max(window.scrollY - fixedStart, 0), maxTranslate);
-
-      contentNode.style.transform = `translate3d(0, ${nextTranslate}px, 0)`;
-    };
-
-    const requestPinnedChallengesUpdate = () => {
-      if (challengesAnimationFrameRef.current !== null) {
-        return;
-      }
-
-      challengesAnimationFrameRef.current = window.requestAnimationFrame(() => {
-        challengesAnimationFrameRef.current = null;
-        updatePinnedChallenges();
-      });
-    };
-
-    updatePinnedChallenges();
-    window.addEventListener("scroll", requestPinnedChallengesUpdate, { passive: true });
-    window.addEventListener("resize", requestPinnedChallengesUpdate);
-
-    return () => {
-      if (challengesAnimationFrameRef.current !== null) {
-        window.cancelAnimationFrame(challengesAnimationFrameRef.current);
-      }
-      window.removeEventListener("scroll", requestPinnedChallengesUpdate);
-      window.removeEventListener("resize", requestPinnedChallengesUpdate);
-      resetPinnedStyles();
-    };
-  }, [service?.id]);
 
   return (
     <>
@@ -292,46 +235,43 @@ const ServiceDetailPage: React.FC<ServiceDetailPageProps> = ({ slug }) => {
         </motion.div>
       </section>
 
-      <section ref={challengesSectionRef} className="relative overflow-visible px-4 py-20 sm:px-6 sm:py-24 lg:px-8">
+      <section className="relative px-4 py-20 sm:px-6 sm:py-24 lg:px-8">
         <div className="mx-auto flex max-w-7xl flex-col gap-10 lg:flex-row lg:items-start lg:gap-16">
-          <div
-            ref={challengesColumnRef}
-            className="relative w-full lg:w-[42%]"
-          >
-            <div ref={challengesContentRef} className="max-w-xl h-fit">
-            <motion.div
-              initial="hidden"
-              whileInView="show"
-              viewport={NOVALEAP_VIEWPORT}
-              variants={getNovaleapStaggerContainerVariants(prefersReducedMotion, 0.08, 0.12)}
-            >
-              <motion.div variants={getNovaleapRevealVariants(prefersReducedMotion, 16)}>
-              <div className="inline-flex items-center gap-2 rounded-full border border-novaleap-aqua/28 bg-white/82 px-3 py-1 shadow-[0_16px_30px_-26px_rgba(17,34,78,0.2)]">
-                <p className="text-xs font-semibold uppercase tracking-wide text-novaleap-aqua">
-                  {service.whySection.pretitle}
-                </p>
-              </div>
-              </motion.div>
-
-              <motion.h2
-                variants={getNovaleapTitleContainerVariants(prefersReducedMotion, 0.08, 0.12)}
-                className="mt-5 text-balance text-4xl font-bold leading-[1.05] tracking-tight text-novaleap-navy sm:text-5xl"
+          <div className="relative w-full self-start lg:w-[42%]">
+            <div className="max-w-xl h-fit lg:sticky lg:top-28">
+              <motion.div
+                initial="hidden"
+                whileInView="show"
+                viewport={NOVALEAP_VIEWPORT}
+                variants={getNovaleapStaggerContainerVariants(prefersReducedMotion, 0.08, 0.12)}
               >
-                <motion.span
-                  variants={getNovaleapTitleLineVariants(prefersReducedMotion)}
-                  className="block text-balance"
+                <motion.div variants={getNovaleapRevealVariants(prefersReducedMotion, 16)}>
+                  <div className="inline-flex items-center gap-2 rounded-full border border-novaleap-aqua/28 bg-white/82 px-3 py-1 shadow-[0_16px_30px_-26px_rgba(17,34,78,0.2)]">
+                    <p className="text-xs font-semibold uppercase tracking-wide text-novaleap-aqua">
+                      {service.whySection.pretitle}
+                    </p>
+                  </div>
+                </motion.div>
+
+                <motion.h2
+                  variants={getNovaleapTitleContainerVariants(prefersReducedMotion, 0.08, 0.12)}
+                  className="mt-5 text-balance text-4xl font-bold leading-[1.05] tracking-tight text-novaleap-navy sm:text-5xl"
                 >
-                  {service.whySection.title}
-                </motion.span>
-              </motion.h2>
+                  <motion.span
+                    variants={getNovaleapTitleLineVariants(prefersReducedMotion)}
+                    className="block text-balance"
+                  >
+                    {service.whySection.title}
+                  </motion.span>
+                </motion.h2>
 
-              <motion.p
-                variants={getNovaleapRevealVariants(prefersReducedMotion, 18, 0.12)}
-                className="mt-6 text-left text-lg leading-relaxed text-novaleap-navy/80"
-              >
-                {service.whySection.description}
-              </motion.p>
-            </motion.div>
+                <motion.p
+                  variants={getNovaleapRevealVariants(prefersReducedMotion, 18, 0.12)}
+                  className="mt-6 text-left text-lg leading-relaxed text-novaleap-navy/80"
+                >
+                  {service.whySection.description}
+                </motion.p>
+              </motion.div>
             </div>
           </div>
 
@@ -439,9 +379,9 @@ const ServiceDetailPage: React.FC<ServiceDetailPageProps> = ({ slug }) => {
                           hover: { x: 2 },
                         }}
                         transition={{ type: "spring", stiffness: 220, damping: 24 }}
-                        className="mt-1.5 text-left text-sm leading-snug text-novaleap-navy/66"
+                        className="mt-1.5 text-left text-sm leading-snug text-novaleap-purple"
                       >
-                        {service.whySection.signsTitle}
+                        {challengeSubtitleBySign[sign] ?? "Targeted support"}
                       </motion.p>
                     </div>
                   </motion.div>

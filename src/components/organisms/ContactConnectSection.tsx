@@ -458,6 +458,10 @@ const ContactConnectSection: React.FC<ContactConnectSectionProps> = ({ submitAct
                 variants={getNovaleapRevealVariants(prefersReducedMotion, 18, 0.08)}
                 className="rounded-[1.2rem] border border-novaleap-navy/10 bg-white/72 p-4"
               >
+                <p id="payment-cancellation-note" className="mb-3 text-left text-xs leading-relaxed text-novaleap-navy/64 sm:text-[13px]">
+                  Please note: NovaLeap is an out-of-network provider, payment is due at the time of service, and appointments canceled with less than 24 hours&apos; notice may be subject to a cancellation fee.
+                </p>
+
                 <label htmlFor="consentToPolicies" className="flex cursor-pointer items-start gap-3 text-left">
                   <input
                     id="consentToPolicies"
@@ -465,7 +469,7 @@ const ContactConnectSection: React.FC<ContactConnectSectionProps> = ({ submitAct
                     type="checkbox"
                     required
                     className="mt-1 h-4 w-4 rounded border-novaleap-navy/30 text-novaleap-aqua focus:ring-2 focus:ring-novaleap-aqua/35"
-                    aria-describedby="consentToPolicies-note consentToPolicies-error"
+                    aria-describedby="payment-cancellation-note consentToPolicies-note consentToPolicies-error"
                   />
                   <span className="text-sm leading-relaxed text-novaleap-navy/76 sm:text-[15px]">
                     I agree that my information may be used to respond to my inquiry and I accept NovaLeap&apos;s <Link href="/privacy" className="font-semibold text-novaleap-purple underline decoration-novaleap-purple/35 underline-offset-4">Privacy Policy</Link> and <Link href="/terms-of-service" className="font-semibold text-novaleap-aqua underline decoration-novaleap-aqua/35 underline-offset-4">Terms of Service</Link>.
@@ -615,8 +619,11 @@ const ContactConnectSection: React.FC<ContactConnectSectionProps> = ({ submitAct
                 rotate={0.85}
                 prefersReducedMotion={Boolean(prefersReducedMotion)}
               >
-                <Link href="mailto:hello@novaleap.com" className="inline-flex font-medium text-novaleap-navy/80 transition-colors hover:text-novaleap-aqua">
-                  hello@novaleap.com
+                <Link href="mailto:jen@novaleappediatricpt.com" className="inline-flex font-medium text-novaleap-navy/80 transition-colors hover:text-novaleap-aqua">
+                  jen@novaleappediatricpt.com
+                </Link>
+                <Link href="mailto:krishna@novaleappediatricpt.com" className="inline-flex font-medium text-novaleap-navy/80 transition-colors hover:text-novaleap-aqua">
+                  krishna@novaleappediatricpt.com
                 </Link>
               </ContactInfoHoverCard>
 

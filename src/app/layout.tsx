@@ -43,13 +43,15 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${googleSans.className} ${googleSans.variable} flex min-h-screen flex-col antialiased`}>
-        <ChunkErrorRecovery />
-        <SmoothScroll />
-        <Header />
-        <main className="flex-1">{children}</main>
-        <Footer />
-        <CookieConsentToast />
+      <body className={`${googleSans.className} ${googleSans.variable} antialiased`}>
+        <div className="flex min-h-screen flex-col">
+          <ChunkErrorRecovery />
+          <SmoothScroll />
+          <Header />
+          <main className="flex-1">{children}</main>
+          <Footer />
+          <CookieConsentToast />
+        </div>
       </body>
     </html>
   );

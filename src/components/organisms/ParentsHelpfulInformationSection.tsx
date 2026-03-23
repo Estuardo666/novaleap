@@ -16,17 +16,27 @@ const faqItems = [
   {
     question: "What should my child wear?",
     answer:
-      "Please dress your child in comfortable, loose-fitting clothing and athletic shoes that allow for free movement and play.",
+      "Please dress your child in comfortable, loose-fitting clothing and athletic shoes that allow for free movement and play. Please also make sure you bring any orthotics or shoe inserts your child uses.",
   },
   {
     question: "Do I stay in the room during therapy?",
     answer:
-      "Absolutely! We believe parents are vital to the process. We encourage you to observe, participate, and learn the techniques so you can practice them at home.",
+      "Absolutely! We believe parents are vital to the process. We encourage you to observe, participate, and learn the techniques so you can practice them at home. You may stay in the waiting area if that results in your child's best participation. However, you will be invited to join at the end of the session to review carry-over activities and celebrate new skills.",
   },
   {
     question: "What do I need to bring to the first appointment?",
     answer:
-      "Please bring any relevant medical records, referral forms from your pediatrician, and your child's favorite small toy or snack to help them feel comfortable.",
+      "Please bring any relevant medical records, referral form from your pediatrician, and your child's favorite small toy/blankie to help them feel comfortable. Please make sure you have snacks before or after the session. A water bottle is always a plus to keep your child well hydrated.",
+  },
+  {
+    question: "Do you accept insurance?",
+    answer:
+      "We want to make things as simple as possible for your family. Our clinic is out-of-network with insurance companies, so payment is due at the time of your child's visit. Although we do not bill insurance directly, we will provide a detailed receipt (often called a superbill) after each session so you can request possible reimbursement through your insurance plan. Many families appreciate this approach because it allows us to focus on highly individualized, evidence-based care without insurance restrictions on how often or how long therapy can occur. Since every plan is different, we encourage you to contact your provider ahead of time to better understand your out-of-network benefits and potential reimbursement.",
+  },
+  {
+    question: "What is your cancellation policy?",
+    answer:
+      "To serve your child and all of our families as best as possible, we ask for at least 24 hours' notice if you need to cancel or reschedule an appointment. Late cancellations or missed appointments make it difficult for us to offer that time to another child who may be waiting for care. For this reason, appointments canceled with less than 24 hours' notice may be subject to a cancellation fee. We understand that unexpected situations can come up, especially with children, and we will always do our best to be understanding when emergencies arise.",
   },
 ];
 
@@ -155,6 +165,16 @@ const ParentsHelpfulInformationSection = () => {
             );
           })}
         </motion.div>
+
+        <motion.p
+          initial="hidden"
+          whileInView="show"
+          viewport={{ once: true, amount: 0.5 }}
+          variants={getNovaleapRevealVariants(prefersReducedMotion, 14, 0.12)}
+          className="mx-auto mt-12 max-w-2xl text-center text-base leading-relaxed text-novaleap-navy/70 sm:text-lg"
+        >
+          <strong className="font-semibold text-novaleap-navy">Let&apos;s take the first step together:</strong> Whether you&apos;re ready to schedule an evaluation or simply have a few questions, we&apos;d love to hear from you. Fill out the form below, and our caring team will reach out shortly.
+        </motion.p>
       </div>
     </section>
   );

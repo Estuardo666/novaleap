@@ -5,7 +5,7 @@ import { AnimatedPageBackground } from "@/components/organisms";
 export const metadata: Metadata = {
   title: "Terms of Service | NovaLeap",
   description:
-    "Review the terms that govern use of the NovaLeap website, including New York governing law, disclaimers, and communications terms.",
+    "Review NovaLeap website terms, including payment details, cancellation policy, New York governing law, and communication terms.",
 };
 
 const termsHighlights = [
@@ -128,8 +128,20 @@ const termsSections = [
     contactLines: [
       "NovaLeap Pediatric Physical Therapy",
       "26 Church Street, New Paltz, NY 12561",
-      "hello@novaleap.com",
+      "jen@novaleappediatricpt.com",
       "(845) 801 9053",
+    ],
+  },
+  {
+    title: "16. Payment and Cancellation Policy",
+    paragraphs: [
+      "To keep the process as simple as possible for families, NovaLeap operates as an out-of-network provider with insurance companies. Payment is due at the time of your child's visit.",
+      "While we do not bill insurance directly, we provide a detailed receipt (often called a superbill) after each session. Families may submit this receipt to their insurance provider to request possible reimbursement based on their plan.",
+      "Many families value this approach because it helps NovaLeap focus on individualized, evidence-based care without restrictions that insurance plans may place on frequency or duration of therapy.",
+      "Because every insurance plan is different, families are encouraged to contact their insurance provider in advance to understand out-of-network benefits and possible reimbursement.",
+      "To support all families as effectively as possible, NovaLeap requests at least 24 hours' notice for cancellations or rescheduling.",
+      "Late cancellations or missed appointments make it difficult to offer that time to another child waiting for care. Appointments canceled with less than 24 hours' notice may be subject to a cancellation fee.",
+      "NovaLeap understands that unexpected situations may occur, especially with children, and aims to respond with understanding when true emergencies arise.",
     ],
   },
 ];
@@ -197,7 +209,7 @@ export default function TermsOfServicePage() {
             <div className="rounded-[1.5rem] border border-novaleap-aqua/14 bg-novaleap-aqua/6 p-6">
               <h2 className="text-2xl font-bold tracking-tight text-novaleap-navy">More Information</h2>
               <p className="mt-3 text-left text-base leading-relaxed text-novaleap-navy/78 sm:text-lg">
-                For questions about these terms, email <Link href="mailto:hello@novaleap.com" className="font-semibold text-novaleap-purple underline decoration-novaleap-purple/40 underline-offset-4">hello@novaleap.com</Link>, call <Link href="tel:8458019053" className="font-semibold text-novaleap-aqua underline decoration-novaleap-aqua/45 underline-offset-4">(845) 801 9053</Link>, review our <Link href="/privacy" className="font-semibold text-novaleap-navy underline decoration-novaleap-navy/25 underline-offset-4">Privacy Policy</Link>, or visit <Link href="/contact" className="font-semibold text-novaleap-navy underline decoration-novaleap-navy/25 underline-offset-4">our contact page</Link>.
+                For questions about these terms, email <Link href="mailto:jen@novaleappediatricpt.com" className="font-semibold text-novaleap-purple underline decoration-novaleap-purple/40 underline-offset-4">jen@novaleappediatricpt.com</Link>, call <Link href="tel:8458019053" className="font-semibold text-novaleap-aqua underline decoration-novaleap-aqua/45 underline-offset-4">(845) 801 9053</Link>, review our <Link href="/privacy" className="font-semibold text-novaleap-navy underline decoration-novaleap-navy/25 underline-offset-4">Privacy Policy</Link>, or visit <Link href="/contact" className="font-semibold text-novaleap-navy underline decoration-novaleap-navy/25 underline-offset-4">our contact page</Link>.
               </p>
             </div>
           </div>

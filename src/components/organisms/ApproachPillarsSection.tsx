@@ -1,6 +1,6 @@
 "use client";
 
-import { Brain, HeartHandshake, Microscope, type LucideIcon } from "lucide-react";
+import { Brain, Microscope, Sparkles, type LucideIcon } from "lucide-react";
 import { motion, useReducedMotion } from "framer-motion";
 import {
   getNovaleapRevealVariants,
@@ -29,9 +29,9 @@ const pillarHeadingLines = ["The Three Pillars", "Behind Every Leap"];
 const pillars: Pillar[] = [
   {
     icon: Microscope,
-    title: "Evidence-Based Practice.",
+    title: "Evaluation",
     description:
-      "Every program is rooted in the latest pediatric research and standardized clinical assessments to ensure measurable progress.",
+      "Deep Dive assessment of your child's mobility, balance, strength, postural control, coordination, functional abilities while incorporating your family's goals and priorities.",
     glowClass:
       "bg-[radial-gradient(circle_at_top_left,rgba(0,183,181,0.26),transparent_64%)]",
     iconClass:
@@ -45,9 +45,9 @@ const pillars: Pillar[] = [
   },
   {
     icon: Brain,
-    title: "Holistic Development.",
+    title: "Holistic Development",
     description:
-      "We look beyond motor skills, integrating sensory regulation and emotional well-being into every session.",
+      "We look beyond motor skills by integrating sensory regulation and emotional well being into every session, ensuring that all aspects of development are interconnected and nurtured simultaneously.",
     glowClass:
       "bg-[radial-gradient(circle_at_top_left,rgba(151,122,188,0.28),transparent_64%)]",
     iconClass:
@@ -60,10 +60,10 @@ const pillars: Pillar[] = [
     hoverRotate: 1.2,
   },
   {
-    icon: HeartHandshake,
-    title: "Child-Centered Care.",
+    icon: Sparkles,
+    title: "Active Growth",
     description:
-      "Your child is the protagonist. We adapt every session to their unique energy, mood, and interests to foster confidence.",
+      "Play-filled sessions that challenge your child to get incrementally better at a task overtime. Each achievement and experience adds to their growing confidence and continued progress.",
     glowClass:
       "bg-[radial-gradient(circle_at_top_left,rgba(255,194,102,0.3),transparent_64%)]",
     iconClass:

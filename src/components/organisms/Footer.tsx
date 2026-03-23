@@ -217,12 +217,20 @@ const Footer: React.FC = () => {
                 <span className="mt-0.5 inline-flex h-9 w-9 flex-none items-center justify-center rounded-[0.9rem] bg-[linear-gradient(135deg,rgba(255,255,255,0.14),rgba(151,122,188,0.12))] text-white shadow-[0_18px_30px_-24px_rgba(17,34,78,0.42)]">
                   <Mail className="h-4 w-4" strokeWidth={2.1} />
                 </span>
-                <Link
-                  href="mailto:hello@novaleap.com"
-                  className="text-left text-base leading-relaxed transition-colors duration-300 hover:text-novaleap-aqua focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/80 focus-visible:ring-offset-2 focus-visible:ring-offset-novaleap-purple"
-                >
-                  hello@novaleap.com
-                </Link>
+                <div className="flex flex-col gap-1">
+                  <Link
+                    href="mailto:jen@novaleappediatricpt.com"
+                    className="text-left text-base leading-relaxed transition-colors duration-300 hover:text-novaleap-aqua focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/80 focus-visible:ring-offset-2 focus-visible:ring-offset-novaleap-purple"
+                  >
+                    jen@novaleappediatricpt.com
+                  </Link>
+                  <Link
+                    href="mailto:krishna@novaleappediatricpt.com"
+                    className="text-left text-base leading-relaxed transition-colors duration-300 hover:text-novaleap-aqua focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/80 focus-visible:ring-offset-2 focus-visible:ring-offset-novaleap-purple"
+                  >
+                    krishna@novaleappediatricpt.com
+                  </Link>
+                </div>
               </div>
             </div>
           </motion.div>

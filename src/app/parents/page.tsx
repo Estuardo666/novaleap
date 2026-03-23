@@ -10,7 +10,7 @@ import {
 export const metadata: Metadata = {
   title: "Parents | NovaLeap",
   description:
-    "Supportive guidance, clear expectations, and practical resources for parents starting pediatric therapy with NovaLeap.",
+    "Supportive guidance, practical FAQs, and clear expectations for NovaLeap families, including visit prep, payment details, and cancellation policy.",
 };
 
 export default function ParentsPage() {

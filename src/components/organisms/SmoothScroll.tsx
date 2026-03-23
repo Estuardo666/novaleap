@@ -27,7 +27,6 @@ const SmoothScroll: React.FC = () => {
     const hasCoarsePointer = window.matchMedia("(pointer: coarse)").matches;
     const hasNoHover = window.matchMedia("(hover: none)").matches;
 
-    // Keep native momentum scrolling on touch devices to avoid jank.
     if (hasCoarsePointer || hasNoHover) {
       return undefined;
     }

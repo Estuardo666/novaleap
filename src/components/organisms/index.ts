@@ -16,6 +16,7 @@ export { default as WhyUsSection } from "./WhyUsSection";
 export { default as CookieConsentToast } from "./CookieConsentToast";
 export { default as WhoWeAreSection } from "./WhoWeAreSection";
 export { default as PlayWithPurposeSection } from "./PlayWithPurposeSection";
+export { default as TeamSection } from "./TeamSection";
 export { default as OurValuesSection } from "./OurValuesSection";
 export { default as CtaSection } from "./CtaSection";
 export { default as ServicesHeroSection } from "./ServicesHeroSection";

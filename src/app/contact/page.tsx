@@ -4,7 +4,8 @@ import { submitContactForm } from "./actions";
 
 export const metadata: Metadata = {
   title: "Contact | NovaLeap",
-  description: "Get in touch with NovaLeap to ask questions, schedule an evaluation, or find our New Paltz office.",
+  description:
+    "Contact NovaLeap to ask questions, schedule an evaluation, and learn about payment options, insurance reimbursement, and cancellation policies.",
 };
 
 export default function ContactPage() {

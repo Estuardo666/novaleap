@@ -213,13 +213,13 @@ const ServicesSection: React.FC<ServicesSectionProps> = ({ sizeVariant = "defaul
               variants={getNovaleapTitleLineVariants(prefersReducedMotion)}
               className="block text-balance"
             >
-              Two Services
+              Nurturing Movement,
             </motion.span>
             <motion.span
               variants={getNovaleapTitleLineVariants(prefersReducedMotion)}
               className="block text-balance"
             >
-              To Support Your Child
+              Empowering Potential
             </motion.span>
           </motion.h2>
 
@@ -233,7 +233,7 @@ const ServicesSection: React.FC<ServicesSectionProps> = ({ sizeVariant = "defaul
               isExpanded ? "max-w-3xl text-lg sm:text-[1.32rem]" : "max-w-2xl text-lg sm:text-xl"
             )}
           >
-            Each service is designed to <strong className="font-semibold text-novaleap-navy">meet your child where they are</strong>, provide clear direction, and <strong className="font-semibold text-novaleap-navy">build meaningful progress with your family</strong>.
+            At NovaLeap, we bring together <strong className="font-semibold text-novaleap-navy">evidence-based clinical expertise with the simple joy of play</strong>. Led by our dedicated therapists, Jen and Krishna, we <strong className="font-semibold text-novaleap-navy">support your child exactly where they are</strong>, turning every challenge into a meaningful step forward for the whole family.
           </motion.p>
           </div>
         )}

@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { ArrowDown } from "lucide-react";
+import { ArrowDown, ExternalLink } from "lucide-react";
 import { motion, useReducedMotion } from "framer-motion";
 import { getButtonClasses } from "@/components/atoms";
 import {
@@ -84,7 +84,7 @@ const ParentsHeroSection = () => {
             className="mx-auto mt-6 max-w-2xl text-lg leading-relaxed text-novaleap-navy/75 sm:text-xl"
           >
             <p>
-              We know that navigating pediatric therapy can feel <strong className="font-semibold text-novaleap-navy">overwhelming</strong>. That&apos;s why we are here to guide you every step of the way. We provide the clarity, resources, and <strong className="font-semibold text-novaleap-navy">emotional support</strong> your family needs to celebrate every milestone together.
+              As parents of four children, we know that navigating parenting alone can feel <strong className="font-semibold text-novaleap-navy">overwhelming</strong>. When a child requires physical therapy, the questions, appointments, and uncertainty can add another layer of challenge. That&apos;s why we are here to guide you every step of the way. We provide the clarity, resources, and <strong className="font-semibold text-novaleap-navy">support</strong> your family needs to walk this journey together.
             </p>
           </motion.div>
 
@@ -120,12 +120,35 @@ const ParentsHeroSection = () => {
             </Link>
           </motion.div>
 
-          <motion.p
-            variants={getNovaleapRevealVariants(prefersReducedMotion, 14, 0.26)}
-            className="mx-auto mt-6 max-w-2xl text-center text-sm font-medium tracking-tight text-novaleap-navy/62 sm:text-base"
+          <motion.div
+            variants={getNovaleapRevealVariants(prefersReducedMotion, 14, 0.28)}
+            className="mt-4 flex w-full flex-col items-center text-center"
           >
-            Gentle guidance, clear next steps, and a team that sees the whole family.
-          </motion.p>
+            <p className="text-xs font-semibold uppercase tracking-[0.14em] text-novaleap-navy/56">
+              Recommended Resources
+            </p>
+            <div className="mt-2.5 flex flex-wrap items-center justify-center gap-2">
+              <Link
+                href="https://www.peacefulparenthappykids.com/"
+                target="_blank"
+                rel="noreferrer"
+                className="inline-flex items-center gap-1.5 rounded-full border border-novaleap-navy/22 bg-white/72 px-3 py-1 text-[11px] font-medium tracking-tight text-novaleap-navy/72 transition-colors duration-200 hover:border-novaleap-aqua/50 hover:text-novaleap-navy focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-novaleap-aqua focus-visible:ring-offset-2"
+              >
+                <span>Peaceful Parent Happy Kids</span>
+                <ExternalLink className="h-3 w-3" aria-hidden="true" />
+              </Link>
+              <Link
+                href="https://playfulparenting.com/"
+                target="_blank"
+                rel="noreferrer"
+                className="inline-flex items-center gap-1.5 rounded-full border border-novaleap-navy/22 bg-white/72 px-3 py-1 text-[11px] font-medium tracking-tight text-novaleap-navy/72 transition-colors duration-200 hover:border-novaleap-aqua/50 hover:text-novaleap-navy focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-novaleap-aqua focus-visible:ring-offset-2"
+              >
+                <span>Playful Parenting</span>
+                <ExternalLink className="h-3 w-3" aria-hidden="true" />
+              </Link>
+            </div>
+          </motion.div>
+
         </motion.div>
       </div>
     </section>

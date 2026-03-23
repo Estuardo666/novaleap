@@ -5,6 +5,9 @@
 @layer base {
   html {
     scroll-behavior: auto;
+    min-height: 100%;
+    overflow-y: auto;
+    overflow-x: hidden;
   }
 
   ::selection {
@@ -36,6 +39,9 @@
     @apply bg-gradient-to-br from-white via-mint-50 to-novaleap-aqua/10;
     font-family: var(--font-google-sans), sans-serif;
     color: #11224e;
+    min-height: 100%;
+    overflow-x: hidden;
+    overflow-y: visible;
   }
 
   /* Global paragraph standard requested by content direction */

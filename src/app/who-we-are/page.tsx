@@ -4,6 +4,7 @@ import {
   CtaSection,
   OurValuesSection,
   PlayWithPurposeSection,
+  TeamSection,
   WhoWeAreSection,
 } from "@/components/organisms";
 
@@ -18,6 +19,7 @@ export default function WhoWeArePage() {
     <AnimatedPageBackground>
       <WhoWeAreSection />
       <PlayWithPurposeSection />
+      <TeamSection />
       <OurValuesSection />
       <CtaSection
         pretitle="Start Your Journey"

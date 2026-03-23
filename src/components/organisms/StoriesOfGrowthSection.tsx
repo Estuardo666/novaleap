@@ -13,48 +13,28 @@ import {
 } from "@/lib/novaleapMotion";
 import { cn } from "@/lib/utils";
 
-const familyStories = [
-  {
-    focus: "Play-based progress",
-    image:
-      "https://images.pexels.com/photos/8613314/pexels-photo-8613314.jpeg?auto=compress&cs=tinysrgb&w=1200",
-    imageAlt: "A smiling child enjoying a playful pediatric therapy session with a therapist.",
-    imagePosition: "center 42%",
-    quote:
-      '"Leo used to cry at medical appointments, but he literally begs to go to Novaleap. The therapists are so warm, and the play-based approach is incredible. He does not even realize he is doing hard work. He is walking with so much confidence now!"',
-    author: "Sarah T.",
-    detail: "Mom of Leo, 3 years old",
-  },
-  {
-    focus: "Milestones at home",
-    image:
-      "https://images.pexels.com/photos/8943180/pexels-photo-8943180.jpeg?auto=compress&cs=tinysrgb&w=1200",
-    imageAlt: "A child practicing motor development milestones during guided therapy.",
-    imagePosition: "center 36%",
-    quote:
-      '"We were so overwhelmed when we first noticed Sofia\'s motor delays. The team at Novaleap did not just help her catch up; they empowered us as parents with simple tools to use at home. The progress she has made in just a few months is truly life-changing."',
-    author: "Michael & Elena R.",
-    detail: "Parents of Sofia, 5 years old",
-  },
-  {
-    focus: "Safe, joyful care",
-    image:
-      "https://images.pexels.com/photos/7088524/pexels-photo-7088524.jpeg?auto=compress&cs=tinysrgb&w=1200",
-    imageAlt: "A child and therapist sharing a calm, supportive moment during pediatric physical therapy.",
-    imagePosition: "center 32%",
-    quote:
-      '"From the moment you walk through the doors, you feel completely supported. The therapists are incredibly patient and genuinely celebrate every little victory Ethan achieves. It is a safe, joyful environment where kids can just be kids while getting the best care."',
-    author: "Jessica W.",
-    detail: "Mom of Ethan, 7 years old",
-  },
-] as const;
+const featuredStory = {
+  focus: "Verified Parent Review",
+  image:
+    "https://images.pexels.com/photos/8613090/pexels-photo-8613090.jpeg?auto=compress&cs=tinysrgb&w=1400",
+  imageAlt: "Parent and child sharing a joyful therapy moment with a pediatric therapist.",
+  imagePosition: "center 40%",
+  quoteParagraphs: [
+    "Ms. Jen was absolutely amazing with both of my children. We first met her when she evaluated our daughter at eight months old, and she immediately stood out as being a strengths-based service provider. During a stressful time, she was the only evaluator who asked about our daughter's strengths, something that reflects her approach as a therapist.",
+    "She is kind, patient, and encouraging, while also knowing when to be firm to support progress. Ms. Jen is extremely active during sessions, modeling skills, ensuring positional safety, and giving parents clear updates on progress along with practical strategies to work on at home.",
+    "We saw so much growth and improvement in both of our children and attribute so much of that to her dedication and expertise. She is also a great team player, working seamlessly with other providers (in our case an OT, a neurologist, and a physiatrist) to support the whole child.",
+    "Most importantly, she makes therapy fun and meaningful, helping children build skills that are challenging for them in an engaging and supportive way. We are incredibly grateful for Ms. Jen and cannot recommend her highly enough!",
+  ],
+  author: "Michelle",
+  detail: "Yonkers, N.Y.",
+} as const;
 
 interface StoryCardProps {
   focus: string;
   image: string;
   imageAlt: string;
   imagePosition: string;
-  quote: string;
+  quoteParagraphs: readonly string[];
   author: string;
   detail: string;
   prefersReducedMotion: boolean;
@@ -66,7 +46,7 @@ const StoryCard: React.FC<StoryCardProps> = ({
   image,
   imageAlt,
   imagePosition,
-  quote,
+  quoteParagraphs,
   author,
   detail,
   prefersReducedMotion,
@@ -121,9 +101,13 @@ const StoryCard: React.FC<StoryCardProps> = ({
           </div>
         </div>
 
-        <p className="relative mt-5 text-[0.92rem] leading-relaxed text-novaleap-navy/82 italic sm:text-[0.95rem]">
-          {quote}
-        </p>
+        <div className="relative mt-5 space-y-4">
+          {quoteParagraphs.map((paragraph) => (
+            <p key={paragraph} className="text-[0.97rem] leading-relaxed text-novaleap-navy/82 sm:text-base">
+              {paragraph}
+            </p>
+          ))}
+        </div>
 
         <div className="mt-6 border-t border-novaleap-navy/8 pt-5">
           <p className="text-[0.98rem] font-semibold tracking-tight text-novaleap-navy">{author}</p>
@@ -145,29 +129,32 @@ const StoryCard: React.FC<StoryCardProps> = ({
  */
 const StoriesOfGrowthSection: React.FC = () => {
   const prefersReducedMotion = useReducedMotion();
-  const viewportRef = React.useRef<HTMLDivElement>(null);
-  const trackRef = React.useRef<HTMLDivElement>(null);
-  const [dragLimit, setDragLimit] = React.useState(0);
-
-  React.useEffect(() => {
-    const viewportNode = viewportRef.current;
-    const trackNode = trackRef.current;
-
-    if (!viewportNode || !trackNode) return;
-
-    const updateDragLimit = () => {
-      const nextLimit = Math.max(trackNode.scrollWidth - viewportNode.clientWidth, 0);
-      setDragLimit(nextLimit);
-    };
-
-    updateDragLimit();
-
-    const resizeObserver = new ResizeObserver(updateDragLimit);
-    resizeObserver.observe(viewportNode);
-    resizeObserver.observe(trackNode);
-
-    return () => resizeObserver.disconnect();
-  }, []);
+  const reviewSchema = React.useMemo(
+    () => ({
+      "@context": "https://schema.org",
+      "@type": "Review",
+      itemReviewed: {
+        "@type": "LocalBusiness",
+        name: "NovaLeap Pediatric Physical Therapy",
+      },
+      author: {
+        "@type": "Person",
+        name: featuredStory.author,
+      },
+      reviewRating: {
+        "@type": "Rating",
+        ratingValue: "5",
+        bestRating: "5",
+      },
+      name: "Parent testimonial for Ms. Jen",
+      reviewBody: featuredStory.quoteParagraphs.join(" "),
+      publisher: {
+        "@type": "Organization",
+        name: "NovaLeap Pediatric Physical Therapy",
+      },
+    }),
+    []
+  );
 
   return (
     <section
@@ -199,7 +186,7 @@ const StoriesOfGrowthSection: React.FC = () => {
                 className="mx-auto inline-flex items-center gap-2 rounded-full border border-novaleap-aqua/35 bg-white/70 px-3 py-1 backdrop-blur-sm"
               >
                 <p className="text-xs font-semibold uppercase tracking-wide text-novaleap-aqua">
-                  Family Stories
+                  Family Story
                 </p>
               </motion.div>
 
@@ -232,7 +219,7 @@ const StoriesOfGrowthSection: React.FC = () => {
                 variants={getNovaleapRevealVariants(prefersReducedMotion, 22, 0.08)}
                 className="mx-auto mt-5 max-w-2xl text-lg leading-relaxed text-novaleap-navy/75 sm:text-xl"
               >
-                Every milestone reached is a victory we celebrate together. Here is what parents are saying about their journey with us.
+                A real parent experience from our NovaLeap community.
               </motion.p>
             </div>
 
@@ -241,69 +228,27 @@ const StoriesOfGrowthSection: React.FC = () => {
               whileInView="show"
               viewport={{ once: true, amount: 0.2 }}
               variants={getNovaleapStaggerContainerVariants(prefersReducedMotion, 0.1, 0.12)}
-              className="mt-12 hidden md:grid md:grid-cols-3 md:gap-6"
+              className="mx-auto mt-12 max-w-4xl"
             >
-              {familyStories.map((story) => (
-                <StoryCard
-                  key={story.author}
-                  focus={story.focus}
-                  image={story.image}
-                  imageAlt={story.imageAlt}
-                  imagePosition={story.imagePosition}
-                  quote={story.quote}
-                  author={story.author}
-                  detail={story.detail}
-                  prefersReducedMotion={Boolean(prefersReducedMotion)}
-                />
-              ))}
+              <StoryCard
+                focus={featuredStory.focus}
+                image={featuredStory.image}
+                imageAlt={featuredStory.imageAlt}
+                imagePosition={featuredStory.imagePosition}
+                quoteParagraphs={featuredStory.quoteParagraphs}
+                author={featuredStory.author}
+                detail={featuredStory.detail}
+                prefersReducedMotion={Boolean(prefersReducedMotion)}
+              />
             </motion.div>
-
-            <div className="mt-12 md:hidden">
-              <div
-                ref={viewportRef}
-                className="overflow-hidden"
-                role="region"
-                aria-roledescription="carousel"
-                aria-label="Stories from NovaLeap families"
-              >
-                <motion.div
-                  ref={trackRef}
-                  drag={dragLimit > 0 ? "x" : false}
-                  dragConstraints={{ left: -dragLimit, right: 0 }}
-                  dragElastic={0.08}
-                  className="flex cursor-grab gap-5 active:cursor-grabbing"
-                >
-                  {familyStories.map((story) => (
-                    <div key={`mobile-${story.author}`} className="w-[min(84vw,22rem)] min-w-0 shrink-0">
-                      <StoryCard
-                        focus={story.focus}
-                        image={story.image}
-                        imageAlt={story.imageAlt}
-                        imagePosition={story.imagePosition}
-                        quote={story.quote}
-                        author={story.author}
-                        detail={story.detail}
-                        prefersReducedMotion={Boolean(prefersReducedMotion)}
-                        className="h-full"
-                      />
-                    </div>
-                  ))}
-                </motion.div>
-              </div>
-
-              <motion.p
-                initial="hidden"
-                whileInView="show"
-                viewport={{ once: true }}
-                variants={getNovaleapRevealVariants(prefersReducedMotion, 16, 0.06)}
-                className="mt-5 text-center text-sm font-medium text-novaleap-navy/56"
-              >
-                Drag to explore more family stories.
-              </motion.p>
-            </div>
           </div>
         </div>
       </div>
+
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(reviewSchema) }}
+      />
     </section>
   );
 };
