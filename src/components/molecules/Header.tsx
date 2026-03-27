@@ -6,12 +6,15 @@ import Image from "next/image";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { ArrowRight, ChevronDown } from "lucide-react";
 import { Button, getButtonClasses } from "@/components/atoms";
+import ContactScheduleModal from "./ContactScheduleModal";
 import { useClientPathname } from "@/hooks";
 import { servicesCatalog } from "@/lib/servicesCatalog";
 import { cn } from "@/lib/utils";
+import type { ContactSubmitAction } from "@/types/contact";
 
 interface HeaderProps {
   className?: string;
+  submitContactAction: ContactSubmitAction;
 }
 
 const navItems = [
@@ -31,14 +34,14 @@ const navItems = [
  * @example
  * <Header className="mb-8" />
  */
-const Header: React.FC<HeaderProps> = ({ className }) => {
+const Header: React.FC<HeaderProps> = ({ className, submitContactAction }) => {
   const pathname = useClientPathname();
   const prefersReducedMotion = useReducedMotion();
-  const whatsappUrl = "https://wa.me/18458019053";
   const [isScrolled, setIsScrolled] = React.useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = React.useState(false);
   const [isDesktopServicesOpen, setIsDesktopServicesOpen] = React.useState(false);
   const [isMobileServicesOpen, setIsMobileServicesOpen] = React.useState(false);
+  const [isContactModalOpen, setIsContactModalOpen] = React.useState(false);
   const desktopServicesRef = React.useRef<HTMLDivElement>(null);
   const desktopServicesCloseTimeoutRef = React.useRef<number | null>(null);
 
@@ -60,9 +63,13 @@ const Header: React.FC<HeaderProps> = ({ className }) => {
     }
   }, []);
 
-  const openWhatsAppContact = React.useCallback(() => {
-    window.open(whatsappUrl, "_blank", "noopener,noreferrer");
-  }, [whatsappUrl]);
+  const openContactModal = React.useCallback(() => {
+    setIsContactModalOpen(true);
+  }, []);
+
+  const closeContactModal = React.useCallback(() => {
+    setIsContactModalOpen(false);
+  }, []);
 
   const openDesktopServicesMenu = React.useCallback(() => {
     clearDesktopServicesCloseTimeout();
@@ -120,6 +127,7 @@ const Header: React.FC<HeaderProps> = ({ className }) => {
         setIsDesktopServicesOpen(false);
         setIsMobileServicesOpen(false);
         setIsMobileMenuOpen(false);
+        setIsContactModalOpen(false);
       }
     };
 
@@ -614,7 +622,7 @@ const Header: React.FC<HeaderProps> = ({ className }) => {
             variant={isScrolled ? "primary" : "secondary"}
             size="md"
             type="button"
-            onClick={openWhatsAppContact}
+            onClick={openContactModal}
             className={cn(
               "px-5 text-sm font-semibold",
               isScrolled ? "focus-visible:ring-novaleap-aqua" : "focus-visible:ring-novaleap-purple"
@@ -853,7 +861,7 @@ const Header: React.FC<HeaderProps> = ({ className }) => {
                   onClick={() => {
                     setIsMobileMenuOpen(false);
                     setIsMobileServicesOpen(false);
-                    openWhatsAppContact();
+                    openContactModal();
                   }}
                   className="w-full text-sm font-semibold"
                 >
@@ -863,6 +871,12 @@ const Header: React.FC<HeaderProps> = ({ className }) => {
             </motion.div>
           ) : null}
         </AnimatePresence>
+
+        <ContactScheduleModal
+          isOpen={isContactModalOpen}
+          onClose={closeContactModal}
+          submitAction={submitContactAction}
+        />
       </motion.header>
     </div>
   );

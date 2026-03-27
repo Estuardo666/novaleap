@@ -38,7 +38,7 @@ const teamMembers: TeamMember[] = [
     shortDescription:
       "More than 20 years supporting children through joyful, play-based movement and individualized pediatric care.",
     imageSrc:
-      "https://images.unsplash.com/photo-1559839734-2b71ea197ec2?auto=format&fit=crop&w=1200&q=80",
+      "/media/Jenzpher%20Finkenberg.jpg",
     imageAlt: "Pediatric therapist smiling in a bright clinical setting",
     accent: "aqua",
     email: "jen@novaleappediatricpt.com",
@@ -57,7 +57,7 @@ const teamMembers: TeamMember[] = [
     shortDescription:
       "Serving children across New York City and Westchester with pediatric therapy and evaluations since 2002.",
     imageSrc:
-      "https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?auto=format&fit=crop&w=1200&q=80",
+      "/media/Krishna%20Finkenberg.jpg",
     imageAlt: "Physical therapist standing confidently in a treatment environment",
     accent: "purple",
     email: "krishna@novaleappediatricpt.com",
@@ -231,7 +231,7 @@ const TeamSection: React.FC = () => {
                           alt={member.imageAlt}
                           fill
                           sizes="(max-width: 1024px) 100vw, 50vw"
-                          className="object-cover"
+                          className="object-cover object-top"
                         />
                         <div className={cn("absolute inset-0 bg-gradient-to-t", accent.overlay)} />
                       </div>
@@ -343,7 +343,7 @@ const TeamSection: React.FC = () => {
                     alt={activeMember.imageAlt}
                     fill
                     sizes="380px"
-                    className="object-cover"
+                    className="object-cover object-top"
                   />
                   <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(17,34,78,0.06),rgba(17,34,78,0.48))]" />
                 </div>

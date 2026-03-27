@@ -36,14 +36,14 @@ const familyLinks = [
 const socialLinks = [
   {
     label: "Instagram",
-    href: "https://www.instagram.com/",
+    href: "https://www.instagram.com/novaleap.pt?igsh=MW5qdzVveHRzMWQ0Zw==",
     icon: Instagram,
     iconWrapClass: "bg-[linear-gradient(135deg,rgba(151,122,188,0.28),rgba(0,183,181,0.18))] border-novaleap-purple/35 text-novaleap-purple",
     hoverClass: "hover:text-novaleap-purple",
   },
   {
     label: "Facebook",
-    href: "https://www.facebook.com/",
+    href: "https://www.facebook.com/profile.php?id=61587222791609",
     icon: Facebook,
     iconWrapClass: "bg-[linear-gradient(135deg,rgba(0,183,181,0.24),rgba(255,255,255,0.08))] border-novaleap-aqua/35 text-novaleap-aqua",
     hoverClass: "hover:text-novaleap-aqua",

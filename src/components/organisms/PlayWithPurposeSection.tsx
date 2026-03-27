@@ -243,12 +243,12 @@ const PlayWithPurposeSection: React.FC = () => {
         <motion.div variants={contentVariants} className="space-y-5">
           <div className="overflow-hidden rounded-[2rem] border border-novaleap-navy/10 bg-slate-200 shadow-[0_18px_55px_-35px_rgba(17,34,78,0.45)]">
             <Image
-              src="https://images.unsplash.com/photo-1503454537195-1dcabb73ffb9?auto=format&fit=crop&w=1200&q=80"
+              src="/media/novaleap-pic-3.jpg"
               alt="Child experiencing joy during playful therapy session"
               width={1200}
               height={850}
               sizes="(max-width: 1024px) 100vw, 526px"
-              className="h-[230px] w-full object-cover sm:h-[280px] lg:h-[366px]"
+              className="h-[300px] w-full object-cover object-top sm:h-[380px] lg:h-[450px]"
             />
           </div>
           <div className="overflow-hidden rounded-[2rem] border border-novaleap-navy/10 bg-slate-200 shadow-[0_18px_55px_-35px_rgba(17,34,78,0.45)]">

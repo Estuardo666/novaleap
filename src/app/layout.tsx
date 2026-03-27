@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import Header from "@/components/molecules/Header";
+import { submitContactForm } from "@/app/contact/actions";
 import { ChunkErrorRecovery, CookieConsentToast, Footer, SmoothScroll } from "@/components/organisms";
 import "./globals.css";
 
@@ -47,7 +48,7 @@ export default function RootLayout({
         <div className="flex min-h-screen flex-col">
           <ChunkErrorRecovery />
           <SmoothScroll />
-          <Header />
+          <Header submitContactAction={submitContactForm} />
           <main className="flex-1">{children}</main>
           <Footer />
           <CookieConsentToast />

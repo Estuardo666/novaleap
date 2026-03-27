@@ -68,7 +68,7 @@ const WhoWeAreSection: React.FC = () => {
             At NovaLeap, we are a <strong className="font-semibold text-novaleap-navy">child-centered practice</strong> dedicated to helping children move, grow, and thrive. Through play-based, evidence-informed therapy, we support meaningful progress that helps children participate more confidently in everyday life.
           </>
         }
-        imageSrc="/Novaleap BG.jpg"
+        imageSrc="/media/who-we-are-hero.jpg"
         imageAlt="Pediatric physical therapist supporting a child during a movement activity"
         imagePosition="center 42%"
       />
@@ -85,22 +85,12 @@ const WhoWeAreSection: React.FC = () => {
           <motion.div variants={itemVariants} className="space-y-5">
             <div className="overflow-hidden rounded-[2rem] border border-novaleap-navy/10 bg-slate-200 shadow-[0_18px_55px_-35px_rgba(17,34,78,0.45)]">
               <Image
-                src="https://images.unsplash.com/photo-1516627145497-ae6968895b74?auto=format&fit=crop&w=1200&q=80"
+                src="/media/novaleap%20about%20us.jpg"
                 alt="Therapist and child practicing playful balance exercises"
                 width={1200}
                 height={850}
                 sizes="(max-width: 1024px) 100vw, 526px"
                 className="h-[230px] w-full object-cover sm:h-[280px] lg:h-[366px]"
-              />
-            </div>
-            <div className="overflow-hidden rounded-[2rem] border border-novaleap-navy/10 bg-slate-200 shadow-[0_18px_55px_-35px_rgba(17,34,78,0.45)]">
-              <Image
-                src="https://images.unsplash.com/photo-1576765608535-5f04d1e3f289?auto=format&fit=crop&w=1200&q=80"
-                alt="Parent and child sharing a happy moment after therapy"
-                width={1200}
-                height={700}
-                sizes="(max-width: 1024px) 100vw, 526px"
-                className="h-[180px] w-full object-cover sm:h-[230px] lg:h-[266px]"
               />
             </div>
           </motion.div>

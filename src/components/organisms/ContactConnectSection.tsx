@@ -35,7 +35,7 @@ const socialLinks = [
   {
     label: "Facebook",
     handle: "Follow our family updates",
-    href: "https://www.facebook.com/",
+    href: "https://www.facebook.com/profile.php?id=61587222791609",
     icon: Facebook,
     hoverBorder: "rgba(24, 119, 242, 0.28)",
     hoverShadow: "0 28px 54px -34px rgba(24, 119, 242, 0.34)",
@@ -48,7 +48,7 @@ const socialLinks = [
   {
     label: "Instagram",
     handle: "See therapy moments",
-    href: "https://www.instagram.com/",
+    href: "https://www.instagram.com/novaleap.pt?igsh=MW5qdzVveHRzMWQ0Zw==",
     icon: Instagram,
     hoverBorder: "rgba(225, 48, 108, 0.26)",
     hoverShadow: "0 28px 54px -34px rgba(225, 48, 108, 0.32)",

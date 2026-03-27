@@ -3,6 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { motion, useReducedMotion } from "framer-motion";
+import { useEffect, useState } from "react";
 import { getButtonClasses } from "@/components/atoms";
 import {
   getNovaleapButtonEntranceVariants,
@@ -29,6 +30,17 @@ const mobileHeroHeading = "Support that helps your child focus on what matters m
  */
 const Hero: React.FC = () => {
   const prefersReducedMotion = useReducedMotion();
+  const [shouldLoadVideo, setShouldLoadVideo] = useState(false);
+  const [isVideoReady, setIsVideoReady] = useState(false);
+
+  useEffect(() => {
+    // Delay video fetch so critical text and layout paint first.
+    const timerId = window.setTimeout(() => {
+      setShouldLoadVideo(true);
+    }, 900);
+
+    return () => window.clearTimeout(timerId);
+  }, []);
 
   const contentVariants = {
     hidden: { opacity: 0 },
@@ -65,7 +77,24 @@ const Hero: React.FC = () => {
         className="object-cover object-[72%_center] sm:object-center"
       />
 
-      <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(255,255,255,0.74)_0%,rgba(255,255,255,0.5)_18%,rgba(255,255,255,0.16)_44%,rgba(17,34,78,0.16)_100%)] sm:bg-[linear-gradient(90deg,rgba(255,255,255,0.88)_0%,rgba(255,255,255,0.68)_22%,rgba(255,255,255,0.26)_48%,rgba(255,255,255,0.02)_72%)]" />
+      {shouldLoadVideo ? (
+        <video
+          autoPlay
+          loop
+          muted
+          playsInline
+          preload="metadata"
+          poster="/Novaleap BG.jpg"
+          onCanPlay={() => setIsVideoReady(true)}
+          className={`absolute inset-0 h-full w-full object-cover object-[72%_center] transition-opacity duration-700 sm:object-center ${
+            isVideoReady ? "opacity-100" : "opacity-0"
+          }`}
+        >
+          <source src="/media/Novaleap-video-hero.mp4" type="video/mp4" />
+        </video>
+      ) : null}
+
+      <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(255,255,255,0.82)_0%,rgba(255,255,255,0.6)_18%,rgba(255,255,255,0.25)_44%,rgba(17,34,78,0.28)_100%)] sm:bg-[linear-gradient(90deg,rgba(255,255,255,0.9)_0%,rgba(255,255,255,0.72)_22%,rgba(255,255,255,0.28)_48%,rgba(17,34,78,0.18)_76%)]" />
       <div className="absolute inset-y-0 left-0 w-full bg-[linear-gradient(90deg,rgba(255,255,255,0.94)_0%,rgba(255,255,255,0.85)_32%,rgba(255,255,255,0.38)_62%,rgba(255,255,255,0.04)_100%)] sm:hidden" />
       <div className="absolute inset-x-0 bottom-0 h-40 bg-[linear-gradient(180deg,rgba(255,255,255,0)_0%,rgba(255,255,255,0.86)_100%)] sm:hidden" />
 
