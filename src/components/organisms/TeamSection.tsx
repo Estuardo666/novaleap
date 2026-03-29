@@ -100,11 +100,22 @@ const accentStyles = {
  * @example
  * <TeamSection />
  */
-const TeamSection: React.FC = () => {
+interface TeamSectionProps {
+  jenImage?: string;
+  krishnaImage?: string;
+}
+
+const TeamSection: React.FC<TeamSectionProps> = ({ jenImage, krishnaImage }) => {
   const prefersReducedMotion = useReducedMotion();
   const [activeMemberSlug, setActiveMemberSlug] = useState<string | null>(null);
 
-  const activeMember = teamMembers.find((member) => member.slug === activeMemberSlug) ?? null;
+  const dynamicMembers = teamMembers.map(member => {
+    if (member.slug === "jenzpher-finkenberg" && jenImage) return { ...member, imageSrc: jenImage };
+    if (member.slug === "krishna-finkenberg" && krishnaImage) return { ...member, imageSrc: krishnaImage };
+    return member;
+  });
+
+  const activeMember = dynamicMembers.find((member) => member.slug === activeMemberSlug) ?? null;
 
   useEffect(() => {
     if (!activeMemberSlug) {
@@ -173,7 +184,7 @@ const TeamSection: React.FC = () => {
           </motion.div>
 
           <div className="mt-12 grid gap-6 lg:grid-cols-2">
-            {teamMembers.map((member, index) => {
+            {dynamicMembers.map((member, index) => {
               const accent = accentStyles[member.accent];
 
               return (

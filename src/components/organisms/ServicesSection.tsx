@@ -17,6 +17,7 @@ const services = servicesCatalog;
 interface ServicesSectionProps {
   sizeVariant?: "default" | "expanded";
   showHeader?: boolean;
+  serviceImages?: Record<string, string>;
 }
 
 /**
@@ -28,7 +29,7 @@ interface ServicesSectionProps {
  * @example
  * <ServicesSection />
  */
-const ServicesSection: React.FC<ServicesSectionProps> = ({ sizeVariant = "default", showHeader = true }) => {
+const ServicesSection: React.FC<ServicesSectionProps> = ({ sizeVariant = "default", showHeader = true, serviceImages }) => {
   const prefersReducedMotion = useReducedMotion();
   const viewportRef = React.useRef<HTMLDivElement>(null);
   const [cardsPerView, setCardsPerView] = React.useState(1);
@@ -295,7 +296,7 @@ const ServicesSection: React.FC<ServicesSectionProps> = ({ sizeVariant = "defaul
                   className="min-w-0 shrink-0 scroll-mt-32 sm:scroll-mt-36"
                   style={effectiveCardWidth > 0 ? { width: `${effectiveCardWidth}px` } : { width: "100%" }}
                 >
-                  <ServiceCarouselCard {...service} sizeVariant={sizeVariant} />
+                  <ServiceCarouselCard {...service} image={serviceImages?.[service.id] || service.image} sizeVariant={sizeVariant} />
                 </div>
               ))}
             </motion.div>

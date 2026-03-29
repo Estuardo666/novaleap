@@ -302,6 +302,8 @@ const Header: React.FC<HeaderProps> = ({ className, submitContactAction }) => {
     return "border-novaleap-navy/10 bg-novaleap-navy/5 text-novaleap-navy";
   };
 
+  if (pathname.startsWith("/admin")) return null;
+
   return (
     <div
       className={cn(

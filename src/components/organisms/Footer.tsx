@@ -18,6 +18,7 @@ import {
   getNovaleapRevealVariants,
   getNovaleapStaggerContainerVariants,
 } from "@/lib/novaleapMotion";
+import { useClientPathname } from "@/hooks";
 
 const quickLinks = [
   { label: "Home", href: "/" },
@@ -72,6 +73,9 @@ const headingPillClassName =
  */
 const Footer: React.FC = () => {
   const prefersReducedMotion = useReducedMotion();
+  const pathname = useClientPathname();
+
+  if (pathname.startsWith("/admin")) return null;
 
   return (
     <footer className="relative isolate overflow-hidden bg-novaleap-navy text-white">

@@ -3,6 +3,7 @@ import Script from "next/script";
 import { notFound } from "next/navigation";
 import { AnimatedPageBackground, ServiceDetailPage } from "@/components/organisms";
 import { getServiceBySlug, servicesCatalog } from "@/lib/servicesCatalog";
+import { getSiteMediaMap } from "@/lib/getSiteMedia";
 
 interface ServiceDetailPageRouteProps {
   params: {
@@ -53,8 +54,9 @@ export function generateMetadata({ params }: ServiceDetailPageRouteProps): Metad
   };
 }
 
-export default function ServiceDetailRoute({ params }: ServiceDetailPageRouteProps) {
+export default async function ServiceDetailRoute({ params }: ServiceDetailPageRouteProps) {
   const service = getServiceBySlug(params.slug);
+  const media = await getSiteMediaMap();
 
   if (!service) {
     notFound();
@@ -103,7 +105,11 @@ export default function ServiceDetailRoute({ params }: ServiceDetailPageRoutePro
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(clinicSchema) }}
       />
-      <ServiceDetailPage slug={service.id} />
+      <ServiceDetailPage 
+        slug={service.id} 
+        featureMediaPoster={media[`services.${service.id}.feature-image`]}
+        featureMediaVideo={media[`services.${service.id}.feature-video`]}
+      />
     </AnimatedPageBackground>
   );
 }

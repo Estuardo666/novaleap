@@ -45,7 +45,11 @@ const approachSlides = [
  * @example
  * <WhyUsSection />
  */
-const WhyUsSection: React.FC = () => {
+interface WhyUsSectionProps {
+  slideImages?: [string, string, string];
+}
+
+const WhyUsSection: React.FC<WhyUsSectionProps> = ({ slideImages }) => {
   const prefersReducedMotion = useReducedMotion();
   const [activeIndex, setActiveIndex] = React.useState(0);
   const [direction, setDirection] = React.useState(1);
@@ -229,7 +233,7 @@ const WhyUsSection: React.FC = () => {
                   className="absolute inset-0"
                 >
                   <Image
-                    src="/Novaleap BG.jpg"
+                    src={slideImages?.[activeIndex] || "/Novaleap BG.jpg"}
                     alt="Child in pediatric physical therapy session"
                     fill
                     sizes="(max-width: 1024px) 100vw, 1280px"

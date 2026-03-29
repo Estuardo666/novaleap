@@ -13,8 +13,12 @@ import {
 
 const sectionHeadingLines = ["Feeling Right at Home", "from Day One."];
 
-const welcomingSpaceImage =
+const defaultImage =
   "https://images.unsplash.com/photo-1516627145497-ae6968895b74?auto=format&fit=crop&w=1400&q=80";
+
+interface ParentsWhatToExpectSectionProps {
+  imageSrc?: string;
+}
 
 /**
  * ParentsWhatToExpectSection - Organismic Component
@@ -24,7 +28,7 @@ const welcomingSpaceImage =
  * @example
  * <ParentsWhatToExpectSection />
  */
-const ParentsWhatToExpectSection = () => {
+const ParentsWhatToExpectSection: React.FC<ParentsWhatToExpectSectionProps> = ({ imageSrc }) => {
   const prefersReducedMotion = useReducedMotion();
 
   return (
@@ -94,7 +98,7 @@ const ParentsWhatToExpectSection = () => {
           >
             <div className="relative aspect-[6/5] w-full">
               <Image
-                src={welcomingSpaceImage}
+                src={imageSrc || defaultImage}
                 alt="A smiling therapist interacting with a child while a parent stays close in a warm therapy setting"
                 fill
                 sizes="(max-width: 1024px) 100vw, 50vw"

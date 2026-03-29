@@ -11,7 +11,7 @@ import {
   NOVALEAP_VIEWPORT,
 } from "@/lib/novaleapMotion";
 
-const partnersHeadingLines = ["Empowering Parents", "as Co-Therapists."];
+const partnersHeadingLines = ["Empowering Parents"];
 
 const familySupports = [
   {
@@ -54,7 +54,11 @@ const familySupports = [
  * @example
  * <PartnersInProgressSection />
  */
-const PartnersInProgressSection = () => {
+interface PartnersInProgressSectionProps {
+  bgImage?: string;
+}
+
+const PartnersInProgressSection: React.FC<PartnersInProgressSectionProps> = ({ bgImage }) => {
   const prefersReducedMotion = useReducedMotion();
 
   return (
@@ -84,7 +88,7 @@ const PartnersInProgressSection = () => {
           >
             <div className="relative aspect-[5/4] w-full">
               <Image
-                src="/Novaleap BG.jpg"
+                src={bgImage || "/Novaleap BG.jpg"}
                 alt="A therapist speaking warmly with a parent while a child plays nearby"
                 fill
                 sizes="(max-width: 1024px) 100vw, 560px"

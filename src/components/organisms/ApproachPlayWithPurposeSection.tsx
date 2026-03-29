@@ -50,7 +50,11 @@ const playHighlights = [
  * @example
  * <ApproachPlayWithPurposeSection />
  */
-const ApproachPlayWithPurposeSection = () => {
+interface ApproachPlayWithPurposeSectionProps {
+  imageSrc?: string;
+}
+
+const ApproachPlayWithPurposeSection: React.FC<ApproachPlayWithPurposeSectionProps> = ({ imageSrc }) => {
   const prefersReducedMotion = useReducedMotion();
 
   return (
@@ -161,7 +165,7 @@ const ApproachPlayWithPurposeSection = () => {
           >
             <div className="relative aspect-[5/4] w-full">
               <Image
-                src="/figma-assets/51d6a3ba460fbaca2c51a506c8f355094d34a27c.png"
+                src={imageSrc || "/figma-assets/51d6a3ba460fbaca2c51a506c8f355094d34a27c.png"}
                 alt="Close-up therapy detail showing playful movement tools in a warm, minimal setting"
                 fill
                 sizes="(max-width: 1024px) 100vw, 540px"

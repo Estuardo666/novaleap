@@ -4,7 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
-import { Activity, ArrowRight, ChevronDown, Footprints, Play, Quote, ShieldPlus, Sparkles, X } from "lucide-react";
+import { Activity, ArrowRight, CheckCircle2, ChevronDown, Footprints, Play, Quote, ShieldPlus, Sparkles, X } from "lucide-react";
 import { getButtonClasses } from "@/components/atoms";
 import {
   NOVALEAP_VIEWPORT,
@@ -18,6 +18,8 @@ import { cn } from "@/lib/utils";
 
 interface ServiceDetailPageProps {
   slug: string;
+  featureMediaPoster?: string;
+  featureMediaVideo?: string;
 }
 
 const accentBadgeClasses: Record<ServiceCatalogItem["accentColor"], string> = {
@@ -97,11 +99,23 @@ const challengeSubtitleBySign: Record<string, string> = {
   "Deconditioning": "Endurance rebuild",
 };
 
-const ServiceDetailPage: React.FC<ServiceDetailPageProps> = ({ slug }) => {
+const ServiceDetailPage: React.FC<ServiceDetailPageProps> = ({ slug, featureMediaPoster, featureMediaVideo }) => {
   const prefersReducedMotion = useReducedMotion();
   const [openFaqIndex, setOpenFaqIndex] = React.useState(0);
   const [isVideoOpen, setIsVideoOpen] = React.useState(false);
-  const service = React.useMemo(() => getServiceBySlug(slug), [slug]);
+
+  const service = React.useMemo(() => {
+    const s = getServiceBySlug(slug);
+    if (!s) return null;
+    return {
+      ...s,
+      featureMedia: {
+        ...s.featureMedia,
+        posterImage: featureMediaPoster || s.featureMedia.posterImage,
+        videoSrc: featureMediaVideo || s.featureMedia.videoSrc,
+      },
+    };
+  }, [slug, featureMediaPoster, featureMediaVideo]);
 
   if (!service) {
     return null;
@@ -275,120 +289,148 @@ const ServiceDetailPage: React.FC<ServiceDetailPageProps> = ({ slug }) => {
             </div>
           </div>
 
-          <motion.div
-            initial="hidden"
-            whileInView="show"
-            viewport={{ once: true, amount: 0.16 }}
-            variants={getNovaleapStaggerContainerVariants(prefersReducedMotion, 0.16, 0.12)}
-            className="grid w-full gap-3 sm:grid-cols-2 lg:w-[58%]"
-          >
-            {service.whySection.signs.map((sign, index) => {
-              const SignIcon = signCardIcons[index] ?? service.icon;
-              const hoverPreset = signCardHoverPresets[index % signCardHoverPresets.length];
-
-              return (
-                <motion.article
-                  key={sign}
+          {service.whySection.signGroups && service.whySection.signGroups.length > 0 ? (
+            <motion.div
+              initial="hidden"
+              whileInView="show"
+              viewport={{ once: true, amount: 0.16 }}
+              variants={getNovaleapStaggerContainerVariants(prefersReducedMotion, 0.12, 0.12)}
+              className="flex w-full flex-col gap-5 lg:w-[58%]"
+            >
+              {service.whySection.signGroups.map((group) => (
+                <motion.div
+                  key={group.groupTitle}
                   variants={getNovaleapRevealVariants(prefersReducedMotion, 18)}
-                  className="h-full"
+                  className="overflow-hidden rounded-[2rem] border border-white/90 bg-white shadow-[0_28px_72px_-46px_rgba(17,34,78,0.32)] backdrop-blur-sm"
                 >
-                  <motion.div
-                    initial="rest"
-                    animate="rest"
-                    whileHover={prefersReducedMotion ? undefined : "hover"}
-                    whileTap={prefersReducedMotion ? undefined : { scale: 0.992 }}
-                    transition={{ type: "spring", stiffness: 240, damping: 22, mass: 0.92 }}
-                    variants={{
-                      rest: {
-                        y: 0,
-                        rotate: 0,
-                        backgroundColor: "rgba(255, 255, 255, 0.9)",
-                        borderColor: "rgba(255, 255, 255, 0.8)",
-                        boxShadow: "0 28px 70px -50px rgba(17, 34, 78, 0.35)",
-                      },
-                      hover: {
-                        y: -10,
-                        rotate: hoverPreset.hoverRotate,
-                        backgroundColor: hoverPreset.hoverBackground,
-                        borderColor: hoverPreset.hoverBorder,
-                        boxShadow: hoverPreset.hoverShadow,
-                      },
-                    }}
-                    className="group relative h-full overflow-hidden rounded-[1.9rem] border"
-                  >
-                    <motion.div
-                      aria-hidden="true"
-                      variants={{
-                        rest: { opacity: 0, scale: 0.82, x: -30, y: -18 },
-                        hover: { opacity: 1, scale: 1.1, x: 0, y: 0 },
-                      }}
-                      transition={{ type: "spring", stiffness: 220, damping: 24 }}
-                      className={cn("absolute inset-0", hoverPreset.glowClass)}
-                    />
-
-                    {service.whySection.signImages?.[index] ? (
-                      <div className="relative h-32 overflow-hidden sm:h-36">
-                        <motion.div
-                          variants={{
-                            rest: { scale: 1 },
-                            hover: { scale: 1.045 },
-                          }}
-                          transition={{ type: "spring", stiffness: 220, damping: 24 }}
-                          className="absolute inset-0"
-                        >
-                          <Image
-                            src={service.whySection.signImages[index]}
-                            alt=""
-                            fill
-                            sizes="(max-width: 639px) 100vw, 45vw"
-                            className="object-cover object-center"
+                  <div className="px-6 pb-6 pt-5 sm:px-7 sm:pb-7 sm:pt-6">
+                    <p className="mb-4 text-[0.68rem] font-bold uppercase tracking-[0.2em] text-novaleap-aqua">
+                      {group.groupTitle}
+                    </p>
+                    <ul className="space-y-3">
+                      {group.items.map((item) => (
+                        <li key={item} className="flex items-start gap-3">
+                          <CheckCircle2
+                            className="mt-[0.1rem] h-[1.05rem] w-[1.05rem] shrink-0 text-novaleap-purple"
+                            strokeWidth={2.1}
                             aria-hidden="true"
                           />
-                        </motion.div>
-                      </div>
-                    ) : null}
+                          <span className="text-[0.95rem] font-medium leading-snug text-novaleap-navy">
+                            {item}
+                          </span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                </motion.div>
+              ))}
+            </motion.div>
+          ) : (
+            <motion.div
+              initial="hidden"
+              whileInView="show"
+              viewport={{ once: true, amount: 0.16 }}
+              variants={getNovaleapStaggerContainerVariants(prefersReducedMotion, 0.16, 0.12)}
+              className="grid w-full gap-3 sm:grid-cols-2 lg:w-[58%]"
+            >
+              {service.whySection.signs.map((sign, index) => {
+                const SignIcon = signCardIcons[index] ?? service.icon;
+                const hoverPreset = signCardHoverPresets[index % signCardHoverPresets.length];
 
-                    <div className="relative z-10 p-4 text-left sm:p-4">
-                      <div className="flex items-start gap-2.5">
-                        <motion.div
-                          variants={{
-                            rest: { scale: 1, rotate: 0, color: "rgba(17, 34, 78, 1)" },
-                            hover: { scale: 1.06, rotate: 6, color: hoverPreset.hoverIconColor },
-                          }}
-                          transition={{ type: "spring", stiffness: 280, damping: 18 }}
-                          className="mt-0.5 inline-flex h-6 w-6 shrink-0 items-center justify-center rounded-lg border border-novaleap-aqua/24 bg-white/78 text-novaleap-navy"
-                        >
-                          <SignIcon className="h-[12px] w-[12px]" strokeWidth={2.1} />
-                        </motion.div>
-
-                        <motion.p
-                          variants={{
-                            rest: { x: 0, color: "rgba(17, 34, 78, 1)" },
-                            hover: { x: 3, color: hoverPreset.hoverTitleColor },
-                          }}
-                          transition={{ type: "spring", stiffness: 250, damping: 20 }}
-                          className="text-left text-base font-semibold leading-tight tracking-tight text-novaleap-navy sm:text-[1.06rem]"
-                        >
-                          {sign}
-                        </motion.p>
-                      </div>
-
-                      <motion.p
+                return (
+                  <motion.article
+                    key={sign}
+                    variants={getNovaleapRevealVariants(prefersReducedMotion, 18)}
+                    className="h-full"
+                  >
+                    <motion.div
+                      initial="rest"
+                      animate="rest"
+                      whileHover={prefersReducedMotion ? undefined : "hover"}
+                      whileTap={prefersReducedMotion ? undefined : { scale: 0.992 }}
+                      transition={{ type: "spring", stiffness: 240, damping: 22, mass: 0.92 }}
+                      variants={{
+                        rest: {
+                          y: 0,
+                          rotate: 0,
+                          backgroundColor: "rgba(255, 255, 255, 0.9)",
+                          borderColor: "rgba(255, 255, 255, 0.8)",
+                          boxShadow: "0 28px 70px -50px rgba(17, 34, 78, 0.35)",
+                        },
+                        hover: {
+                          y: -10,
+                          rotate: hoverPreset.hoverRotate,
+                          backgroundColor: hoverPreset.hoverBackground,
+                          borderColor: hoverPreset.hoverBorder,
+                          boxShadow: hoverPreset.hoverShadow,
+                        },
+                      }}
+                      className="group relative h-full overflow-hidden rounded-[1.9rem] border"
+                    >
+                      <motion.div
+                        aria-hidden="true"
                         variants={{
-                          rest: { x: 0 },
-                          hover: { x: 2 },
+                          rest: { opacity: 0, scale: 0.82, x: -30, y: -18 },
+                          hover: { opacity: 1, scale: 1.1, x: 0, y: 0 },
                         }}
                         transition={{ type: "spring", stiffness: 220, damping: 24 }}
-                        className="mt-1.5 text-left text-sm leading-snug text-novaleap-purple"
-                      >
-                        {challengeSubtitleBySign[sign] ?? "Targeted support"}
-                      </motion.p>
-                    </div>
-                  </motion.div>
-                </motion.article>
-              );
-            })}
-          </motion.div>
+                        className={cn("absolute inset-0", hoverPreset.glowClass)}
+                      />
+
+                      {service.whySection.signImages?.[index] ? (
+                        <div className="relative h-32 overflow-hidden sm:h-36">
+                          <motion.div
+                            variants={{
+                              rest: { scale: 1 },
+                              hover: { scale: 1.045 },
+                            }}
+                            transition={{ type: "spring", stiffness: 220, damping: 24 }}
+                            className="absolute inset-0"
+                          >
+                            <Image
+                              src={service.whySection.signImages[index]}
+                              alt=""
+                              fill
+                              sizes="(max-width: 639px) 100vw, 45vw"
+                              className="object-cover object-center"
+                              aria-hidden="true"
+                            />
+                          </motion.div>
+                        </div>
+                      ) : null}
+
+                      <div className="relative z-10 p-4 text-left sm:p-4">
+                        <div className="flex items-start gap-2.5">
+                          <motion.div
+                            variants={{
+                              rest: { scale: 1, rotate: 0, color: "rgba(17, 34, 78, 1)" },
+                              hover: { scale: 1.06, rotate: 6, color: hoverPreset.hoverIconColor },
+                            }}
+                            transition={{ type: "spring", stiffness: 280, damping: 18 }}
+                            className="mt-0.5 inline-flex h-6 w-6 shrink-0 items-center justify-center rounded-lg border border-novaleap-aqua/24 bg-white/78 text-novaleap-navy"
+                          >
+                            <SignIcon className="h-[12px] w-[12px]" strokeWidth={2.1} />
+                          </motion.div>
+
+                          <motion.p
+                            variants={{
+                              rest: { x: 0, color: "rgba(17, 34, 78, 1)" },
+                              hover: { x: 3, color: hoverPreset.hoverTitleColor },
+                            }}
+                            transition={{ type: "spring", stiffness: 250, damping: 20 }}
+                            className="text-left text-base font-semibold leading-tight tracking-tight text-novaleap-navy sm:text-[1.06rem]"
+                          >
+                            {sign}
+                          </motion.p>
+                        </div>
+                      </div>
+                    </motion.div>
+                  </motion.article>
+                );
+              })}
+            </motion.div>
+          )}
+
         </div>
       </section>
 

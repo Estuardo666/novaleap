@@ -15,7 +15,11 @@ const heroHeadingLines = [
  * @example
  * <OurApproachHeroSection />
  */
-const OurApproachHeroSection = () => {
+interface OurApproachHeroSectionProps {
+  imageSrc?: string;
+}
+
+const OurApproachHeroSection: React.FC<OurApproachHeroSectionProps> = ({ imageSrc }) => {
   return (
     <PageHeroSection
       pretitle="Our Methodology"
@@ -26,7 +30,7 @@ const OurApproachHeroSection = () => {
           Our approach is <strong className="font-semibold text-novaleap-navy">child-centered, play-based, and evidence-informed</strong>. We honor each child&apos;s strengths, interests, and developmental pace while working toward functional goals that support confident participation at home, school, and in the community.
         </>
       }
-      imageSrc="/Novaleap BG.jpg"
+      imageSrc={imageSrc || "/Novaleap BG.jpg"}
       imageAlt="A child smiling while interacting with a therapist in a bright, modern therapy space"
       imagePosition="center 42%"
     />

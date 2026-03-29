@@ -28,7 +28,12 @@ const mobileHeroHeading = "Support that helps your child focus on what matters m
  * @example
  * <Hero />
  */
-const Hero: React.FC = () => {
+interface HeroProps {
+  heroPoster?: string;
+  heroVideo?: string;
+}
+
+const Hero: React.FC<HeroProps> = ({ heroPoster = "/Novaleap BG.jpg", heroVideo = "/media/Novaleap-video-hero.mp4" }) => {
   const prefersReducedMotion = useReducedMotion();
   const [shouldLoadVideo, setShouldLoadVideo] = useState(false);
   const [isVideoReady, setIsVideoReady] = useState(false);
@@ -69,7 +74,7 @@ const Hero: React.FC = () => {
       className="relative isolate min-h-[100svh] overflow-hidden font-[family-name:var(--font-google-sans)]"
     >
       <Image
-        src="/Novaleap BG.jpg"
+        src={heroPoster}
         alt="A pediatric therapist supporting a child during a playful physical therapy session"
         fill
         priority
@@ -84,13 +89,13 @@ const Hero: React.FC = () => {
           muted
           playsInline
           preload="metadata"
-          poster="/Novaleap BG.jpg"
+          poster={heroPoster}
           onCanPlay={() => setIsVideoReady(true)}
           className={`absolute inset-0 h-full w-full object-cover object-[72%_center] transition-opacity duration-700 sm:object-center ${
             isVideoReady ? "opacity-100" : "opacity-0"
           }`}
         >
-          <source src="/media/Novaleap-video-hero.mp4" type="video/mp4" />
+          <source src={heroVideo} type="video/mp4" />
         </video>
       ) : null}
 

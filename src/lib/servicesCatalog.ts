@@ -42,12 +42,18 @@ export interface ServiceHeroContent {
   heroVideoSrc?: string;
 }
 
+export interface ServiceSignGroup {
+  groupTitle: string;
+  items: string[];
+}
+
 export interface ServiceWhySection {
   pretitle: string;
   title: string;
   description: string;
   signsTitle: string;
   signs: string[];
+  signGroups?: ServiceSignGroup[];
   signImages?: string[];
 }
 
@@ -213,22 +219,38 @@ export const servicesCatalog: ServiceCatalogItem[] = [
       description:
         "We encourage parent and caregiver participation and provide home activities that can be incorporated into your child and family daily routine. Video recording of home activities is encouraged for review at home.",
       signsTitle: "Challenges we address",
-      signs: [
-        "Torticollis",
-        "Plagiocephaly (flat head syndrome)",
-        "Developmental delays",
-        "Ehlers-Danlos Syndrome",
-        "Hypotonia (low muscle tone)",
-        "Toe walking",
-        "Intoeing and out toeing",
-        "Balance, coordination, and motor planning challenges",
-        "Neurological or genetic conditions",
-        "Challenges affecting musculoskeletal system",
-        "Prematurity",
-        "Juvenile rheumatoid arthritis",
-        "Orthopedic injuries",
-        "Scoliosis",
-        "Deconditioning",
+      signs: [],
+      signGroups: [
+        {
+          groupTitle: "Specialized Pediatric Support For",
+          items: [
+            "Torticollis",
+            "Head shape & positioning (plagiocephaly)",
+            "Early development & prematurity",
+            "Developmental delays",
+            "Ehlers-Danlos syndrome",
+            "Low muscle tone & joint hypermobility",
+            "Walking differences (toe walking, intoeing/out-toeing)",
+            "Balance, coordination & motor planning",
+          ],
+        },
+        {
+          groupTitle: "Including support for children with",
+          items: [
+            "Cerebral palsy",
+            "Erb's palsy",
+            "Down syndrome",
+            "Other neurological or genetic conditions",
+          ],
+        },
+        {
+          groupTitle: "Musculoskeletal & orthopedic concerns",
+          items: [
+            "Osgood Schlatter",
+            "Scoliosis and Spine Care",
+            "Deconditioning",
+          ],
+        },
       ],
     },
     featureMedia: {

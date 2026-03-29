@@ -55,7 +55,12 @@ const missionVisionCards = [
  * @example
  * <PlayWithPurposeSection />
  */
-const PlayWithPurposeSection: React.FC = () => {
+interface PlayWithPurposeSectionProps {
+  image1?: string;
+  image2?: string;
+}
+
+const PlayWithPurposeSection: React.FC<PlayWithPurposeSectionProps> = ({ image1, image2 }) => {
   const prefersReducedMotion = useReducedMotion();
 
   const contentVariants = {
@@ -243,7 +248,7 @@ const PlayWithPurposeSection: React.FC = () => {
         <motion.div variants={contentVariants} className="space-y-5">
           <div className="overflow-hidden rounded-[2rem] border border-novaleap-navy/10 bg-slate-200 shadow-[0_18px_55px_-35px_rgba(17,34,78,0.45)]">
             <Image
-              src="/media/novaleap-pic-3.jpg"
+              src={image1 || "/media/novaleap-pic-3.jpg"}
               alt="Child experiencing joy during playful therapy session"
               width={1200}
               height={850}
@@ -253,7 +258,7 @@ const PlayWithPurposeSection: React.FC = () => {
           </div>
           <div className="overflow-hidden rounded-[2rem] border border-novaleap-navy/10 bg-slate-200 shadow-[0_18px_55px_-35px_rgba(17,34,78,0.45)]">
             <Image
-              src="https://images.unsplash.com/photo-1516627145497-ae6968895b74?auto=format&fit=crop&w=1200&q=80"
+              src={image2 || "https://images.unsplash.com/photo-1516627145497-ae6968895b74?auto=format&fit=crop&w=1200&q=80"}
               alt="Therapist guiding a child through a playful movement activity"
               width={1200}
               height={700}

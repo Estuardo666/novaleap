@@ -6,6 +6,7 @@ import {
   OurApproachHeroSection,
   PartnersInProgressSection,
 } from "@/components/organisms";
+import { getSiteMediaMap } from "@/lib/getSiteMedia";
 
 export const metadata: Metadata = {
   title: "Our Approach | NovaLeap",
@@ -13,13 +14,15 @@ export const metadata: Metadata = {
     "Discover how NovaLeap combines clinical excellence, play-based therapy, and family partnership to help children move with confidence.",
 };
 
-export default function OurApproachPage() {
+export default async function OurApproachPage() {
+  const media = await getSiteMediaMap();
+
   return (
     <AnimatedPageBackground>
-      <OurApproachHeroSection />
-      <ApproachPlayWithPurposeSection />
+      <OurApproachHeroSection imageSrc={media["our-approach.hero-image"]} />
+      <ApproachPlayWithPurposeSection imageSrc={media["our-approach.play-image"]} />
       <ApproachPillarsSection />
-      <PartnersInProgressSection />
+      <PartnersInProgressSection bgImage={media["our-approach.partners-image"]} />
     </AnimatedPageBackground>
   );
 }

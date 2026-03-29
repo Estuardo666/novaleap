@@ -108,3 +108,33 @@ model Setting {
 
   @@index([key])
 }
+
+// MediaAsset Model - For storing image and video references from Cloudflare R2
+model MediaAsset {
+  id        String   @id @default(cuid())
+  url       String   // Public URL in Cloudflare
+  key       String   @unique // S3/R2 internal object key
+  type      String   // 'image' or 'video'
+  name      String
+  size      Int?     // bytes
+  
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([type])
+}
+
+// SiteMedia Model - Maps page+slot to a media URL for CMS-driven content
+model SiteMedia {
+  id        String   @id @default(cuid())
+  key       String   @unique // e.g. "home.hero-video", "who-we-are.hero-image"
+  url       String   @db.Text // URL of the media (R2 public URL or external)
+  type      String   // 'image' or 'video'
+  label     String   // Human-readable label for the admin UI
+  page      String   // Page group: "home", "who-we-are", etc.
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([page])
+}

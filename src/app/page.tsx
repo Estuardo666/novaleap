@@ -1,5 +1,6 @@
 import dynamic from "next/dynamic";
 import { AnimatedPageBackground, Hero } from "@/components/organisms";
+import { getSiteMediaMap } from "@/lib/getSiteMedia";
 
 const MissionIntroSection = dynamic(
   () => import("@/components/organisms/MissionIntroSection")
@@ -17,14 +18,30 @@ const HowToStartSection = dynamic(
   () => import("@/components/organisms/HowToStartSection")
 );
 
-export default function Home() {
+export default async function Home() {
+  const media = await getSiteMediaMap();
+
   return (
     <AnimatedPageBackground>
-      <Hero />
+      <Hero
+        heroPoster={media["home.hero-poster"]}
+        heroVideo={media["home.hero-video"]}
+      />
       <MissionIntroSection />
-      <ServicesSection />
+      <ServicesSection 
+        serviceImages={{
+          evaluation: media["services.evaluation.card-image"],
+          treatment: media["services.treatment.card-image"]
+        }}
+      />
       <StoriesOfGrowthSection />
-      <WhyUsSection />
+      <WhyUsSection
+        slideImages={[
+          media["home.why-us-slide-1"],
+          media["home.why-us-slide-2"],
+          media["home.why-us-slide-3"],
+        ]}
+      />
       <HowToStartSection />
     </AnimatedPageBackground>
   );

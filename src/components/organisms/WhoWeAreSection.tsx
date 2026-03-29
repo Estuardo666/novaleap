@@ -32,7 +32,12 @@ const whoWeArePromiseLines = [
  * @example
  * <WhoWeAreSection />
  */
-const WhoWeAreSection: React.FC = () => {
+interface WhoWeAreSectionProps {
+  heroImage?: string;
+  aboutImage?: string;
+}
+
+const WhoWeAreSection: React.FC<WhoWeAreSectionProps> = ({ heroImage, aboutImage }) => {
   const prefersReducedMotion = useReducedMotion();
 
   const containerVariants = {
@@ -68,7 +73,7 @@ const WhoWeAreSection: React.FC = () => {
             At NovaLeap, we are a <strong className="font-semibold text-novaleap-navy">child-centered practice</strong> dedicated to helping children move, grow, and thrive. Through play-based, evidence-informed therapy, we support meaningful progress that helps children participate more confidently in everyday life.
           </>
         }
-        imageSrc="/media/who-we-are-hero.jpg"
+        imageSrc={heroImage || "/media/who-we-are-hero.jpg"}
         imageAlt="Pediatric physical therapist supporting a child during a movement activity"
         imagePosition="center 42%"
       />
@@ -85,7 +90,7 @@ const WhoWeAreSection: React.FC = () => {
           <motion.div variants={itemVariants} className="space-y-5">
             <div className="overflow-hidden rounded-[2rem] border border-novaleap-navy/10 bg-slate-200 shadow-[0_18px_55px_-35px_rgba(17,34,78,0.45)]">
               <Image
-                src="/media/novaleap%20about%20us.jpg"
+                src={aboutImage || "/media/novaleap%20about%20us.jpg"}
                 alt="Therapist and child practicing playful balance exercises"
                 width={1200}
                 height={850}
