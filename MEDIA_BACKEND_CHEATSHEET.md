@@ -324,9 +324,40 @@ VIDEO (modal):           feature-video → (vacío = sin botón de video)
 
 ---
 
+## 🛠️ 9. Sincronización y Migración de Datos en Producción
+
+A medida que el proyecto crece, es común cambiar nombres de llaves o agregar nuevos slots de media. Si la base de datos de producción ya tiene datos, un simple "redeploy" no aplicará estos cambios lógicos.
+
+### ⚠️ Error Típico
+- Cambias una llave de `service.old` a `service.new` en el código.
+- El panel admin sigue mostrando la vieja o no guarda nada.
+- El frontend muestra defaults porque no encuentra la llave nueva en la DB.
+
+### ✅ Solución: Endpoint de Migración (Solo una vez)
+Crea un API route temporal (`/api/admin/migrate-keys`) para orquestar cambios de datos complejos.
+
+1.  **Renombrar llaves huérfanas**: Busca llaves viejas y actualízalas a las nuevas.
+2.  **Sincronización Inteligente**: Si creaste un slot nuevo (ej: `hero-image`), haz que la migración lo rellene automáticamente con el valor de un slot existente (ej: `card-image`) si el slot nuevo está vacío o con defaults.
+3.  **Forzar Revalidación**: Al final de la migración, llama siempre a `revalidatePath` para que el sitio se reconstruya con los nuevos mapeos.
+
+```typescript
+// Ejemplo de lógica de sincronización:
+const heroIsDefault = !hero.url || PEXELS_DEFAULTS.has(hero.url);
+const cardIsCustomised = card.url && !PEXELS_DEFAULTS.has(card.url);
+
+if (heroIsDefault && cardIsCustomised) {
+  await prisma.siteMedia.update({
+    where: { key: heroKey },
+    data: { url: card.url },
+  });
+}
+```
+
+---
+
 ## 📋 Resumen: Checklist Pre-Deploy de Media Backend
 
-Antes de cada despliegue a producción, verifica estos 8 puntos:
+Antes de cada despliegue a producción, verifica estos 9 puntos:
 
 - [ ] **1. DB:** `prisma db push` exitoso contra la DB de producción
 - [ ] **2. Env Vars:** Variables copiadas a Vercel/Netlify (DATABASE_URL, R2_*)
@@ -336,3 +367,4 @@ Antes de cada despliegue a producción, verifica estos 8 puntos:
 - [ ] **6. Seed eficiente:** La lógica de seed usa `count()` sin filtros, no compara resultados filtrados
 - [ ] **7. Llaves CMS:** Las llaves en `siteMediaDefaults.ts` coinciden exactamente con los slugs/IDs de las rutas
 - [ ] **8. Fallbacks:** Cada zona visual (hero, card, feature) tiene una cadena de fallback definida
+- [ ] **9. Migración de Datos:** Si cambiaste llaves, ejecutaste el endpoint de migración en producción.

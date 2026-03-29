@@ -36,9 +36,9 @@ const accentSurfaceClasses: Record<ServiceCatalogItem["accentColor"], string> = 
 };
 
 const accentGlowClasses: Record<ServiceCatalogItem["accentColor"], string> = {
-  navy: "from-novaleap-navy/18 via-novaleap-purple/10 to-transparent",
-  purple: "from-novaleap-purple/18 via-novaleap-aqua/12 to-transparent",
-  aqua: "from-novaleap-aqua/22 via-novaleap-purple/10 to-transparent",
+  navy: "from-novaleap-navy/25 via-novaleap-purple/10 to-transparent",
+  purple: "from-novaleap-navy/28 via-novaleap-purple/12 to-transparent",
+  aqua: "from-novaleap-navy/25 via-novaleap-aqua/12 to-transparent",
 };
 
 const signCardIcons = [Sparkles, Footprints, Activity, ShieldPlus];
@@ -170,8 +170,9 @@ const ServiceDetailPage: React.FC<ServiceDetailPageProps> = ({ slug, heroImage, 
             <source src={service.hero.heroVideoSrc} type="video/mp4" />
           </video>
         ) : null}
-        <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(17,34,78,0.28)_0%,rgba(17,34,78,0.52)_38%,rgba(17,34,78,0.78)_100%)]" />
+        <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(17,34,78,0.4)_0%,rgba(17,34,78,0.65)_42%,rgba(2,10,30,0.85)_100%)]" />
         <div className={cn("absolute inset-0 bg-gradient-to-br", accentGlowClasses[service.accentColor])} />
+        <div className="absolute inset-0 bg-black/10" /> 
 
         <motion.div
           initial="hidden"
