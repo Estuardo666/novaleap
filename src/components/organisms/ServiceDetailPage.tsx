@@ -170,9 +170,9 @@ const ServiceDetailPage: React.FC<ServiceDetailPageProps> = ({ slug, heroImage, 
             <source src={service.hero.heroVideoSrc} type="video/mp4" />
           </video>
         ) : null}
-        <div className="absolute inset-0 bg-novaleap-darkPurple/70" />
-        <div className="absolute inset-0 bg-gradient-to-b from-novaleap-darkPurple/40 to-[#130821]/90" />
-        <div className={cn("absolute inset-0 bg-gradient-to-br", accentGlowClasses[service.accentColor])} />
+        <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(25,12,48,0.58)_0%,rgba(49,26,87,0.68)_40%,rgba(19,8,33,0.84)_100%)]" />
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_18%,rgba(151,122,188,0.24),transparent_40%)]" />
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(28,14,54,0.28),transparent_54%)]" />
 
 
         <motion.div
@@ -183,18 +183,16 @@ const ServiceDetailPage: React.FC<ServiceDetailPageProps> = ({ slug, heroImage, 
         >
           <div className="mx-auto flex max-w-3xl flex-col items-center text-center text-white">
             <motion.div variants={getNovaleapRevealVariants(prefersReducedMotion, 14)}>
-              <div className="inline-flex items-center gap-3 rounded-full border border-white/30 bg-white/10 px-4 py-1.5 backdrop-blur-md">
-                <span className="text-xs font-semibold uppercase tracking-[0.24em] text-white/92">
-                  {service.hero.pretitle}
-                </span>
-              </div>
+              <p className="text-xs font-semibold uppercase tracking-[0.28em] text-white/78 sm:text-sm">
+                {service.hero.pretitle}
+              </p>
             </motion.div>
 
             <motion.h1
               initial="hidden"
               animate="show"
               variants={getNovaleapTitleContainerVariants(prefersReducedMotion, 0.14, 0.14)}
-              className="mt-6 text-balance text-4xl font-bold leading-[1.02] tracking-tight text-white sm:text-5xl lg:text-[4.6rem]"
+              className="mt-6 text-balance text-4xl font-bold leading-[1.02] tracking-tight text-white drop-shadow-[0_18px_40px_rgba(14,10,32,0.26)] sm:text-5xl lg:text-[4.6rem]"
             >
               {service.titleLines.map((line) => (
                 <motion.span
@@ -209,7 +207,7 @@ const ServiceDetailPage: React.FC<ServiceDetailPageProps> = ({ slug, heroImage, 
 
             <motion.p
               variants={getNovaleapRevealVariants(prefersReducedMotion, 18, 0.16)}
-              className="mx-auto mt-6 max-w-2xl text-lg leading-relaxed text-white/90 sm:text-xl"
+              className="mx-auto mt-6 max-w-2xl text-lg leading-relaxed text-white/88 sm:text-xl"
             >
               {service.hero.description}
             </motion.p>
@@ -221,9 +219,10 @@ const ServiceDetailPage: React.FC<ServiceDetailPageProps> = ({ slug, heroImage, 
               <Link
                 href={service.hero.primaryButtonHref}
                 className={getButtonClasses({
-                  variant: "outline",
+                  variant: "secondary",
                   size: "md",
-                  className: "w-full justify-center sm:w-auto",
+                  className:
+                    "w-full justify-center border-novaleap-navy/80 shadow-[0_18px_34px_-18px_rgba(10,7,24,0.7)] sm:w-auto",
                 })}
               >
                 <span className="relative z-10 inline-flex items-center gap-2">
@@ -238,11 +237,11 @@ const ServiceDetailPage: React.FC<ServiceDetailPageProps> = ({ slug, heroImage, 
                   variant: "ghost",
                   size: "md",
                   className:
-                    "border-white/30 bg-white/10 text-white backdrop-blur-md hover:bg-white/18 w-full sm:w-auto justify-center",
+                    "w-full justify-center border-white/20 border-b-[2px] bg-white/8 text-white shadow-none backdrop-blur-sm hover:bg-white/12 hover:shadow-none sm:w-auto",
                 })}
               >
                 <span className="relative z-10 inline-flex items-center gap-2.5">
-                  <span className="inline-flex h-7 w-7 items-center justify-center rounded-full bg-white/22">
+                  <span className="inline-flex h-7 w-7 items-center justify-center rounded-full bg-white/14">
                     <Play className="h-3 w-3 fill-current" />
                   </span>
                   See Therapy In Action
