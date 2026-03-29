@@ -10,6 +10,10 @@ const nextConfig = {
 				protocol: "https",
 				hostname: "images.pexels.com",
 			},
+			{
+				protocol: "https",
+				hostname: "pub-0a41e488741a430d8e35db210519a0a8.r2.dev",
+			},
 		],
 	},
 	async headers() {
