@@ -7,6 +7,7 @@
  *   Body: { url: string }
  */
 import { NextResponse } from "next/server";
+import { revalidatePath } from "next/cache";
 import { prisma } from "@/lib/prisma";
 
 export async function PUT(
@@ -31,6 +32,9 @@ export async function PUT(
       where: { key: decodedKey },
       data: { url },
     });
+
+    // Revalida todo el sitio para que Next.js actualice la versión estática (SSG)
+    revalidatePath("/", "layout");
 
     return NextResponse.json(updated);
   } catch (error) {
