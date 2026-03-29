@@ -13,6 +13,7 @@ const config: Config = {
           navy: '#11224e',
           aqua: '#00b7b5',
           purple: '#977abc',
+          darkPurple: '#2d1b4e',
         },
         // NOVALEAP Brand Color Palette
         teal: {
