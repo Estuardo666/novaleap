@@ -18,6 +18,7 @@ import { cn } from "@/lib/utils";
 
 interface ServiceDetailPageProps {
   slug: string;
+  heroImage?: string;
   featureMediaPoster?: string;
   featureMediaVideo?: string;
 }
@@ -99,7 +100,7 @@ const challengeSubtitleBySign: Record<string, string> = {
   "Deconditioning": "Endurance rebuild",
 };
 
-const ServiceDetailPage: React.FC<ServiceDetailPageProps> = ({ slug, featureMediaPoster, featureMediaVideo }) => {
+const ServiceDetailPage: React.FC<ServiceDetailPageProps> = ({ slug, heroImage, featureMediaPoster, featureMediaVideo }) => {
   const prefersReducedMotion = useReducedMotion();
   const [openFaqIndex, setOpenFaqIndex] = React.useState(0);
   const [isVideoOpen, setIsVideoOpen] = React.useState(false);
@@ -109,13 +110,14 @@ const ServiceDetailPage: React.FC<ServiceDetailPageProps> = ({ slug, featureMedi
     if (!s) return null;
     return {
       ...s,
+      image: heroImage || s.image,
       featureMedia: {
         ...s.featureMedia,
         posterImage: featureMediaPoster || s.featureMedia.posterImage,
         videoSrc: featureMediaVideo || s.featureMedia.videoSrc,
       },
     };
-  }, [slug, featureMediaPoster, featureMediaVideo]);
+  }, [slug, heroImage, featureMediaPoster, featureMediaVideo]);
 
   if (!service) {
     return null;

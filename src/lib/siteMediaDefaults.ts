@@ -133,21 +133,28 @@ export const siteMediaDefaults: SiteMediaDefault[] = [
 
   // ─── Services: Evaluation ──────────────────────────────
   {
-    key: "services.evaluation.card-image",
+    key: "services.evaluations-and-assessments.hero-image",
+    url: "https://images.pexels.com/photos/7089636/pexels-photo-7089636.jpeg?auto=compress&cs=tinysrgb&w=1600",
+    type: "image",
+    label: "Fondo Principal de Evaluación (Hero)",
+    page: "services",
+  },
+  {
+    key: "services.evaluations-and-assessments.card-image",
     url: "https://images.pexels.com/photos/7089636/pexels-photo-7089636.jpeg?auto=compress&cs=tinysrgb&w=1600",
     type: "image",
     label: "Card de Servicio (Evaluación)",
     page: "services",
   },
   {
-    key: "services.evaluation.feature-image",
+    key: "services.evaluations-and-assessments.feature-image",
     url: "https://images.pexels.com/photos/7088524/pexels-photo-7088524.jpeg?auto=compress&cs=tinysrgb&w=1600",
     type: "image",
     label: "Feature Media Poster (Evaluación)",
     page: "services",
   },
   {
-    key: "services.evaluation.feature-video",
+    key: "services.evaluations-and-assessments.feature-video",
     url: "",
     type: "video",
     label: "Video de Evaluación (Modal)",
@@ -155,6 +162,13 @@ export const siteMediaDefaults: SiteMediaDefault[] = [
   },
 
   // ─── Services: Treatment ───────────────────────────────
+  {
+    key: "services.treatment.hero-image",
+    url: "https://images.pexels.com/photos/8613314/pexels-photo-8613314.jpeg?auto=compress&cs=tinysrgb&w=1600",
+    type: "image",
+    label: "Fondo Principal de Tratamiento (Hero)",
+    page: "services",
+  },
   {
     key: "services.treatment.card-image",
     url: "https://images.pexels.com/photos/8613314/pexels-photo-8613314.jpeg?auto=compress&cs=tinysrgb&w=1600",

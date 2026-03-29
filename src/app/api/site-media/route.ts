@@ -19,8 +19,8 @@ export async function GET(request: Request) {
       orderBy: { page: "asc" },
     });
 
-    // If no entries exist, seed them automatically on first call
-    if (entries.length === 0) {
+    // If no entries exist or if new defaults were added, seed them automatically
+    if (entries.length < siteMediaDefaults.length) {
       await prisma.$transaction(
         siteMediaDefaults.map((m) =>
           prisma.siteMedia.upsert({

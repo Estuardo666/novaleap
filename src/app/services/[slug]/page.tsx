@@ -106,7 +106,8 @@ export default async function ServiceDetailRoute({ params }: ServiceDetailPageRo
         dangerouslySetInnerHTML={{ __html: JSON.stringify(clinicSchema) }}
       />
       <ServiceDetailPage 
-        slug={service.id} 
+        slug={service.id}
+        heroImage={media[`services.${service.id}.hero-image`]}
         featureMediaPoster={media[`services.${service.id}.feature-image`]}
         featureMediaVideo={media[`services.${service.id}.feature-video`]}
       />
