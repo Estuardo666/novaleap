@@ -11,6 +11,8 @@ import { NextResponse } from "next/server";
 import { revalidatePath } from "next/cache";
 import { prisma } from "@/lib/prisma";
 
+export const dynamic = "force-dynamic";
+
 // Map of old key → new key to rename
 const KEY_RENAMES: Record<string, string> = {
   "services.evaluation.card-image":   "services.evaluations-and-assessments.card-image",
