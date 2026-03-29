@@ -7,7 +7,7 @@
  *   Body: { url: string }
  */
 import { NextResponse } from "next/server";
-import { revalidatePath } from "next/cache";
+import { revalidatePath, revalidateTag } from "next/cache";
 import { prisma } from "@/lib/prisma";
 
 export async function PUT(
@@ -34,6 +34,7 @@ export async function PUT(
     });
 
     // Revalida todo el sitio para que Next.js actualice la versión estática (SSG)
+    revalidateTag("site-media");
     revalidatePath("/", "layout");
 
     return NextResponse.json(updated);

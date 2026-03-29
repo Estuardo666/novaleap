@@ -8,39 +8,35 @@ import { getDefaultMediaUrl, siteMediaDefaults } from "@/lib/siteMediaDefaults";
 
 export type SiteMediaMap = Record<string, string>;
 
+import { unstable_cache } from "next/cache";
+
 /**
  * Fetches all site media entries and returns a key→url map.
  * Falls back to default values if DB is unreachable.
+ * Cached to prevent database connection exhaustion.
  */
-export async function getSiteMediaMap(): Promise<SiteMediaMap> {
-  try {
-    const entries = await prisma.siteMedia.findMany();
+export const getSiteMediaMap = unstable_cache(
+  async (): Promise<SiteMediaMap> => {
+    try {
+      const entries = await prisma.siteMedia.findMany();
 
-    // If table is empty, seed it
-    if (entries.length === 0) {
-      await prisma.$transaction(
-        siteMediaDefaults.map((m) =>
-          prisma.siteMedia.upsert({
-            where: { key: m.key },
-            update: {},
-            create: m,
-          })
-        )
-      );
-      // Return defaults as the map
+      if (entries.length === 0) {
+        // Return defaults as the map (don't perform transactions during static build)
+        return Object.fromEntries(
+          siteMediaDefaults.map((m) => [m.key, m.url])
+        );
+      }
+
+      return Object.fromEntries(entries.map((e) => [e.key, e.url]));
+    } catch {
       return Object.fromEntries(
         siteMediaDefaults.map((m) => [m.key, m.url])
       );
     }
-
-    return Object.fromEntries(entries.map((e) => [e.key, e.url]));
-  } catch {
-    // Fallback to defaults if DB is down
-    return Object.fromEntries(
-      siteMediaDefaults.map((m) => [m.key, m.url])
-    );
-  }
-}
+  },
+  ["site-media-map"],
+  { tags: ["site-media"], revalidate: 3600 }
+);
 
 /**
  * Get a single media URL by key, with fallback.
