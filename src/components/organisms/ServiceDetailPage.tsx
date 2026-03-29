@@ -170,8 +170,8 @@ const ServiceDetailPage: React.FC<ServiceDetailPageProps> = ({ slug, heroImage, 
             <source src={service.hero.heroVideoSrc} type="video/mp4" />
           </video>
         ) : null}
-        <div className="absolute inset-0 bg-novaleap-navy/60" />
-        <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(17,34,78,0.4)_0%,rgba(2,10,30,0.85)_80%)]" />
+        <div className="absolute inset-0 bg-[#2d1b4e]/70" />
+        <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(62,38,107,0.4)_0%,rgba(19,8,33,0.9)_80%)]" />
         <div className={cn("absolute inset-0 bg-gradient-to-br", accentGlowClasses[service.accentColor])} />
 
 

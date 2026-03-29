@@ -38,6 +38,10 @@ const Header: React.FC<HeaderProps> = ({ className, submitContactAction }) => {
   const pathname = useClientPathname();
   const prefersReducedMotion = useReducedMotion();
   const [isScrolled, setIsScrolled] = React.useState(false);
+  
+  const isDarkHero = pathname.startsWith("/services/") && pathname !== "/services";
+  const useDarkTheme = isScrolled || isDarkHero;
+
   const [isMobileMenuOpen, setIsMobileMenuOpen] = React.useState(false);
   const [isDesktopServicesOpen, setIsDesktopServicesOpen] = React.useState(false);
   const [isMobileServicesOpen, setIsMobileServicesOpen] = React.useState(false);
@@ -344,7 +348,7 @@ const Header: React.FC<HeaderProps> = ({ className, submitContactAction }) => {
               className={cn(
                 "h-12 w-auto origin-left transition-all duration-300",
                 isScrolled ? "scale-100" : "scale-[1.18] sm:scale-[1.24]",
-                isScrolled ? "opacity-0" : "opacity-100"
+                useDarkTheme ? "opacity-0" : "opacity-100"
               )}
               priority
             />
@@ -357,7 +361,7 @@ const Header: React.FC<HeaderProps> = ({ className, submitContactAction }) => {
               className={cn(
                 "absolute inset-0 h-12 w-auto origin-left transition-all duration-300",
                 isScrolled ? "scale-100" : "scale-[1.18] sm:scale-[1.24]",
-                isScrolled ? "opacity-100" : "opacity-0"
+                useDarkTheme ? "opacity-100" : "opacity-0"
               )}
               priority
             />
@@ -394,8 +398,8 @@ const Header: React.FC<HeaderProps> = ({ className, submitContactAction }) => {
               }}
               className={cn(
                 "flex items-center gap-2 rounded-full px-2 py-1.5",
-                isScrolled
-                  ? "bg-white/8"
+                useDarkTheme
+                  ? "bg-white/8 backdrop-blur-md"
                   : "bg-white/58 backdrop-blur-md shadow-[0_12px_30px_-24px_rgba(17,34,78,0.45)]"
               )}
             >
@@ -428,11 +432,11 @@ const Header: React.FC<HeaderProps> = ({ className, submitContactAction }) => {
                       aria-controls="desktop-services-mega-menu"
                       className={cn(
                         "inline-flex items-center gap-2 rounded-full px-4 py-2 text-sm font-semibold transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-novaleap-aqua focus-visible:ring-offset-2",
-                        isScrolled
+                        useDarkTheme
                           ? "text-white hover:bg-white/18 focus-visible:ring-offset-novaleap-purple"
                           : "text-novaleap-navy hover:bg-novaleap-navy/8 focus-visible:ring-offset-white",
                         isServicesActive &&
-                          (isScrolled
+                          (useDarkTheme
                             ? "bg-white text-novaleap-navy shadow-sm"
                             : "bg-novaleap-navy text-white shadow-sm")
                       )}
@@ -468,11 +472,11 @@ const Header: React.FC<HeaderProps> = ({ className, submitContactAction }) => {
                       aria-current={isActive ? "page" : undefined}
                       className={cn(
                         "inline-flex items-center rounded-full px-4 py-2 text-sm font-semibold transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-novaleap-aqua focus-visible:ring-offset-2",
-                        isScrolled
+                        useDarkTheme
                           ? "text-white hover:bg-white/18 focus-visible:ring-offset-novaleap-purple"
                           : "text-novaleap-navy hover:bg-novaleap-navy/8 focus-visible:ring-offset-white",
                         isActive &&
-                          (isScrolled
+                          (useDarkTheme
                             ? "bg-white text-novaleap-navy shadow-sm"
                             : "bg-novaleap-navy text-white shadow-sm")
                       )}
@@ -621,13 +625,13 @@ const Header: React.FC<HeaderProps> = ({ className, submitContactAction }) => {
 
         <div className="hidden sm:block">
           <Button
-            variant={isScrolled ? "primary" : "secondary"}
+            variant={useDarkTheme ? "primary" : "secondary"}
             size="md"
             type="button"
             onClick={openContactModal}
             className={cn(
               "px-5 text-sm font-semibold",
-              isScrolled ? "focus-visible:ring-novaleap-aqua" : "focus-visible:ring-novaleap-purple"
+              useDarkTheme ? "focus-visible:ring-novaleap-aqua" : "focus-visible:ring-novaleap-purple"
             )}
           >
             <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
@@ -645,9 +649,9 @@ const Header: React.FC<HeaderProps> = ({ className, submitContactAction }) => {
           className={cn(
             "inline-flex h-11 w-11 items-center justify-center rounded-full border lg:hidden",
             "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-novaleap-aqua focus-visible:ring-offset-2",
-            isScrolled
+            useDarkTheme
               ? "border-white/35 bg-white/12 text-white focus-visible:ring-offset-novaleap-purple"
-              : "border-white/50 bg-white/18 text-white focus-visible:ring-offset-transparent"
+              : "border-novaleap-navy/20 bg-novaleap-navy/5 text-novaleap-navy focus-visible:ring-offset-transparent"
           )}
           onClick={() => setIsMobileMenuOpen((previous) => !previous)}
           whileHover={{ scale: 1.05 }}
