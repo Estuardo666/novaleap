@@ -36,6 +36,18 @@ const NEW_ENTRIES = [
   },
 ];
 
+// Pexels URLs that mean "never been customised" — treat these as empty
+const PEXELS_DEFAULTS = new Set([
+  "https://images.pexels.com/photos/7089636/pexels-photo-7089636.jpeg?auto=compress&cs=tinysrgb&w=1600",
+  "https://images.pexels.com/photos/8613314/pexels-photo-8613314.jpeg?auto=compress&cs=tinysrgb&w=1600",
+]);
+
+// Hero slots whose fallback source is the matching card-image
+const HERO_TO_CARD: Record<string, string> = {
+  "services.evaluations-and-assessments.hero-image": "services.evaluations-and-assessments.card-image",
+  "services.treatment.hero-image": "services.treatment.card-image",
+};
+
 export async function GET() {
   const log: string[] = [];
 
@@ -49,10 +61,8 @@ export async function GET() {
         continue;
       }
 
-      // Check if new key already exists to avoid unique constraint error
       const alreadyExists = await prisma.siteMedia.findUnique({ where: { key: newKey } });
       if (alreadyExists) {
-        // New key already exists — delete the old orphan
         await prisma.siteMedia.delete({ where: { key: oldKey } });
         log.push(`DELETE orphan "${oldKey}" (new key "${newKey}" already exists)`);
         continue;
@@ -76,7 +86,31 @@ export async function GET() {
       log.push(`CREATED "${entry.key}"`);
     }
 
-    // 3. Force all static pages to rebuild with the new data
+    // 3. Sync hero-image from card-image when hero is still a Pexels default
+    for (const [heroKey, cardKey] of Object.entries(HERO_TO_CARD)) {
+      const hero = await prisma.siteMedia.findUnique({ where: { key: heroKey } });
+      const card = await prisma.siteMedia.findUnique({ where: { key: cardKey } });
+
+      if (!hero || !card) {
+        log.push(`SKIP sync: "${heroKey}" or "${cardKey}" not found`);
+        continue;
+      }
+
+      const heroIsDefault = !hero.url || PEXELS_DEFAULTS.has(hero.url);
+      const cardIsCustomised = card.url && !PEXELS_DEFAULTS.has(card.url);
+
+      if (heroIsDefault && cardIsCustomised) {
+        await prisma.siteMedia.update({
+          where: { key: heroKey },
+          data: { url: card.url },
+        });
+        log.push(`SYNCED "${heroKey}" ← "${cardKey}" (${card.url.slice(0, 60)}...)`);
+      } else {
+        log.push(`SKIP sync: "${heroKey}" already customised or card not uploaded`);
+      }
+    }
+
+    // 4. Force all static pages to rebuild with the new data
     revalidatePath("/", "layout");
     log.push("REVALIDATED all pages");
 

@@ -207,3 +207,132 @@ Ejemplos:
 ```
 
 > 💡 **Pro-tip:** Agrega siempre un slot `hero-image` por cada página de servicio para que el fondo grande del hero también sea configurable desde el CMS. Sin esto, el fondo estará hardcoded en el código.
+
+---
+
+## 🔄 7. Pipeline de Revalidación Completa (SSG / ISR)
+
+Next.js genera las páginas estáticamente durante el build (`generateStaticParams`). Eso significa que **actualizar la base de datos NO actualiza automáticamente las páginas visibles**. Necesitas una cadena de revalidación completa.
+
+### ⚠️ Error Típico
+- Subes una imagen nueva desde el panel admin.
+- La DB se actualiza correctamente (puedes verificar via API).
+- El frontend sigue mostrando la imagen anterior indefinidamente.
+- No hay errores en consola — simplemente no cambia.
+
+### 🔍 Causa
+Hay **3 puntos de revalidación** que deben estar activos. Si falta uno solo, la cadena se rompe:
+
+```
+         Admin sube imagen
+              ↓
+  1. PUT /api/site-media/[key]  ← Actualiza la DB
+              ↓
+  2. revalidatePath("/", "layout")  ← Rompe el caché SSG
+              ↓
+  3. Next request → ISR rebuild  ← Regenera la página con datos nuevos
+```
+
+### ✅ Checklist de Revalidación
+
+1. **Todo endpoint que modifica datos DEBE llamar `revalidatePath`:**
+```typescript
+import { revalidatePath } from "next/cache";
+
+export async function PUT(request: Request) {
+  // ... update DB ...
+  revalidatePath("/", "layout"); // ← NUNCA OLVIDAR ESTO
+  return NextResponse.json(updated);
+}
+```
+
+2. **Endpoints de migración/seed TAMBIÉN deben revalidar:**
+```typescript
+// ❌ MAL — Migración que modifica datos pero NO revalida
+await prisma.siteMedia.update({ data });
+return NextResponse.json({ ok: true });
+
+// ✅ BIEN — Revalida después de cualquier cambio de datos
+await prisma.siteMedia.update({ data });
+revalidatePath("/", "layout");
+return NextResponse.json({ ok: true });
+```
+
+3. **Después de un nuevo deploy, las páginas estáticas usan datos del BUILD.**
+   Si la DB cambia después del build (ej. por una migración), debes forzar revalidación visitando un endpoint que llame `revalidatePath`, o haciendo cualquier actualización desde el admin.
+
+### 🧪 Cómo verificar que la revalidación funciona
+1. Cambia una imagen desde el admin.
+2. Espera 5 segundos.
+3. Abre la página en una **ventana de incógnito** (para evitar cache del navegador).
+4. Si sigue igual → falta `revalidatePath` en el endpoint que usaste.
+
+---
+
+## 🪜 8. Cadenas de Fallback para Slots de Media
+
+Cuando tienes múltiples slots por entidad (hero-image, card-image, feature-image), la regla es: **siempre define una cadena de fallback** para que el usuario no tenga que subir la misma imagen en 3 lugares.
+
+### ⚠️ Error Típico
+- El usuario sube una imagen al slot "Card de Servicio".
+- Espera que el hero (fondo grande) también cambie.
+- No cambia porque el hero lee de un slot diferente (`hero-image`) que tiene la URL default.
+
+### 🔍 Causa
+Cada slot es independiente. Si el `hero-image` tiene la misma URL default que el código hardcodeado, `heroImage || s.image` no produce ningún cambio visible porque ambos valores son iguales.
+
+### ✅ Solución: Fallback Cascading
+Siempre conecta los slots con una cadena de prioridad:
+
+```typescript
+// En la página del servidor ([slug]/page.tsx):
+<ServiceDetailPage
+  slug={service.id}
+  // Cadena: hero-image → card-image → hardcoded default
+  heroImage={media[`services.${service.id}.hero-image`] || media[`services.${service.id}.card-image`]}
+  featureMediaPoster={media[`services.${service.id}.feature-image`]}
+/>
+```
+
+```typescript
+// En el componente cliente (ServiceDetailPage.tsx):
+const service = useMemo(() => {
+  const s = getServiceBySlug(slug);
+  return {
+    ...s,
+    image: heroImage || s.image,  // heroImage ya viene con fallback del server
+    featureMedia: {
+      ...s.featureMedia,
+      posterImage: featureMediaPoster || s.featureMedia.posterImage,
+    },
+  };
+}, [slug, heroImage, featureMediaPoster]);
+```
+
+### ✅ Regla de Diseño para Slots
+
+```
+Prioridad de imagen por zona:
+
+HERO (fondo grande):     hero-image → card-image → hardcoded default
+CARD (tarjeta homepage): card-image → hardcoded default
+FEATURE (sección media): feature-image → hardcoded default
+VIDEO (modal):           feature-video → (vacío = sin botón de video)
+```
+
+> 💡 **Pro-tip:** Al crear nuevos slots en `siteMediaDefaults.ts`, **NO uses la misma URL default que el código hardcoded**. Usa una URL diferente o vacía (`""`). Así es fácil detectar si el slot fue actualizado: si es igual al default, no fue tocado → usa el fallback.
+
+---
+
+## 📋 Resumen: Checklist Pre-Deploy de Media Backend
+
+Antes de cada despliegue a producción, verifica estos 8 puntos:
+
+- [ ] **1. DB:** `prisma db push` exitoso contra la DB de producción
+- [ ] **2. Env Vars:** Variables copiadas a Vercel/Netlify (DATABASE_URL, R2_*)
+- [ ] **3. Dominios:** `next.config.mjs` incluye el hostname de tu CDN/R2/S3
+- [ ] **4. Revalidación:** Todo endpoint PUT/POST/DELETE llama `revalidatePath`
+- [ ] **5. Singleton:** Todos los archivos usan `import { prisma } from "@/lib/prisma"` (NO `new PrismaClient()`)
+- [ ] **6. Seed eficiente:** La lógica de seed usa `count()` sin filtros, no compara resultados filtrados
+- [ ] **7. Llaves CMS:** Las llaves en `siteMediaDefaults.ts` coinciden exactamente con los slugs/IDs de las rutas
+- [ ] **8. Fallbacks:** Cada zona visual (hero, card, feature) tiene una cadena de fallback definida
