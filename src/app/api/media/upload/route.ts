@@ -1,10 +1,9 @@
 import { NextRequest, NextResponse } from "next/server";
 import { PutObjectCommand } from "@aws-sdk/client-s3";
 import { r2Client } from "@/lib/storage/r2client";
-import { PrismaClient } from "@prisma/client";
+import { prisma } from "@/lib/prisma";
 import crypto from "crypto";
 
-const prisma = new PrismaClient();
 const BUCKET_NAME = process.env.R2_BUCKET_NAME || "fmmarketingdigital";
 const CUSTOM_DOMAIN = process.env.R2_CUSTOM_DOMAIN || ""; // Opcional, si tienes un dominio personalizado apuntando a R2
 

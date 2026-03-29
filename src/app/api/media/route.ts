@@ -1,9 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
-import { PrismaClient } from "@prisma/client";
 import { DeleteObjectCommand } from "@aws-sdk/client-s3";
 import { r2Client } from "@/lib/storage/r2client";
+import { prisma } from "@/lib/prisma";
 
-const prisma = new PrismaClient();
 const BUCKET_NAME = process.env.R2_BUCKET_NAME || "fmmarketingdigital";
 
 // GET: Listar todos los MediaAssets

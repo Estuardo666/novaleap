@@ -14,13 +14,11 @@ export async function GET(request: Request) {
     const { searchParams } = new URL(request.url);
     const page = searchParams.get("page");
 
-    const entries = await prisma.siteMedia.findMany({
-      ...(page ? { where: { page } } : {}),
-      orderBy: { page: "asc" },
-    });
+    // Count total entries (unfiltered) to check if seeding is needed
+    const totalCount = await prisma.siteMedia.count();
 
-    // If no entries exist or if new defaults were added, seed them automatically
-    if (entries.length < siteMediaDefaults.length) {
+    // Only seed if the DB is genuinely empty or missing entries
+    if (totalCount < siteMediaDefaults.length) {
       await prisma.$transaction(
         siteMediaDefaults.map((m) =>
           prisma.siteMedia.upsert({
@@ -30,12 +28,12 @@ export async function GET(request: Request) {
           })
         )
       );
-      const seeded = await prisma.siteMedia.findMany({
-        ...(page ? { where: { page } } : {}),
-        orderBy: { page: "asc" },
-      });
-      return NextResponse.json(seeded);
     }
+
+    const entries = await prisma.siteMedia.findMany({
+      ...(page ? { where: { page } } : {}),
+      orderBy: { page: "asc" },
+    });
 
     return NextResponse.json(entries);
   } catch (error) {
