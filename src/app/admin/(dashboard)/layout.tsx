@@ -4,6 +4,7 @@ import { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
+import { logout } from "../actions";
 import { 
   LayoutDashboard, 
   Image as ImageIcon,
@@ -87,13 +88,13 @@ export default function AdminDashboardLayout({ children }: { children: React.Rea
         </nav>
 
         <div className="p-4 border-t border-slate-100">
-          <Link 
-            href="/admin/login" 
-            className="flex items-center gap-3 px-4 py-3 rounded-xl text-red-500 hover:bg-red-50 font-medium transition-colors"
+          <button 
+            onClick={() => logout()}
+            className="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-red-500 hover:bg-red-50 font-medium transition-colors"
           >
             <LogOut size={20} />
             <span>Cerrar Sesión</span>
-          </Link>
+          </button>
         </div>
       </motion.aside>
 

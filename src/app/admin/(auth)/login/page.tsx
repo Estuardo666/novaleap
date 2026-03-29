@@ -3,19 +3,32 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { LogIn, Lock, Mail, ArrowRight } from "lucide-react";
+import { login } from "../../actions";
 
 export default function AdminLoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [errorMsg, setErrorMsg] = useState("");
 
-  const handleLogin = (e: React.FormEvent) => {
+  const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
-    // Simulate login for now
-    setTimeout(() => {
+    setErrorMsg("");
+
+    const formData = new FormData();
+    formData.append("email", email);
+    formData.append("password", password);
+
+    const res = await login(formData);
+    
+    if (res.success) {
+      // Force hard redirect to reload middleware state
       window.location.href = "/admin";
-    }, 1000);
+    } else {
+      setErrorMsg(res.error || "Error al iniciar sesión");
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -39,6 +52,12 @@ export default function AdminLoginPage() {
           <h2 className="text-2xl font-bold text-novaleap-navy">NovaAdmin</h2>
           <p className="text-sm text-novaleap-navy/60 mt-2">Introduce tus credenciales para acceder al panel de control</p>
         </div>
+
+        {errorMsg && (
+          <div className="mb-4 p-3 bg-red-50 text-red-600 rounded-xl text-sm font-medium border border-red-100 flex items-center justify-center">
+            {errorMsg}
+          </div>
+        )}
 
         <form onSubmit={handleLogin} className="space-y-6">
           <div>
