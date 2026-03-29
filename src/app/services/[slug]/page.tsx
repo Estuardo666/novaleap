@@ -107,7 +107,7 @@ export default async function ServiceDetailRoute({ params }: ServiceDetailPageRo
       />
       <ServiceDetailPage 
         slug={service.id}
-        heroImage={media[`services.${service.id}.hero-image`]}
+        heroImage={media[`services.${service.id}.hero-image`] || media[`services.${service.id}.card-image`]}
         featureMediaPoster={media[`services.${service.id}.feature-image`]}
         featureMediaVideo={media[`services.${service.id}.feature-video`]}
       />

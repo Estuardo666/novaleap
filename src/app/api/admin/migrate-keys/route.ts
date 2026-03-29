@@ -8,6 +8,7 @@
  *   https://novaleappediatricpt.com/api/admin/migrate-keys
  */
 import { NextResponse } from "next/server";
+import { revalidatePath } from "next/cache";
 import { prisma } from "@/lib/prisma";
 
 // Map of old key → new key to rename
@@ -74,6 +75,10 @@ export async function GET() {
       await prisma.siteMedia.create({ data: entry });
       log.push(`CREATED "${entry.key}"`);
     }
+
+    // 3. Force all static pages to rebuild with the new data
+    revalidatePath("/", "layout");
+    log.push("REVALIDATED all pages");
 
     return NextResponse.json({ ok: true, log });
   } catch (error) {

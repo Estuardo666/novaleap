@@ -92,3 +92,118 @@ revalidatePath("/", "layout"); // Rompe el caché de todo el sitio y repuebla al
 ```
 
 Guarda esta memoria en tus apuntes como tu manual contra las frustraciones de infraestructura. 🚀
+
+---
+
+## 💥 5. Picos de Procesos en el Servidor (Hostinger / Shared Hosting)
+
+Los picos de CPU/procesos que llegan al límite del hosting (ej. 600 de 600 procesos disponibles) casi siempre tienen estas causas en un backend Next.js + Prisma.
+
+### ⚠️ Errores Típicos
+- Gráfico de "Max Processes" en Hostinger sube agresivamente después de cada deploy.
+- El servidor activa "Resource Boosting" automáticamente (RAM +100%, CPU +20%).
+- La app funciona, pero el servidor está al límite constantemente.
+
+### 🔍 Causa #1: `new PrismaClient()` fuera del Singleton (¡El más peligroso!)
+
+**Nunca** hagas esto en un API route de Next.js:
+
+```typescript
+// ❌ MAL — Crea un nuevo pool de conexiones en cada hot-reload o request
+import { PrismaClient } from "@prisma/client";
+const prisma = new PrismaClient();
+```
+
+Cada vez que Next.js recarga el módulo o recibe un request, crea un pool entero de conexiones nuevas (usualmente 10 por instancia) y nunca los cierra. Con tráfico normal esto puede fácilmente llegar a 300–600 procesos activos en minutos.
+
+**✅ SIEMPRE usa el singleton centralizado:**
+
+```typescript
+// ✅ BIEN — Reutiliza una sola instancia y pool de conexiones
+import { prisma } from "@/lib/prisma";
+```
+
+Y el singleton (`src/lib/prisma.ts`) debe verse así:
+
+```typescript
+import { PrismaClient } from "@prisma/client";
+
+const globalForPrisma = global as unknown as { prisma: PrismaClient };
+
+export const prisma =
+  globalForPrisma.prisma ||
+  new PrismaClient({ log: ["error"] });
+
+if (process.env.NODE_ENV !== "production") globalForPrisma.prisma = prisma;
+```
+
+### 🔍 Causa #2: Transacción masiva disparada en cada request de usuario
+
+Si tienes lógica de "seed" (sembrado inicial) en un `GET` que compara resultados **filtrados** contra el total de defaults, se dispara en cada visita:
+
+```typescript
+// ❌ MAL — page="services" devuelve 6 entradas, pero hay 30 defaults.
+// Resultado: lanza 30 queries en transacción en CADA carga del panel admin.
+const entries = await prisma.siteMedia.findMany({ where: { page } });
+if (entries.length < siteMediaDefaults.length) {
+  await prisma.$transaction([...30 upserts...]);
+}
+```
+
+**✅ BIEN — Cuenta el total sin filtros primero (1 query ligera):**
+
+```typescript
+const totalCount = await prisma.siteMedia.count(); // sin filtros
+if (totalCount < siteMediaDefaults.length) {
+  await prisma.$transaction([...30 upserts...]); // solo si realmente faltan
+}
+
+// Ahora sí aplica el filtro de página para la respuesta
+const entries = await prisma.siteMedia.findMany({ where: { page } });
+```
+
+---
+
+## 🗝️ 6. Sincronización de Llaves CMS con las Rutas de la App
+
+Si las imágenes que subes en el panel de administración no se reflejan en el frontend, casi siempre es un **mismatch de llaves** entre el CMS y el slug de la URL.
+
+### ⚠️ Error Típico
+- Subes una imagen en el panel para "Evaluación".
+- La página `/services/evaluations-and-assessments` sigue mostrando la imagen antigua.
+- No hay errores en la consola.
+
+### 🔍 Causa
+El slug real de la URL (`evaluations-and-assessments`) no coincide con la llave usada en `siteMediaDefaults.ts` (`evaluation`):
+
+```typescript
+// ❌ MAL — La llave no coincide con el slug de la URL
+{ key: "services.evaluation.feature-image" }
+
+// La página busca:
+media[`services.evaluations-and-assessments.feature-image`] // → undefined
+```
+
+### ✅ Regla de Oro
+**Las llaves en `siteMediaDefaults.ts` deben coincidir EXACTAMENTE con el `id` del elemento en el catálogo.**
+
+```typescript
+// ✅ BIEN — La llave usa el mismo ID que el slug
+{ key: "services.evaluations-and-assessments.feature-image" }
+// Y en el catálogo: { id: "evaluations-and-assessments", href: "/services/evaluations-and-assessments" }
+```
+
+### ✅ Convención de Naming para Llaves CMS
+
+```
+{page}.{slug-exacto}.{slot}
+
+Ejemplos:
+- services.evaluations-and-assessments.hero-image
+- services.evaluations-and-assessments.feature-image
+- services.treatment.hero-image
+- home.hero-video
+- global.logo-light
+```
+
+> 💡 **Pro-tip:** Agrega siempre un slot `hero-image` por cada página de servicio para que el fondo grande del hero también sea configurable desde el CMS. Sin esto, el fondo estará hardcoded en el código.
