@@ -53,7 +53,13 @@ export default function SiteMediaPage() {
     try {
       const res = await fetch("/api/site-media");
       const data = await res.json();
-      setEntries(data);
+      
+      if (Array.isArray(data)) {
+        setEntries(data);
+      } else {
+        console.error("El servidor retornó un error:", data);
+        setEntries([]);
+      }
     } catch (err) {
       console.error("Error fetching site media:", err);
     } finally {
