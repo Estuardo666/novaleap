@@ -1,8 +1,6 @@
 import type { NextRequest } from "next/server";
 import { NextResponse } from "next/server";
 
-const PUBLIC_FILE_PATTERN = /\.[^/]+$/;
-
 export function middleware(request: NextRequest) {
 	const { pathname } = request.nextUrl;
 
@@ -10,20 +8,25 @@ export function middleware(request: NextRequest) {
 		return NextResponse.rewrite(new URL("/icon.png", request.url));
 	}
 
-	if (
-		pathname.startsWith("/_next") ||
-		pathname.startsWith("/api") ||
-		PUBLIC_FILE_PATTERN.test(pathname)
-	) {
-		return NextResponse.next();
+	if (pathname.startsWith("/admin") && !pathname.startsWith("/admin/login")) {
+		const session = request.cookies.get("novaleap_admin_session");
+
+		if (!session || session.value !== "authenticated") {
+			return NextResponse.redirect(new URL("/admin/login", request.url));
+		}
 	}
 
-	const response = NextResponse.next();
-	response.headers.set("Cache-Control", "no-store, max-age=0, must-revalidate");
+	if (pathname === "/admin/login") {
+		const session = request.cookies.get("novaleap_admin_session");
 
-	return response;
+		if (session && session.value === "authenticated") {
+			return NextResponse.redirect(new URL("/admin", request.url));
+		}
+	}
+
+	return NextResponse.next();
 }
 
 export const config = {
-	matcher: ["/((?!_next/static|_next/image).*)"],
+	matcher: ["/favicon.ico", "/admin/:path*"],
 };

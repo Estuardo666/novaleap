@@ -3,12 +3,31 @@
  * Used by page components to get the current media URLs.
  * Falls back to defaults if DB is unreachable.
  */
-import { prisma } from "@/lib/prisma";
+import siteMediaSnapshot from "@/lib/generated/siteMediaSnapshot.json";
 import { getDefaultMediaUrl, siteMediaDefaults } from "@/lib/siteMediaDefaults";
 
 export type SiteMediaMap = Record<string, string>;
 
 import { unstable_cache } from "next/cache";
+
+const defaultSiteMediaMap = Object.fromEntries(
+  siteMediaDefaults.map((media) => [media.key, media.url])
+) as SiteMediaMap;
+
+const buildSnapshotSiteMediaMap = siteMediaSnapshot as SiteMediaMap;
+
+const getFallbackSiteMediaMap = (): SiteMediaMap => ({
+  ...defaultSiteMediaMap,
+  ...buildSnapshotSiteMediaMap,
+});
+
+const shouldUseBuildSnapshot =
+  process.env.NOVALEAP_USE_MEDIA_SNAPSHOT === "1" || !process.env.DATABASE_URL;
+
+const getPrismaClient = async () => {
+  const { prisma } = await import("@/lib/prisma");
+  return prisma;
+};
 
 /**
  * Fetches all site media entries and returns a key→url map.
@@ -17,21 +36,21 @@ import { unstable_cache } from "next/cache";
  */
 export const getSiteMediaMap = unstable_cache(
   async (): Promise<SiteMediaMap> => {
+    if (shouldUseBuildSnapshot) {
+      return getFallbackSiteMediaMap();
+    }
+
     try {
+      const prisma = await getPrismaClient();
       const entries = await prisma.siteMedia.findMany();
 
       if (entries.length === 0) {
-        // Return defaults as the map (don't perform transactions during static build)
-        return Object.fromEntries(
-          siteMediaDefaults.map((m) => [m.key, m.url])
-        );
+        return getFallbackSiteMediaMap();
       }
 
       return Object.fromEntries(entries.map((e) => [e.key, e.url]));
     } catch {
-      return Object.fromEntries(
-        siteMediaDefaults.map((m) => [m.key, m.url])
-      );
+      return getFallbackSiteMediaMap();
     }
   },
   ["site-media-map"],
@@ -42,10 +61,15 @@ export const getSiteMediaMap = unstable_cache(
  * Get a single media URL by key, with fallback.
  */
 export async function getSiteMediaUrl(key: string): Promise<string> {
+  if (shouldUseBuildSnapshot) {
+    return getFallbackSiteMediaMap()[key] ?? getDefaultMediaUrl(key);
+  }
+
   try {
+    const prisma = await getPrismaClient();
     const entry = await prisma.siteMedia.findUnique({ where: { key } });
-    return entry?.url ?? getDefaultMediaUrl(key);
+    return entry?.url ?? getFallbackSiteMediaMap()[key] ?? getDefaultMediaUrl(key);
   } catch {
-    return getDefaultMediaUrl(key);
+    return getFallbackSiteMediaMap()[key] ?? getDefaultMediaUrl(key);
   }
 }
