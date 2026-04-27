@@ -108,7 +108,7 @@ export const servicesCatalog: ServiceCatalogItem[] = [
     hero: {
       pretitle: "Clarity Before Everything Else",
       description:
-        "In-depth assessment of your child's mobility, balance, strength, postural control, coordination, and functional abilities while incorporating your family's goals and priorities.",
+        "In-depth assessment of your child's mobility, balance, strength, postural control, reflex integration, coordination, and functional abilities while incorporating your family's goals and priorities.",
       primaryButtonLabel: "Book an Evaluation",
       primaryButtonHref: "/contact",
       heroImageAlt: "A NovaLeap therapist observing a child's movement during an evaluation.",
@@ -117,11 +117,12 @@ export const servicesCatalog: ServiceCatalogItem[] = [
       pretitle: "Why Evaluation Matters",
       title: "Parents deserve answers that feel calm, clear, and actionable.",
       description:
-        "In addition, we utilize age-appropriate pediatric standardized tools. These tools provide objective and standardized information about your child's skills, allowing us to compare their development to age-based norms and identify strengths as well as areas where they need support.",
+        "In addition, we utilize age-appropriate pediatric standardized assessment tools to gain clear, objective insight into your child's development. This allows us to understand how their skills compare to age-based norms while thoughtfully identifying strengths and areas where support is needed.",
       signsTitle: "An evaluation can be helpful when you are wondering about",
       signs: [
         "Movement delays or coordination concerns.",
         "Balance, strength, or endurance challenges.",
+        "Reflex Integration",
         "Recovery after injury, surgery, or a change in function.",
         "Whether therapy is needed now and what type of support fits best.",
       ],
@@ -159,9 +160,9 @@ export const servicesCatalog: ServiceCatalogItem[] = [
     testimonialPretitle: "Parent Story",
     testimonial: {
       quote:
-        "Before our evaluation, we felt overwhelmed by conflicting advice. NovaLeap explained everything in a way that made sense, and for the first time we felt like we had a real roadmap.",
-      author: "Caroline S.",
-      role: "Parent",
+        "Mr. Finkenberg, PT, came to us highly recommended and provided an insightful evaluation of my daughter, clearly identifying both her strengths and areas of need. His expertise and guidance set us on the right path to make the most of her therapeutic journey in the months that followed.",
+      author: "Julia D.",
+      role: "Westchester County, NY",
     },
     faqPretitle: "Service FAQs",
     faqs: [
@@ -217,7 +218,7 @@ export const servicesCatalog: ServiceCatalogItem[] = [
       pretitle: "How Treatment Works",
       title: "Consistent, child-led treatment with strong family participation.",
       description:
-        "We encourage parent and caregiver participation and provide home activities that can be incorporated into your child and family daily routine. Video recording of home activities is encouraged for review at home.",
+        "We value parent and caregiver participation and provide home activities that can be incorporated into your child and family daily routine. Video recording of home activities is encouraged, making it easier to revisit and reinforce progress at home.",
       signsTitle: "Challenges we address",
       signs: [],
       signGroups: [
@@ -286,9 +287,9 @@ export const servicesCatalog: ServiceCatalogItem[] = [
     testimonialPretitle: "Parent Story",
     testimonial: {
       quote:
-        "The one-to-one treatment format helped our child stay engaged and confident. The home activities made it easy for us to keep momentum between sessions.",
-      author: "Parent at NovaLeap",
-      role: "Parent",
+        "Jen has been amazing with our children. We have watched them grow stronger, braver, and more confident thanks to her. Her patience and belief in them has meant more to us than we can ever express.",
+      author: "Michelle and Heri",
+      role: "Westchester, NY",
     },
     faqPretitle: "Service FAQs",
     faqs: [

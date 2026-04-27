@@ -355,9 +355,54 @@ if (heroIsDefault && cardIsCustomised) {
 
 ---
 
+## 📈 10. Monitoreo de Performance (Build + Runtime)
+
+Con los ajustes recientes, el backend ya redujo picos de procesos de forma notable. Para mantener ese resultado en el tiempo, debes medir de forma consistente en cada release.
+
+### 🎯 Objetivo
+Mantener estable el uso de procesos del servidor después de optimizaciones de build y backend.
+
+### ✅ Qué medir en cada deploy
+1. Max Processes durante el build.
+2. Max Processes entre 15 y 30 minutos después del deploy con tráfico normal.
+3. Duración total del build (desde install hasta build end).
+4. Cantidad de respuestas 5xx en la primera hora post-deploy.
+
+### 🚦 Umbrales operativos
+1. Objetivo build: `<= 220` procesos.
+2. Objetivo runtime normal: `<= 120` procesos.
+3. Alerta: `>= 280` en cualquier momento.
+4. Crítico: `>= 350` sostenido por 5 minutos.
+
+### 🧭 Reglas de despliegue
+1. `postinstall` en producción debe omitir `prisma generate` por defecto.
+2. Solo forzar `prisma generate` si confirmaste mismatch real schema/client.
+3. Si necesitas forzarlo, usar `NOVALEAP_RUN_PRISMA_GENERATE=1` solo en ese deploy.
+4. Mantener la estrategia de snapshot de media en build para páginas estáticas.
+
+### 🧪 Validación inmediata post-deploy
+1. Probar `/`, `/services`, un `/services/[slug]`, y `/admin/login`.
+2. Confirmar render correcto y carga de media.
+3. Revisar gráfica de procesos en minuto 5, 15 y 30.
+4. Confirmar que no exista tendencia de crecimiento anormal.
+
+### 🆘 Si reaparecen picos de procesos
+1. Verificar si se ejecutó `prisma generate` inesperadamente durante install.
+2. Confirmar que middleware no esté forzando `no-store` global.
+3. Confirmar que build usó snapshot para site media.
+4. Revisar si endpoints de admin están revalidando todo el sitio de forma excesiva.
+5. Si supera umbral crítico, rollback al último deploy estable.
+
+### 📅 Revisión semanal
+1. Comparar pico de procesos de build entre releases.
+2. Comparar pico runtime por día y franja horaria.
+3. Registrar regresiones y rango exacto de commits.
+
+---
+
 ## 📋 Resumen: Checklist Pre-Deploy de Media Backend
 
-Antes de cada despliegue a producción, verifica estos 9 puntos:
+Antes de cada despliegue a producción, verifica estos 13 puntos:
 
 - [ ] **1. DB:** `prisma db push` exitoso contra la DB de producción
 - [ ] **2. Env Vars:** Variables copiadas a Vercel/Netlify (DATABASE_URL, R2_*)
@@ -368,3 +413,7 @@ Antes de cada despliegue a producción, verifica estos 9 puntos:
 - [ ] **7. Llaves CMS:** Las llaves en `siteMediaDefaults.ts` coinciden exactamente con los slugs/IDs de las rutas
 - [ ] **8. Fallbacks:** Cada zona visual (hero, card, feature) tiene una cadena de fallback definida
 - [ ] **9. Migración de Datos:** Si cambiaste llaves, ejecutaste el endpoint de migración en producción.
+- [ ] **10. Postinstall PROD:** `prisma generate` no se ejecuta automáticamente en producción.
+- [ ] **11. Build Peak:** El pico de procesos en build se mantiene `<= 220`.
+- [ ] **12. Runtime Peak:** El pico de procesos en tráfico normal se mantiene `<= 120`.
+- [ ] **13. Salud Post-Deploy:** Sin tendencia de crecimiento anormal ni aumento de 5xx en la primera hora.

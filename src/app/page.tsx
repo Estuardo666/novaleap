@@ -20,11 +20,15 @@ const HowToStartSection = dynamic(
 
 export default async function Home() {
   const media = await getSiteMediaMap();
+  const resolvedHeroPoster =
+    media["home.hero-poster"] === "/Novaleap BG.jpg"
+      ? "/media/Novaleap-video-hero.jpg"
+      : media["home.hero-poster"];
 
   return (
     <AnimatedPageBackground>
       <Hero
-        heroPoster={media["home.hero-poster"]}
+        heroPoster={resolvedHeroPoster}
         heroVideo={media["home.hero-video"]}
       />
       <MissionIntroSection />

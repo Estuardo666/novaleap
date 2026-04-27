@@ -21,7 +21,7 @@ export const siteMediaDefaults: SiteMediaDefault[] = [
   },
   {
     key: "home.hero-poster",
-    url: "/Novaleap BG.jpg",
+    url: "/media/Novaleap-video-hero.jpg",
     type: "image",
     label: "Hero - Imagen de Fondo (Poster del Video)",
     page: "home",

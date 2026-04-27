@@ -63,6 +63,24 @@ const testimonials = [
     author: "Kelly and Chris L.",
     detail: "Parent Family",
   },
+  {
+    focus: "Family Gratitude",
+    quoteParagraphs: [
+      "Jen has been amazing with our children. We have watched them grow stronger, braver, and more confident thanks to her.",
+      "Her patience and belief in them has meant more to us than we can ever express.",
+    ],
+    author: "Michelle and Heri",
+    detail: "Westchester, NY",
+  },
+  {
+    focus: "Joyful Progress",
+    quoteParagraphs: [
+      "We could not be more grateful as our son has excelled so much since he started with Jen.",
+      "Her hard work and dedication do not go unnoticed, and nothing beats the joy in his eyes when he comes to play with her.",
+    ],
+    author: "Westchester Parent",
+    detail: "Westchester, NY",
+  },
 ] as const;
 
 const DESKTOP_CARDS_PER_VIEW = 3;

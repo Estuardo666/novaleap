@@ -52,7 +52,7 @@ const teamMembers: TeamMember[] = [
   {
     slug: "krishna-finkenberg",
     name: "Krishna Finkenberg, PT",
-    role: "Physical Therapist",
+    role: "Pediatric Physical Therapist",
     headline: "A Playful Clinical Perspective Shaped by Experience",
     shortDescription:
       "Serving children across New York City and Westchester with pediatric therapy and evaluations since 2002.",
@@ -62,7 +62,7 @@ const teamMembers: TeamMember[] = [
     accent: "purple",
     email: "krishna@novaleappediatricpt.com",
     biography: [
-      "Krishna is a Physical Therapist who has been practicing since graduating from Hunter College in 1994. He began his career in acute and home care settings, gaining a strong clinical foundation before transitioning to pediatric physical therapy in 2002. Since then, Krishna has worked exclusively with children, providing both ongoing therapy and evaluations across New York City and Westchester.",
+      "Krishna is a Pediatric Physical Therapist who has been practicing since graduating from Hunter College in 1994. He began his career in acute and home care settings, gaining a strong clinical foundation before transitioning to pediatric physical therapy in 2002. Since then, Krishna has worked exclusively with children, providing both ongoing therapy and evaluations across New York City and Westchester.",
       "Krishna's therapeutic approach is deeply informed by his clinical experience, continued professional development, and naturally playful nature. His passion for physical therapy was inspired by a personal experience: his father's recovery from a life-altering car accident during Krishna's senior year of high school. Witnessing the profound impact a dedicated and unconventional physical therapist had on his father's life motivated him to pursue a career in the field, initially with a focus on working with amputees.",
       "That path took an unexpected and meaningful turn when Krishna was assigned his first pediatric case: a seven-year-old cancer survivor with an above-knee amputation. The child's resilience, energy, and rapid progress left a lasting impression and shifted Krishna's professional focus. Drawn to the joy, growth, and potential he saw in working with children, Krishna began to specialize in early development and pediatric rehabilitation. He has since devoted himself to helping children with a wide range of physical and developmental conditions thrive.",
       "When not working with children and families, Krishna enjoys practicing yoga, planting trees, and woodworking, embracing a lifestyle that values movement, nature, and hands-on creativity.",
@@ -179,7 +179,7 @@ const TeamSection: React.FC<TeamSectionProps> = ({ jenImage, krishnaImage }) => 
             </motion.h2>
 
             <p className="mt-6 text-lg leading-relaxed text-novaleap-navy/80">
-              Behind NovaLeap is a <strong className="font-semibold text-novaleap-navy">family-centered therapy team</strong> that blends deep pediatric expertise with warmth, creativity, and genuine partnership.
+              Behind NovaLeap is a <strong className="font-semibold text-novaleap-navy">family-centered therapy team</strong> that blends extensive pediatric expertise with warmth, creativity, and genuine partnership.
             </p>
           </motion.div>
 

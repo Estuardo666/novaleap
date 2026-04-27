@@ -14,11 +14,13 @@ import {
 
 const heroHeadingLines = [
   "Support that helps",
-  "your child focus on",
-  "what matters most",
+  "your family focus on",
+  "what matters most.",
 ];
 
-const mobileHeroHeading = "Support that helps your child focus on what matters most";
+const mobileHeroHeading = "Support that helps your family focus on what matters most.";
+const hideHeroContent = true;
+const heroLoaderLogo = "/Logotipo%20para%20fondo%20oscuro.png";
 
 /**
  * Hero - Organismic Component
@@ -33,7 +35,7 @@ interface HeroProps {
   heroVideo?: string;
 }
 
-const Hero: React.FC<HeroProps> = ({ heroPoster = "/Novaleap BG.jpg", heroVideo = "/media/Novaleap-video-hero.mp4" }) => {
+const Hero: React.FC<HeroProps> = ({ heroPoster = "/media/Novaleap-video-hero.jpg", heroVideo = "/media/Novaleap-video-hero.mp4" }) => {
   const prefersReducedMotion = useReducedMotion();
   const [shouldLoadVideo, setShouldLoadVideo] = useState(false);
   const [isVideoReady, setIsVideoReady] = useState(false);
@@ -91,6 +93,7 @@ const Hero: React.FC<HeroProps> = ({ heroPoster = "/Novaleap BG.jpg", heroVideo 
           preload="metadata"
           poster={heroPoster}
           onCanPlay={() => setIsVideoReady(true)}
+          onError={() => setIsVideoReady(true)}
           className={`absolute inset-0 h-full w-full object-cover object-[72%_center] transition-opacity duration-700 sm:object-center ${
             isVideoReady ? "opacity-100" : "opacity-0"
           }`}
@@ -98,6 +101,43 @@ const Hero: React.FC<HeroProps> = ({ heroPoster = "/Novaleap BG.jpg", heroVideo 
           <source src={heroVideo} type="video/mp4" />
         </video>
       ) : null}
+
+      <div
+        aria-hidden="true"
+        className={`absolute inset-0 z-20 flex items-center justify-center bg-[radial-gradient(circle_at_30%_25%,rgba(0,183,181,0.24)_0%,rgba(17,34,78,0.98)_48%,rgba(17,34,78,1)_100%)] transition-opacity duration-500 ${
+          isVideoReady ? "pointer-events-none opacity-0" : "opacity-100"
+        }`}
+      >
+        <motion.div
+          animate={
+            prefersReducedMotion
+              ? undefined
+              : {
+                  scale: [1, 1.025, 1],
+                  opacity: [0.92, 1, 0.92],
+                }
+          }
+          transition={
+            prefersReducedMotion
+              ? undefined
+              : {
+                  duration: 1.9,
+                  repeat: Infinity,
+                  ease: "easeInOut",
+                }
+          }
+          className="relative h-20 w-52 sm:h-24 sm:w-64"
+        >
+          <Image
+            src={heroLoaderLogo}
+            alt=""
+            fill
+            sizes="256px"
+            priority
+            className="object-contain"
+          />
+        </motion.div>
+      </div>
 
       <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(255,255,255,0.82)_0%,rgba(255,255,255,0.6)_18%,rgba(255,255,255,0.25)_44%,rgba(17,34,78,0.28)_100%)] sm:bg-[linear-gradient(90deg,rgba(255,255,255,0.9)_0%,rgba(255,255,255,0.72)_22%,rgba(255,255,255,0.28)_48%,rgba(17,34,78,0.18)_76%)]" />
       <div className="absolute inset-y-0 left-0 w-full bg-[linear-gradient(90deg,rgba(255,255,255,0.94)_0%,rgba(255,255,255,0.85)_32%,rgba(255,255,255,0.38)_62%,rgba(255,255,255,0.04)_100%)] sm:hidden" />
@@ -136,7 +176,7 @@ const Hero: React.FC<HeroProps> = ({ heroPoster = "/Novaleap BG.jpg", heroVideo 
             <motion.h1
               id="hero-heading"
               variants={getNovaleapTitleContainerVariants(prefersReducedMotion, 0.1, 0.14)}
-              className="max-w-none text-balance text-[clamp(2.55rem,10.5vw,4.15rem)] font-bold leading-[0.92] tracking-tight text-novaleap-navy sm:max-w-[20ch] sm:space-y-1 sm:text-6xl sm:leading-tight lg:text-7xl"
+              className={`${hideHeroContent ? "hidden" : ""} max-w-none text-balance text-[clamp(2.55rem,10.5vw,4.15rem)] font-bold leading-[0.92] tracking-tight text-novaleap-navy sm:max-w-[20ch] sm:space-y-1 sm:text-6xl sm:leading-tight lg:text-7xl`}
             >
               <motion.span
                 variants={getNovaleapTitleLineVariants(prefersReducedMotion)}
@@ -158,12 +198,12 @@ const Hero: React.FC<HeroProps> = ({ heroPoster = "/Novaleap BG.jpg", heroVideo 
             <motion.p
               id="hero-description"
               variants={itemVariants}
-              className="max-w-2xl rounded-[1.75rem] bg-white/76 px-4 py-4 text-left text-[1.02rem] leading-7 text-novaleap-navy/92 shadow-[0_20px_48px_-34px_rgba(17,34,78,0.36)] backdrop-blur-md sm:rounded-none sm:bg-transparent sm:px-0 sm:py-0 sm:text-lg sm:leading-relaxed sm:text-novaleap-navy/82 sm:shadow-none sm:backdrop-blur-0 sm:text-xl"
+              className={`${hideHeroContent ? "hidden" : ""} max-w-2xl rounded-[1.75rem] bg-white/76 px-4 py-4 text-left text-[1.02rem] leading-7 text-novaleap-navy/92 shadow-[0_20px_48px_-34px_rgba(17,34,78,0.36)] backdrop-blur-md sm:rounded-none sm:bg-transparent sm:px-0 sm:py-0 sm:text-lg sm:leading-relaxed sm:text-novaleap-navy/82 sm:shadow-none sm:backdrop-blur-0 sm:text-xl`}
             >
-              We combine <strong className="font-semibold text-novaleap-navy">evidence-based pediatric therapy</strong> with <strong className="font-semibold text-novaleap-navy">playful, child-centered experiences</strong> so every milestone feels secure, clear, and supported for your whole family.
+              Blending <strong className="font-semibold text-novaleap-navy">evidence-based pediatric physical therapy</strong> with <strong className="font-semibold text-novaleap-navy">elevated, child-centered experiences</strong> that nurture connection and confidence, bringing more ease to everyday family life.
             </motion.p>
 
-            <div className="flex flex-col items-stretch gap-3 pt-2 sm:flex-row sm:flex-wrap sm:items-center sm:gap-4 sm:pt-4">
+            <div className={`${hideHeroContent ? "hidden" : ""} flex flex-col items-stretch gap-3 pt-2 sm:flex-row sm:flex-wrap sm:items-center sm:gap-4 sm:pt-4`}>
               <motion.div variants={getNovaleapButtonEntranceVariants(prefersReducedMotion, 0.32)}>
                 <Link
                   href="/contact"

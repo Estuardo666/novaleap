@@ -16,12 +16,12 @@ const faqItems = [
   {
     question: "What should my child wear?",
     answer:
-      "Please dress your child in comfortable, loose-fitting clothing and athletic shoes that allow for free movement and play. Please also make sure you bring any orthotics or shoe inserts your child uses.",
+      "We recommend comfortable, loose fitting clothing and athletic shoes that allow your child to move and play easily. Please bring any orthotics or shoe inserts they typically use.",
   },
   {
     question: "Do I stay in the room during therapy?",
     answer:
-      "Absolutely! We believe parents are vital to the process. We encourage you to observe, participate, and learn the techniques so you can practice them at home. You may stay in the waiting area if that results in your child's best participation. However, you will be invited to join at the end of the session to review carry-over activities and celebrate new skills.",
+      "Absolutely! We believe parents are vital to the process. We encourage you to observe, participate, and learn the techniques/games so you can practice them at home. You may stay in the waiting area if that results in your child's best participation. However, you will be invited to join at the end of the session to review carry-over activities and celebrate new skills.",
   },
   {
     question: "What do I need to bring to the first appointment?",

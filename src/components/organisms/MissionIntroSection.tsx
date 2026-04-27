@@ -59,7 +59,7 @@ const trustItems: TrustItem[] = [
 const headlineLines = [
   "Playful therapy.",
   "Confident movement.",
-  "Support for every milestone.",
+  "Support that makes a difference",
 ];
 
 /**
