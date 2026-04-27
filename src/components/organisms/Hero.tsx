@@ -73,7 +73,7 @@ const Hero: React.FC<HeroProps> = ({ heroPoster = "/media/Novaleap-video-hero.jp
     <section
       aria-labelledby="hero-heading"
       aria-describedby="hero-description"
-      className="relative isolate min-h-[100svh] overflow-hidden font-[family-name:var(--font-google-sans)]"
+      className="relative isolate min-h-[30vh] sm:min-h-screen overflow-hidden font-[family-name:var(--font-google-sans)]"
     >
       <Image
         src={heroPoster}
@@ -164,7 +164,7 @@ const Hero: React.FC<HeroProps> = ({ heroPoster = "/media/Novaleap-video-hero.jp
         }
       />
 
-      <div className="relative z-10 flex min-h-[100svh] flex-col justify-end px-4 pb-8 pt-28 sm:min-h-screen sm:justify-center sm:px-6 sm:pb-12 sm:pt-32 lg:px-8">
+      <div className="relative z-10 flex min-h-[40vh] flex-col justify-end px-4 pb-8 pt-28 sm:min-h-screen sm:justify-center sm:px-6 sm:pb-12 sm:pt-32 lg:px-8">
         <div className="mx-auto w-full max-w-7xl">
           <motion.div
             variants={contentVariants}
