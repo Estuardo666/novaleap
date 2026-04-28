@@ -27,24 +27,10 @@ export const siteMediaDefaults: SiteMediaDefault[] = [
     page: "home",
   },
   {
-    key: "home.why-us-slide-1",
-    url: "/Novaleap BG.jpg",
-    type: "image",
-    label: "Why Us Slide 1 — Play-Based Therapy",
-    page: "home",
-  },
-  {
-    key: "home.why-us-slide-2",
-    url: "/Novaleap BG.jpg",
-    type: "image",
-    label: "Why Us Slide 2 — Personalized Programs",
-    page: "home",
-  },
-  {
-    key: "home.why-us-slide-3",
-    url: "/Novaleap BG.jpg",
-    type: "image",
-    label: "Why Us Slide 3 — Family Partnership",
+    key: "home.why-us-video",
+    url: "",
+    type: "video",
+    label: "Why Us — Video 9:16 (Our Approach Section)",
     page: "home",
   },
 

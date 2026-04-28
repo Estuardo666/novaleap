@@ -6,7 +6,7 @@ const prisma = new PrismaClient()
 async function main() {
   console.log('Seeding media to Hostinger database...')
   
-  const defaults = siteMediaDefaults
+  const defaults = siteMediaDefaults.slice()
   const existing = await prisma.siteMedia.findMany()
   const existingKeys = new Set(existing.map((e) => e.key))
 
