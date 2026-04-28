@@ -34,3 +34,7 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# Database scripts with secrets
+insert-production-media.mjs
+insert-media.mjs
