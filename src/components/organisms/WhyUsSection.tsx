@@ -1,7 +1,6 @@
 "use client";
 
 import React from "react";
-import Image from "next/image";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import {
   getNovaleapTitleContainerVariants,
@@ -11,108 +10,75 @@ import {
 
 const approachSlides = [
   {
+    eyebrow: "Family Partnership",
+    title: "Guidance that supports your family beyond each visit",
+    description:
+      "Parents and caregivers are essential members of the team, with clear guidance that helps progress carry into home, school, and community routines.",
+    eyebrowClass: "border-novaleap-aqua/70 bg-novaleap-aqua/5 text-novaleap-aqua",
+    gradientClass: "from-novaleap-aqua/12 via-novaleap-purple/6 to-transparent",
+  },
+  {
     eyebrow: "Play-Based Therapy",
     title: "Play that builds real strength and confidence",
     description:
       "We use play-based, evidence-informed therapy to build movement skills in ways that feel motivating, functional, and natural for your child.",
-    imagePosition: "50% 38%",
-    accent: "aqua",
+    eyebrowClass: "border-novaleap-purple/70 bg-novaleap-purple/5 text-novaleap-purple",
+    gradientClass: "from-novaleap-purple/12 via-novaleap-aqua/6 to-transparent",
   },
   {
     eyebrow: "Personalized Programs",
     title: "A care plan shaped around your child",
     description:
-      "Each goal, activity, and milestone is tailored to your child’s strengths, interests, and developmental pace so progress feels steady and meaningful.",
-    imagePosition: "54% 42%",
-    accent: "purple",
-  },
-  {
-    eyebrow: "Family Partnership",
-    title: "Guidance that supports your family beyond each visit",
-    description:
-      "Parents and caregivers are essential members of the team, with clear guidance that helps progress carry into home, school, and community routines.",
-    imagePosition: "46% 34%",
-    accent: "aqua",
+      "Each goal, activity, and milestone is tailored to your child's strengths, interests, and developmental pace so progress feels steady and meaningful.",
+    eyebrowClass: "border-novaleap-aqua/70 bg-novaleap-aqua/5 text-novaleap-aqua",
+    gradientClass: "from-novaleap-aqua/10 via-novaleap-navy/4 to-transparent",
   },
 ];
 
 /**
  * WhyUsSection - Organismic Component
  *
- * Brand-story section presenting the NovaLeap approach with a large motion
- * carousel and trust-building copy.
+ * Brand-story section presenting the NovaLeap approach with a text-only
+ * carousel on the left and a 9:16 portrait video on the right (loaded from backend).
  *
  * @example
- * <WhyUsSection />
+ * <WhyUsSection sideVideo={media["home.why-us-video"]} />
  */
 interface WhyUsSectionProps {
-  slideImages?: [string, string, string];
+  sideVideo?: string;
 }
 
-const WhyUsSection: React.FC<WhyUsSectionProps> = ({ slideImages }) => {
+const WhyUsSection: React.FC<WhyUsSectionProps> = ({ sideVideo }) => {
   const prefersReducedMotion = useReducedMotion();
   const [activeIndex, setActiveIndex] = React.useState(0);
   const [direction, setDirection] = React.useState(1);
 
-  const imageVariants = {
-    enter: (moveDirection: number) => ({
-      opacity: 0,
-      x: prefersReducedMotion ? 0 : moveDirection > 0 ? 120 : -120,
-      scale: prefersReducedMotion ? 1 : 1.04,
-    }),
-    center: {
-      opacity: 1,
-      x: 0,
-      scale: 1,
-      transition: {
-        type: "spring" as const,
-        stiffness: 110,
-        damping: 22,
-      },
-    },
-    exit: (moveDirection: number) => ({
-      opacity: 0,
-      x: prefersReducedMotion ? 0 : moveDirection > 0 ? -120 : 120,
-      scale: prefersReducedMotion ? 1 : 1.02,
-      transition: {
-        duration: 0.34,
-        ease: "easeOut" as const,
-      },
-    }),
-  };
-
   const contentVariants = {
     enter: (moveDirection: number) => ({
       opacity: 0,
-      x: prefersReducedMotion ? 0 : moveDirection > 0 ? 36 : -36,
-      y: prefersReducedMotion ? 0 : 10,
+      y: prefersReducedMotion ? 0 : moveDirection > 0 ? 28 : -28,
     }),
     center: {
       opacity: 1,
-      x: 0,
       y: 0,
       transition: {
         type: "spring" as const,
-        stiffness: 125,
+        stiffness: 140,
         damping: 24,
-        delay: prefersReducedMotion ? 0 : 0.06,
       },
     },
     exit: (moveDirection: number) => ({
       opacity: 0,
-      x: prefersReducedMotion ? 0 : moveDirection > 0 ? -36 : 36,
-      y: prefersReducedMotion ? 0 : -8,
+      y: prefersReducedMotion ? 0 : moveDirection > 0 ? -20 : 20,
       transition: {
-        duration: 0.24,
+        duration: 0.22,
         ease: "easeOut" as const,
       },
     }),
   };
 
   React.useEffect(() => {
-    if (prefersReducedMotion) {
-      return;
-    }
+    if (prefersReducedMotion) return;
 
     const interval = window.setInterval(() => {
       setDirection(1);
@@ -135,6 +101,8 @@ const WhyUsSection: React.FC<WhyUsSectionProps> = ({ slideImages }) => {
       className="px-4 py-24 sm:px-6 sm:py-28 lg:px-8"
     >
       <div className="mx-auto max-w-7xl">
+
+        {/* ─── TOP: Heading + Description ─── */}
         <motion.div
           initial="hidden"
           whileInView="show"
@@ -200,97 +168,122 @@ const WhyUsSection: React.FC<WhyUsSectionProps> = ({ slideImages }) => {
             }}
             className="max-w-2xl text-lg leading-relaxed text-novaleap-navy/80 sm:text-xl lg:justify-self-end"
           >
-            Families choose NovaLeap because we are a <strong className="font-semibold text-novaleap-navy">child-centered practice</strong> dedicated to helping children move, grow, and thrive. We tailor care to each child&apos;s strengths, interests, and developmental pace, pairing <strong className="font-semibold text-novaleap-navy">evidence-informed therapy</strong> with playful experiences that support meaningful participation at home, school, and in the community.
+            Families choose NovaLeap because we are a{" "}
+            <strong className="font-semibold text-novaleap-navy">child-centered practice</strong>{" "}
+            dedicated to helping children move, grow, and thrive. We tailor care to each child&apos;s
+            strengths, interests, and developmental pace, pairing{" "}
+            <strong className="font-semibold text-novaleap-navy">evidence-informed therapy</strong>{" "}
+            with playful experiences that support meaningful participation at home, school, and in the
+            community.
           </motion.div>
         </motion.div>
 
+        {/* ─── BOTTOM: Text Carousel + Portrait Video ─── */}
         <motion.div
           initial={{ opacity: 0, y: prefersReducedMotion ? 0 : 28 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.22 }}
-          transition={{ type: "spring", stiffness: 110, damping: 20, delay: prefersReducedMotion ? 0 : 0.16 }}
-          className="relative mt-14"
+          viewport={{ once: true, amount: 0.18 }}
+          transition={{ type: "spring", stiffness: 110, damping: 20, delay: prefersReducedMotion ? 0 : 0.14 }}
+          className="relative mt-14 flex flex-col gap-5 lg:flex-row lg:items-stretch"
         >
-          <div
-            aria-hidden="true"
-            className="absolute -left-10 top-10 h-32 w-32 rounded-full bg-novaleap-aqua/14 blur-3xl"
-          />
-          <div
-            aria-hidden="true"
-            className="absolute -right-8 bottom-8 h-40 w-40 rounded-full bg-novaleap-purple/12 blur-3xl"
-          />
+          {/* Decorative blurs */}
+          <div aria-hidden="true" className="pointer-events-none absolute -left-10 top-8 h-36 w-36 rounded-full bg-novaleap-aqua/12 blur-3xl" />
+          <div aria-hidden="true" className="pointer-events-none absolute -right-8 bottom-6 h-44 w-44 rounded-full bg-novaleap-purple/10 blur-3xl" />
 
-          <div className="relative overflow-hidden rounded-[2.4rem] bg-white/72 shadow-[0_34px_90px_-58px_rgba(17,34,78,0.32)] ring-1 ring-white/70 backdrop-blur-sm">
-            <div className="relative h-[420px] sm:h-[500px] lg:h-[560px]">
+          {/* ─── LEFT: Text-only carousel ─── */}
+          <div className="relative flex-1 overflow-hidden rounded-[2.2rem] bg-white/72 shadow-[0_34px_90px_-58px_rgba(17,34,78,0.28)] ring-1 ring-white/70 backdrop-blur-sm">
+
+            {/* Animated gradient background per slide */}
+            <AnimatePresence initial={false} mode="wait">
+              <motion.div
+                key={`bg-${activeIndex}`}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1, transition: { duration: 0.55 } }}
+                exit={{ opacity: 0, transition: { duration: 0.28 } }}
+                className={`pointer-events-none absolute inset-0 bg-gradient-to-br ${activeSlide.gradientClass}`}
+              />
+            </AnimatePresence>
+
+            {/* Decorative orbs */}
+            <div aria-hidden="true" className="pointer-events-none absolute -right-14 -top-14 h-52 w-52 rounded-full bg-novaleap-aqua/7 blur-2xl" />
+            <div aria-hidden="true" className="pointer-events-none absolute -bottom-12 -left-12 h-44 w-44 rounded-full bg-novaleap-purple/7 blur-2xl" />
+
+            <div className="relative flex min-h-[380px] flex-col justify-between px-7 py-9 sm:px-10 sm:py-11 lg:min-h-[520px]">
+
+              {/* Slide content */}
               <AnimatePresence initial={false} custom={direction} mode="wait">
                 <motion.div
-                  key={`image-${activeIndex}`}
+                  key={`content-${activeIndex}`}
                   custom={direction}
-                  variants={imageVariants}
+                  variants={contentVariants}
                   initial="enter"
                   animate="center"
                   exit="exit"
-                  className="absolute inset-0"
+                  className="flex-1"
                 >
-                  <Image
-                    src={slideImages?.[activeIndex] || "/Novaleap BG.jpg"}
-                    alt="Child in pediatric physical therapy session"
-                    fill
-                    sizes="(max-width: 1024px) 100vw, 1280px"
-                    className="object-cover"
-                    style={{ objectPosition: activeSlide.imagePosition }}
-                  />
+                  <div className={`inline-flex items-center rounded-full border px-3 py-1 ${activeSlide.eyebrowClass}`}>
+                    <p className="text-xs font-semibold uppercase tracking-[0.18em]">
+                      {activeSlide.eyebrow}
+                    </p>
+                  </div>
+                  <h3 className="mt-5 max-w-[18ch] text-balance text-2xl font-bold leading-[1.05] tracking-tight text-novaleap-navy sm:text-3xl lg:text-[2.5rem]">
+                    {activeSlide.title}
+                  </h3>
+                  <p className="mt-4 max-w-[38ch] text-base leading-relaxed text-novaleap-navy/80 sm:text-lg">
+                    {activeSlide.description}
+                  </p>
                 </motion.div>
               </AnimatePresence>
 
-              <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(250,251,253,0.96)_0%,rgba(248,250,252,0.82)_20%,rgba(243,247,251,0.55)_38%,rgba(244,247,251,0.1)_64%,rgba(244,247,251,0)_100%)]" />
-              <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(0,183,181,0.12),transparent_34%),radial-gradient(circle_at_bottom_right,rgba(151,122,188,0.16),transparent_34%)]" />
-              <div className="absolute inset-y-0 left-0 w-full max-w-[68%] bg-gradient-to-r from-white/40 to-transparent sm:max-w-[62%]" />
-
-              <div className="relative flex h-full items-end px-5 pb-5 pt-5 sm:px-7 sm:pb-6 sm:pt-7 lg:px-8 lg:pb-7 lg:pt-8">
-                <AnimatePresence initial={false} custom={direction} mode="wait">
-                  <motion.div
-                    key={`content-${activeIndex}`}
-                    custom={direction}
-                    variants={contentVariants}
-                    initial="enter"
-                    animate="center"
-                    exit="exit"
-                    className="max-w-[33rem] rounded-[2.5rem] border border-white/65 bg-white/58 px-6 py-7 shadow-[0_24px_70px_-50px_rgba(17,34,78,0.45)] backdrop-blur-xl sm:px-8 sm:py-10 lg:ml-2 lg:max-w-[34rem]"
-                  >
-                    <div className="inline-flex items-center rounded-full border border-novaleap-aqua/70 bg-novaleap-aqua/5 px-3 py-1">
-                      <p className="text-xs font-semibold uppercase tracking-[0.18em] text-novaleap-aqua">
-                        {activeSlide.eyebrow}
-                      </p>
-                    </div>
-                    <h3 className="mt-4 max-w-[15ch] text-balance text-2xl font-bold leading-[1.05] tracking-tight text-novaleap-navy sm:text-[2.35rem] lg:text-[2.65rem]">
-                      {activeSlide.title}
-                    </h3>
-                    <p className="mt-5 max-w-[34rem] text-sm leading-relaxed text-novaleap-navy/88 sm:text-base">
-                      {activeSlide.description}
-                    </p>
-                  </motion.div>
-                </AnimatePresence>
+              {/* Dot navigation */}
+              <div className="mt-10 flex items-center gap-2.5">
+                {approachSlides.map((slide, index) => {
+                  const isActive = index === activeIndex;
+                  return (
+                    <button
+                      key={slide.eyebrow}
+                      type="button"
+                      onClick={() => goToSlide(index)}
+                      className={`h-2.5 rounded-full transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-novaleap-aqua focus-visible:ring-offset-2 ${
+                        isActive
+                          ? "w-8 bg-gradient-to-r from-novaleap-aqua to-novaleap-purple"
+                          : "w-2.5 bg-novaleap-navy/50 hover:bg-novaleap-aqua/70"
+                      }`}
+                      aria-label={`View slide ${index + 1}: ${slide.eyebrow}`}
+                      aria-pressed={isActive}
+                    />
+                  );
+                })}
               </div>
             </div>
+          </div>
 
-            <div className="absolute bottom-5 left-1/2 z-10 flex -translate-x-1/2 items-center gap-2 rounded-full bg-white/72 px-3 py-2 shadow-[0_18px_32px_-24px_rgba(17,34,78,0.4)] ring-1 ring-white/70 backdrop-blur-lg">
-              {approachSlides.map((slide, index) => {
-                const isActive = index === activeIndex;
-
-                return (
-                  <button
-                    key={slide.eyebrow}
-                    type="button"
-                    onClick={() => goToSlide(index)}
-                    className={`h-2.5 rounded-full transition-all duration-300 ${isActive ? "w-8 bg-gradient-to-r from-novaleap-aqua to-novaleap-purple" : "w-2.5 bg-novaleap-navy/18 hover:bg-novaleap-aqua/45"}`}
-                    aria-label={`View slide ${index + 1}`}
-                    aria-pressed={isActive}
-                  />
-                );
-              })}
+          {/* ─── RIGHT: 9:16 Portrait Video ─── */}
+          <div className="flex justify-center lg:w-[340px] xl:w-[380px]">
+            <div className="w-full max-w-[340px] overflow-hidden rounded-[2.2rem] bg-novaleap-navy/6 shadow-[0_34px_90px_-58px_rgba(17,34,78,0.28)] ring-1 ring-white/70 aspect-[9/16] lg:max-w-none">
+              {sideVideo ? (
+                <video
+                  src={sideVideo}
+                  autoPlay
+                  loop
+                  muted
+                  playsInline
+                  className="h-full w-full object-cover"
+                  aria-label="NovaLeap therapy session video"
+                />
+              ) : (
+                <div className="flex h-full w-full flex-col items-center justify-center gap-3 bg-gradient-to-b from-novaleap-navy/5 to-novaleap-navy/12 px-6">
+                  <div className="h-12 w-12 rounded-full bg-gradient-to-br from-novaleap-aqua/30 to-novaleap-purple/30 flex items-center justify-center">
+                    <div className="h-0 w-0 border-l-[14px] border-l-novaleap-navy/40 border-y-[9px] border-y-transparent ml-1" />
+                  </div>
+                  <p className="text-center text-sm font-medium text-novaleap-navy/35 leading-relaxed">
+                    Video coming soon
+                  </p>
+                </div>
+              )}
             </div>
           </div>
+
         </motion.div>
       </div>
     </section>

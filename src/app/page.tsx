@@ -34,17 +34,13 @@ export default async function Home() {
       <MissionIntroSection />
       <ServicesSection 
         serviceImages={{
-          evaluation: media["services.evaluation.card-image"],
+          "evaluations-and-assessments": media["services.evaluations-and-assessments.card-image"],
           treatment: media["services.treatment.card-image"]
         }}
       />
       <StoriesOfGrowthSection />
       <WhyUsSection
-        slideImages={[
-          media["home.why-us-slide-1"],
-          media["home.why-us-slide-2"],
-          media["home.why-us-slide-3"],
-        ]}
+        sideVideo={media["home.why-us-video"] || undefined}
       />
       <HowToStartSection />
     </AnimatedPageBackground>

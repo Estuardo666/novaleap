@@ -150,7 +150,7 @@ const ServiceDetailPage: React.FC<ServiceDetailPageProps> = ({ slug, heroImage, 
     <>
       <section className="relative isolate flex min-h-[80vh] items-center overflow-hidden px-4 pb-16 pt-36 sm:px-6 sm:pb-20 lg:px-8">
         <Image
-          src={service.image}
+          src={heroImage || service.image}
           alt={service.hero.heroImageAlt}
           fill
           priority
@@ -163,7 +163,7 @@ const ServiceDetailPage: React.FC<ServiceDetailPageProps> = ({ slug, heroImage, 
             loop
             muted
             playsInline
-            poster={service.image}
+            poster={heroImage || service.image}
             className="absolute inset-0 h-full w-full object-cover"
             aria-hidden="true"
           >

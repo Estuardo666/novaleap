@@ -8,7 +8,6 @@ import {
   ArrowUpRight,
   Facebook,
   Instagram,
-  Linkedin,
   Mail,
   MapPin,
   Phone,
@@ -48,13 +47,6 @@ const socialLinks = [
     icon: Facebook,
     iconWrapClass: "bg-[linear-gradient(135deg,rgba(0,183,181,0.24),rgba(255,255,255,0.08))] border-novaleap-aqua/35 text-novaleap-aqua",
     hoverClass: "hover:text-novaleap-aqua",
-  },
-  {
-    label: "LinkedIn",
-    href: "https://www.linkedin.com/",
-    icon: Linkedin,
-    iconWrapClass: "bg-[linear-gradient(135deg,rgba(151,122,188,0.22),rgba(0,183,181,0.22))] border-white/20 text-white",
-    hoverClass: "hover:text-novaleap-purple",
   },
 ];
 
@@ -263,6 +255,17 @@ const Footer: React.FC = () => {
               className="transition-colors duration-300 hover:text-novaleap-purple focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/80 focus-visible:ring-offset-2 focus-visible:ring-offset-novaleap-purple"
             >
               Terms of Service
+            </Link>
+            <span aria-hidden="true" className="text-white/35">
+              |
+            </span>
+            <Link
+              href="https://fmmarketingdigital.com"
+              target="_blank"
+              rel="noreferrer"
+              className="transition-colors duration-300 hover:text-novaleap-aqua focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/80 focus-visible:ring-offset-2 focus-visible:ring-offset-novaleap-purple"
+            >
+              Developed by FM Marketing Digital
             </Link>
           </div>
         </motion.div>
