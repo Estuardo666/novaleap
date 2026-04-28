@@ -437,7 +437,7 @@ const ServiceDetailPage: React.FC<ServiceDetailPageProps> = ({ slug, heroImage, 
         </div>
       </section>
 
-      <section className="relative overflow-hidden px-4 py-8 sm:px-6 sm:py-10 lg:px-8">
+      <section className="hidden relative overflow-hidden px-4 py-8 sm:px-6 sm:py-10 lg:px-8">
         <div className="mx-auto max-w-6xl">
           <motion.div
             initial="hidden"
