@@ -73,7 +73,7 @@ const Hero: React.FC<HeroProps> = ({ heroPoster = "/media/Novaleap-video-hero.jp
     <section
       aria-labelledby="hero-heading"
       aria-describedby="hero-description"
-      className="relative isolate min-h-[30vh] sm:min-h-screen overflow-hidden font-[family-name:var(--font-google-sans)]"
+      className="relative isolate min-h-[90vh] sm:min-h-screen overflow-hidden font-[family-name:var(--font-google-sans)]"
     >
       <Image
         src={heroPoster}
@@ -85,21 +85,40 @@ const Hero: React.FC<HeroProps> = ({ heroPoster = "/media/Novaleap-video-hero.jp
       />
 
       {shouldLoadVideo ? (
-        <video
-          autoPlay
-          loop
-          muted
-          playsInline
-          preload="metadata"
-          poster={heroPoster}
-          onCanPlay={() => setIsVideoReady(true)}
-          onError={() => setIsVideoReady(true)}
-          className={`absolute inset-0 h-full w-full object-cover object-[72%_center] transition-opacity duration-700 sm:object-center ${
-            isVideoReady ? "opacity-100" : "opacity-0"
-          }`}
-        >
-          <source src={heroVideo} type="video/mp4" />
-        </video>
+        <>
+          {/* Desktop video */}
+          <video
+            autoPlay
+            loop
+            muted
+            playsInline
+            preload="metadata"
+            poster={heroPoster}
+            onCanPlay={() => setIsVideoReady(true)}
+            onError={() => setIsVideoReady(true)}
+            className={`absolute inset-0 hidden h-full w-full object-cover object-[72%_center] transition-opacity duration-700 sm:block sm:object-center ${
+              isVideoReady ? "opacity-100" : "opacity-0"
+            }`}
+          >
+            <source src={heroVideo} type="video/mp4" />
+          </video>
+          {/* Mobile video */}
+          <video
+            autoPlay
+            loop
+            muted
+            playsInline
+            preload="metadata"
+            poster={heroPoster}
+            onCanPlay={() => setIsVideoReady(true)}
+            onError={() => setIsVideoReady(true)}
+            className={`absolute inset-0 h-full w-full object-cover transition-opacity duration-700 sm:hidden ${
+              isVideoReady ? "opacity-100" : "opacity-0"
+            }`}
+          >
+            <source src="/video web mobile.mp4" type="video/mp4" />
+          </video>
+        </>
       ) : null}
 
       <div
@@ -139,9 +158,7 @@ const Hero: React.FC<HeroProps> = ({ heroPoster = "/media/Novaleap-video-hero.jp
         </motion.div>
       </div>
 
-      <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(255,255,255,0.82)_0%,rgba(255,255,255,0.6)_18%,rgba(255,255,255,0.25)_44%,rgba(17,34,78,0.28)_100%)] sm:bg-[linear-gradient(90deg,rgba(255,255,255,0.9)_0%,rgba(255,255,255,0.72)_22%,rgba(255,255,255,0.28)_48%,rgba(17,34,78,0.18)_76%)]" />
-      <div className="absolute inset-y-0 left-0 w-full bg-[linear-gradient(90deg,rgba(255,255,255,0.94)_0%,rgba(255,255,255,0.85)_32%,rgba(255,255,255,0.38)_62%,rgba(255,255,255,0.04)_100%)] sm:hidden" />
-      <div className="absolute inset-x-0 bottom-0 h-40 bg-[linear-gradient(180deg,rgba(255,255,255,0)_0%,rgba(255,255,255,0.86)_100%)] sm:hidden" />
+
 
       <motion.div
         aria-hidden="true"
