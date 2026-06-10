@@ -489,20 +489,24 @@ const ServiceDetailPage: React.FC<ServiceDetailPageProps> = ({ slug, heroImage, 
                 sizes="(max-width: 1280px) 100vw, 1100px"
                 className="object-cover transition-transform duration-700 group-hover:scale-[1.03]"
               />
-              <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(17,34,78,0.12)_0%,rgba(17,34,78,0.54)_100%)]" />
+              <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(17,34,78,0.08)_0%,rgba(17,34,78,0.42)_100%)]" />
               <motion.div
                 aria-hidden="true"
-                animate={prefersReducedMotion ? undefined : { scale: [1, 1.08, 1] }}
+                animate={prefersReducedMotion ? undefined : { scale: [1, 1.1, 1] }}
                 transition={
                   prefersReducedMotion
                     ? undefined
                     : { duration: 2.2, repeat: Infinity, ease: "easeInOut" }
                 }
-                className="absolute left-1/2 top-1/2 flex h-20 w-20 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full bg-white/88 text-novaleap-navy shadow-[0_22px_44px_-16px_rgba(17,34,78,0.42)]"
+                className="absolute left-1/2 top-1/2 flex h-24 w-24 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full bg-white text-novaleap-navy shadow-[0_22px_44px_-16px_rgba(17,34,78,0.5)]"
               >
-                <Play className="ml-1 h-8 w-8 fill-current" aria-hidden="true" />
+                <Play className="ml-1.5 h-10 w-10 fill-current" aria-hidden="true" />
               </motion.div>
-
+              <div className="absolute bottom-0 left-0 right-0 p-6 sm:p-8">
+                <p className="text-lg font-semibold leading-snug tracking-tight text-white sm:text-xl">
+                  See our treatment
+                </p>
+              </div>
             </div>
           </motion.button>
         </div>
