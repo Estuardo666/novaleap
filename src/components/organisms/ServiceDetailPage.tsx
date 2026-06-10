@@ -437,7 +437,7 @@ const ServiceDetailPage: React.FC<ServiceDetailPageProps> = ({ slug, heroImage, 
         </div>
       </section>
 
-      <section className="hidden relative overflow-hidden px-4 py-8 sm:px-6 sm:py-10 lg:px-8">
+      <section className="relative overflow-hidden px-4 py-8 sm:px-6 sm:py-10 lg:px-8">
         <div className="mx-auto max-w-6xl">
           <motion.div
             initial="hidden"
@@ -502,17 +502,7 @@ const ServiceDetailPage: React.FC<ServiceDetailPageProps> = ({ slug, heroImage, 
               >
                 <Play className="ml-1 h-8 w-8 fill-current" aria-hidden="true" />
               </motion.div>
-              <div className="absolute bottom-0 left-0 right-0 p-6 sm:p-8">
-                <div className="inline-flex items-center gap-3 rounded-full border border-white/30 bg-white/14 px-4 py-1.5 backdrop-blur-md">
-                  <Icon className="h-4 w-4 text-white" strokeWidth={2.2} />
-                  <span className="text-xs font-semibold uppercase tracking-[0.22em] text-white/92">
-                    {service.title}
-                  </span>
-                </div>
-                <p className="mt-4 max-w-2xl text-lg font-semibold leading-snug tracking-tight text-white sm:text-2xl">
-                  Tap to open the full-screen therapy feature.
-                </p>
-              </div>
+
             </div>
           </motion.button>
         </div>
