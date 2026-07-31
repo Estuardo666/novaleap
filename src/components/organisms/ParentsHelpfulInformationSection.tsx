@@ -30,8 +30,10 @@ const faqItems = [
   },
   {
     question: "Do you accept insurance?",
-    answer:
+    answer: [
       "We want to make things as simple as possible for your family. Our clinic is out-of-network with insurance companies, so payment is due at the time of your child's visit. Although we do not bill insurance directly, we will provide a detailed receipt (often called a superbill) after each session so you can request possible reimbursement through your insurance plan. Many families appreciate this approach because it allows us to focus on highly individualized, evidence-based care without insurance restrictions on how often or how long therapy can occur. Since every plan is different, we encourage you to contact your provider ahead of time to better understand your out-of-network benefits and potential reimbursement.",
+      "We are currently able to process out-of-network gap exceptions for eligible UnitedHealthcare commercial plans. If your child qualifies, we will submit the necessary prior authorization request on your behalf. Once the gap exception is approved, your visits may be covered at your in-network benefit level, meaning you would typically only be responsible for your applicable co-payment, co-insurance, or deductible, depending on your specific plan. Because eligibility and approval are determined by UnitedHealthcare and vary by policy, we are happy to help you determine whether this option is available and guide you through the process before your child's care begins.",
+    ],
   },
   {
     question: "What is your cancellation policy?",
@@ -154,9 +156,20 @@ const ParentsHelpfulInformationSection = () => {
                       className="overflow-hidden"
                     >
                       <div className="border-t border-novaleap-navy/8 px-5 pb-5 pt-4 sm:px-6">
-                        <p className="text-justify text-base leading-relaxed text-novaleap-navy/76 sm:text-lg">
-                          {item.answer}
-                        </p>
+                        {Array.isArray(item.answer) ? (
+                          item.answer.map((paragraph) => (
+                            <p
+                              key={paragraph}
+                              className="text-justify text-base leading-relaxed text-novaleap-navy/76 [&+p]:mt-4 sm:text-lg"
+                            >
+                              {paragraph}
+                            </p>
+                          ))
+                        ) : (
+                          <p className="text-justify text-base leading-relaxed text-novaleap-navy/76 sm:text-lg">
+                            {item.answer}
+                          </p>
+                        )}
                       </div>
                     </motion.div>
                   ) : null}
